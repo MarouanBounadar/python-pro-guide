@@ -982,9 +982,9 @@ function renderQuizView() {
     { id: 6, label: "Ch 6: Séquences (17)", count: 17 }
   ];
 
-  const filteredQuiz = currentQuizFilter === "all" 
+  const filteredQuiz = (currentQuizFilter === "all" || !currentQuizFilter)
     ? QUIZ_BANK 
-    : QUIZ_BANK.filter(q => q.chapter === currentQuizFilter);
+    : QUIZ_BANK.filter(q => String(q.chapter) === String(currentQuizFilter));
 
   const passedCount = userProgress.passedQuizzes ? userProgress.passedQuizzes.length : 0;
   const pct = Math.round((passedCount / QUIZ_BANK.length) * 100);
@@ -1122,9 +1122,9 @@ function renderFlashcardsView() {
     { id: 6, label: "Ch 6: Séquences (17)", count: 17 }
   ];
 
-  const filteredCards = currentFlashcardFilter === "all"
+  const filteredCards = (currentFlashcardFilter === "all" || !currentFlashcardFilter)
     ? FLASHCARDS
-    : FLASHCARDS.filter(c => c.chapter === currentFlashcardFilter);
+    : FLASHCARDS.filter(c => String(c.chapter) === String(currentFlashcardFilter));
 
   if (flashcardIndex >= filteredCards.length) {
     flashcardIndex = 0;
