@@ -9,6 +9,8 @@ let examAnswers = {};
 let examTimer = null;
 let examSeconds = 30 * 60;
 let flashcardIndex = 0;
+let currentQuizFilter = 'all';
+let currentFlashcardFilter = 'all';
 
 // Progress Tracking System (Persistance LocalStorage)
 let userProgress = JSON.parse(localStorage.getItem("py_progress_v2") || JSON.stringify({
@@ -30,7 +32,7 @@ function calculateProgress() {
   let totalExos = 0;
   Object.keys(CHAPTER_EXERCISES).forEach(k => totalExos += CHAPTER_EXERCISES[k].length); // 24
   const totalExams = EXAM_SUBJECTS.length; // 2
-  const totalLabs = DETAILED_COURSES.length; // 6 DataCamp Labs
+  const totalLabs = DETAILED_COURSES.length; // 6 Ateliers Pratiques
   const totalItems = totalChapters + totalExos + totalExams + totalLabs;
 
   const doneChapters = userProgress.readChapters.length;
@@ -110,7 +112,7 @@ function showView(viewId, param = null) {
   lucide.createIcons();
 }
 
-// ----------------- 1. COURS DÉTAILLÉS & ATELIERS DATACAMP -----------------
+// ----------------- 1. COURS DÉTAILLÉS & ATELIERS PRATIQUES -----------------
 function renderCoursesView(chapterId) {
   const ch = DETAILED_COURSES.find(c => c.id === chapterId) || DETAILED_COURSES[0];
   const isRead = userProgress.readChapters.includes(ch.id);
@@ -160,8 +162,8 @@ function renderCoursesView(chapterId) {
         `).join("")}
       </div>
 
-      <!-- DATACAMP INTERACTIVE HANDS-ON LAB -->
-      ${ch.datacamp ? `
+      <!-- LABORATOIRE INTERACTIF DE CODE PYTHON -->
+      ${ch.lab ? `
       <div class="figma-card p-6 md:p-8 rounded-3xl border-emerald-500/30 bg-gradient-to-b from-[#0c1424] to-[#070b14] space-y-6 shadow-2xl relative overflow-hidden">
         <div class="absolute -top-12 -right-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -179,19 +181,19 @@ function renderCoursesView(chapterId) {
                 </span>
                 ${isLabDone ? '<span class="text-[11px] font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Validé (+50 XP)</span>' : ''}
               </div>
-              <h3 class="text-base md:text-lg font-bold text-white mt-1">${ch.datacamp.title}</h3>
+              <h3 class="text-base md:text-lg font-bold text-white mt-1">${ch.lab.title}</h3>
             </div>
           </div>
           
           <!-- Action Tools -->
           <div class="flex items-center gap-2">
-            <button onclick="toggleDatacampHint('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-amber-300 border border-amber-500/30 flex items-center gap-1.5 transition">
+            <button onclick="toggleLabHint('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-amber-300 border border-amber-500/30 flex items-center gap-1.5 transition">
               <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> Indice
             </button>
-            <button onclick="toggleDatacampSolution('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 transition">
+            <button onclick="toggleLabSolution('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 transition">
               <i data-lucide="code" class="w-3.5 h-3.5"></i> Solution
             </button>
-            <button onclick="resetDatacampCode('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-slate-400 hover:text-white border border-slate-800 flex items-center gap-1.5 transition" title="Réinitialiser le code">
+            <button onclick="resetLabCode('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-slate-400 hover:text-white border border-slate-800 flex items-center gap-1.5 transition" title="Réinitialiser le code">
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
             </button>
           </div>
@@ -202,7 +204,7 @@ function renderCoursesView(chapterId) {
           <div class="flex items-center gap-2 font-bold text-emerald-400 mb-2">
             <i data-lucide="target" class="w-4 h-4"></i> Instructions / Mission :
           </div>
-          <div class="space-y-1.5 text-slate-300">${ch.datacamp.consigne}</div>
+          <div class="space-y-1.5 text-slate-300">${ch.lab.consigne}</div>
         </div>
 
         <!-- Indice Drawer -->
@@ -210,7 +212,7 @@ function renderCoursesView(chapterId) {
           <div class="font-bold flex items-center gap-1.5 text-amber-300 mb-1">
             <i data-lucide="help-circle" class="w-4 h-4"></i> Indice Pédagogique :
           </div>
-          <div>${ch.datacamp.hint}</div>
+          <div>${ch.lab.hint}</div>
         </div>
 
         <!-- Solution Drawer -->
@@ -218,7 +220,7 @@ function renderCoursesView(chapterId) {
           <div class="font-bold flex items-center gap-1.5 text-cyan-300 mb-2">
             <i data-lucide="check-check" class="w-4 h-4"></i> Solution Officielle :
           </div>
-          <pre class="font-mono bg-[#05070e] p-3 rounded-xl border border-cyan-500/20 text-cyan-300 text-xs overflow-x-auto whitespace-pre">${ch.datacamp.solution}</pre>
+          <pre class="font-mono bg-[#05070e] p-3 rounded-xl border border-cyan-500/20 text-cyan-300 text-xs overflow-x-auto whitespace-pre">${ch.lab.solution}</pre>
         </div>
 
         <!-- Editor & Terminal Split Grid -->
@@ -240,16 +242,16 @@ function renderCoursesView(chapterId) {
                 <span class="text-[10px] text-slate-500 font-mono ml-2">script interactif</span>
               </div>
               <textarea id="dc-editor-${ch.id}" rows="9" spellcheck="false" 
-                        class="w-full flex-1 bg-transparent p-4 font-mono text-xs md:text-sm text-emerald-300 focus:outline-none resize-none leading-relaxed">${ch.datacamp.initialCode}</textarea>
+                        class="w-full flex-1 bg-transparent p-4 font-mono text-xs md:text-sm text-emerald-300 focus:outline-none resize-none leading-relaxed">${ch.lab.initialCode}</textarea>
             </div>
 
             <!-- Action Buttons -->
             <div class="grid grid-cols-2 gap-3 pt-1">
-              <button onclick="runDatacampCode('${ch.id}')" 
+              <button onclick="runLabCode('${ch.id}')" 
                       class="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center justify-center gap-2 border border-slate-700 shadow-md transition active:scale-[0.98]">
                 <i data-lucide="play" class="w-4 h-4 text-emerald-400 fill-emerald-400"></i> Exécuter le code
               </button>
-              <button onclick="checkDatacampSolution('${ch.id}')" 
+              <button onclick="checkLabSolution('${ch.id}')" 
                       class="py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition active:scale-[0.98]">
                 <i data-lucide="check-circle" class="w-4 h-4"></i> Vérifier ma solution
               </button>
@@ -315,7 +317,7 @@ function toggleChapterRead(chId) {
   showView("courses", chId);
 }
 
-// ----------------- DATACAMP LAB HANDLERS & PYTHON EXECUTOR -----------------
+// ----------------- ATELIERS PRATIQUES & PYTHON EXECUTOR -----------------
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -324,21 +326,22 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-function toggleDatacampHint(chId) {
+function toggleLabHint(chId) {
   const el = document.getElementById(`dc-hint-${chId}`);
   if (el) el.classList.toggle("hidden");
 }
 
-function toggleDatacampSolution(chId) {
+function toggleLabSolution(chId) {
   const el = document.getElementById(`dc-solution-${chId}`);
   if (el) el.classList.toggle("hidden");
 }
 
-function resetDatacampCode(chId) {
+function resetLabCode(chId) {
   const ch = DETAILED_COURSES.find(c => c.id === chId);
-  if (!ch || !ch.datacamp) return;
+  if (!ch || !ch.lab) return;
+  const labData = ch.lab;
   const editor = document.getElementById(`dc-editor-${chId}`);
-  if (editor) editor.value = ch.datacamp.initialCode;
+  if (editor) editor.value = labData.initialCode;
   const feedback = document.getElementById(`dc-feedback-${chId}`);
   if (feedback) feedback.innerHTML = "";
   const terminal = document.getElementById(`dc-terminal-${chId}`);
@@ -529,7 +532,7 @@ function evalExpr(expr, env) {
   }
 }
 
-async function runDatacampCode(chId) {
+async function runLabCode(chId) {
   const editor = document.getElementById(`dc-editor-${chId}`);
   const terminal = document.getElementById(`dc-terminal-${chId}`);
   if (!editor || !terminal) return;
@@ -552,9 +555,10 @@ async function runDatacampCode(chId) {
   terminal.innerHTML = termHtml;
 }
 
-async function checkDatacampSolution(chId) {
+async function checkLabSolution(chId) {
   const ch = DETAILED_COURSES.find(c => c.id === chId);
-  if (!ch || !ch.datacamp) return;
+  if (!ch || !ch.lab) return;
+  const labData = ch.lab;
 
   const editor = document.getElementById(`dc-editor-${chId}`);
   const terminal = document.getElementById(`dc-terminal-${chId}`);
@@ -573,7 +577,7 @@ async function checkDatacampSolution(chId) {
   terminal.innerHTML = termHtml;
 
   const out = (res.output || "").trim();
-  const keyword = ch.datacamp.expectedOutputKeyword;
+  const keyword = labData.expectedOutputKeyword;
   const isMatch = out.includes(keyword);
 
   if (isMatch && !res.error) {
@@ -953,43 +957,121 @@ function finishExam() {
   lucide.createIcons();
 }
 
-// ----------------- 4. BANQUE DE QCM & QUIZ D'EXAMEN -----------------
+// ----------------- 4. BANQUE DE QCM & QUIZ D'EXAMEN (100 QUESTIONS) -----------------
+function setQuizFilter(filter) {
+  currentQuizFilter = filter;
+  showView("quiz");
+}
+
+function resetQuizProgress() {
+  if (confirm("Voulez-vous réinitialiser votre progression sur les 100 questions de Quiz ?")) {
+    userProgress.passedQuizzes = [];
+    saveProgress();
+    showView("quiz");
+  }
+}
+
 function renderQuizView() {
+  const chapters = [
+    { id: "all", label: "Tous les Chapitres", count: QUIZ_BANK.length },
+    { id: 1, label: "Ch 1: Architecture (16)", count: 16 },
+    { id: 2, label: "Ch 2: Types & E/S (17)", count: 17 },
+    { id: 3, label: "Ch 3: Opérateurs (17)", count: 17 },
+    { id: 4, label: "Ch 4: Conditions (16)", count: 16 },
+    { id: 5, label: "Ch 5: Boucles (17)", count: 17 },
+    { id: 6, label: "Ch 6: Séquences (17)", count: 17 }
+  ];
+
+  const filteredQuiz = currentQuizFilter === "all" 
+    ? QUIZ_BANK 
+    : QUIZ_BANK.filter(q => q.chapter === currentQuizFilter);
+
+  const passedCount = userProgress.passedQuizzes ? userProgress.passedQuizzes.length : 0;
+  const pct = Math.round((passedCount / QUIZ_BANK.length) * 100);
+
   return `
     <div class="space-y-8 animate-fade max-w-4xl mx-auto">
-      <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold mb-2 border border-cyan-500/20">
-          <i data-lucide="help-circle" class="w-4 h-4"></i> Auto-Évaluation Rapide
+      <!-- Header with Score & Stats -->
+      <div class="figma-card p-6 md:p-8 rounded-3xl border-cyan-500/20 bg-gradient-to-br from-[#0b1528] via-[#090d18] to-[#060a12]">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold mb-2 border border-cyan-500/20">
+              <i data-lucide="help-circle" class="w-4 h-4"></i> Auto-Évaluation Sommative • 100 Questions QCM
+            </div>
+            <h1 class="text-2xl md:text-3xl font-black text-white">Banque de Quiz & QCM Universitaires</h1>
+            <p class="text-xs text-slate-400 mt-1">100 questions ciblées avec retour immédiat, scores en temps réel et explications académiques pas à pas.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl text-center min-w-[110px]">
+              <div class="text-xs text-slate-400 font-medium">Réussite</div>
+              <div class="text-lg md:text-xl font-black text-cyan-400">${passedCount} / ${QUIZ_BANK.length}</div>
+              <div class="text-[10px] text-slate-500 font-mono">${pct}% complété</div>
+            </div>
+            <button onclick="resetQuizProgress()" class="p-3 rounded-2xl bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-rose-400 border border-slate-800 transition" title="Réinitialiser les scores">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            </button>
+          </div>
         </div>
-        <h1 class="text-2xl md:text-3xl font-black text-white">Quiz & QCM d'Entraînement</h1>
-        <p class="text-xs text-slate-400 mt-1">Questions pièges ciblées avec retour immédiat et explications détaillées.</p>
+
+        <!-- Mini Progress Bar -->
+        <div class="mt-5 w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+          <div class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+        </div>
       </div>
 
+      <!-- Chapter Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800">
+        ${chapters.map(ch => `
+          <button onclick="setQuizFilter('${ch.id}')" 
+                  class="px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-2 ${String(currentQuizFilter) === String(ch.id) ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30' : 'bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800'}">
+            <span>${ch.label}</span>
+          </button>
+        `).join("")}
+      </div>
+
+      <!-- Questions List -->
       <div class="space-y-6">
-        ${QUIZ_BANK.map((item, idx) => `
-          <div class="figma-card p-6 md:p-8 rounded-3xl space-y-4 border-slate-800" id="quiz-card-${item.id}">
-            <div class="flex items-center justify-between">
-              <span class="badge-tag bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">${item.tag}</span>
-              <span class="text-xs font-mono text-slate-500">Question ${idx + 1} / ${QUIZ_BANK.length}</span>
+        <div class="text-xs text-slate-400 font-mono flex items-center justify-between">
+          <span>Affichage de ${filteredQuiz.length} questions</span>
+          <span>Chapitre ${currentQuizFilter === 'all' ? 'Tous' : currentQuizFilter}</span>
+        </div>
+
+        ${filteredQuiz.map((item, idx) => {
+          const isPassed = userProgress.passedQuizzes && userProgress.passedQuizzes.includes(item.id);
+          return `
+          <div class="figma-card p-6 md:p-8 rounded-3xl space-y-4 border-slate-800 relative ${isPassed ? 'border-emerald-500/30' : ''}" id="quiz-card-${item.id}">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="badge-tag bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">${item.chapterTitle || ('Ch ' + item.chapter)}</span>
+                <span class="badge-tech text-[10px]">${item.tag}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                ${isPassed ? '<span class="text-[11px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3 h-3"></i> Validé</span>' : ''}
+                <span class="text-xs font-mono text-slate-500">Q.${idx + 1} / ${filteredQuiz.length}</span>
+              </div>
             </div>
-            <div class="text-xs md:text-sm text-slate-100 font-medium whitespace-pre-line">${item.question}</div>
+
+            <div class="text-xs md:text-sm text-slate-100 font-medium whitespace-pre-line leading-relaxed">${item.question}</div>
 
             <div class="space-y-2 pt-2">
               ${item.options.map((opt, oIdx) => `
                 <button onclick="checkQuizItem('${item.id}', ${oIdx}, ${item.correct})" 
-                        class="quiz-btn-${item.id} w-full text-left p-3.5 rounded-2xl bg-slate-950/80 hover:bg-slate-900 border border-slate-800/80 text-xs text-slate-300 transition flex items-center justify-between">
-                  <span>${opt}</span>
-                  <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+                        class="quiz-btn-${item.id} w-full text-left p-3.5 rounded-2xl bg-slate-950/80 hover:bg-slate-900 border border-slate-800/80 text-xs text-slate-300 transition flex items-center justify-between group">
+                  <span class="leading-snug">${opt}</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600 group-hover:text-cyan-400 transition"></i>
                 </button>
               `).join("")}
             </div>
 
-            <div id="quiz-exp-${item.id}" class="hidden p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-xs text-slate-200 leading-relaxed">
-              <strong class="font-bold text-indigo-400 block mb-1">Explication :</strong>
-              ${item.explanation}
+            <div id="quiz-exp-${item.id}" class="hidden p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-xs text-slate-200 leading-relaxed shadow-inner">
+              <strong class="font-bold text-indigo-400 flex items-center gap-1.5 mb-1">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i> Explication Académique :
+              </strong>
+              <div class="text-slate-300 whitespace-pre-line">${item.explanation}</div>
             </div>
           </div>
-        `).join("")}
+          `;
+        }).join("")}
       </div>
     </div>
   `;
@@ -1000,59 +1082,122 @@ function checkQuizItem(qId, selected, correct) {
   buttons.forEach((btn, idx) => {
     btn.disabled = true;
     if (idx === correct) {
-      btn.classList.add("bg-emerald-950", "border-emerald-500", "text-emerald-300");
+      btn.classList.remove("bg-slate-950/80", "border-slate-800/80", "text-slate-300");
+      btn.classList.add("bg-emerald-950", "border-emerald-500", "text-emerald-300", "font-semibold");
     } else if (idx === selected) {
+      btn.classList.remove("bg-slate-950/80", "border-slate-800/80", "text-slate-300");
       btn.classList.add("bg-rose-950", "border-rose-500", "text-rose-300");
     }
   });
+
   const exp = document.getElementById(`quiz-exp-${qId}`);
   if (exp) exp.classList.remove("hidden");
+
+  if (selected === correct) {
+    if (!userProgress.passedQuizzes) userProgress.passedQuizzes = [];
+    if (!userProgress.passedQuizzes.includes(qId)) {
+      userProgress.passedQuizzes.push(qId);
+      saveProgress();
+    }
+  }
+
+  lucide.createIcons();
 }
 
-// ----------------- 5. DECK FLASHCARDS 3D -----------------
+// ----------------- 5. DECK FLASHCARDS 3D (100 CARTES) -----------------
+function setFlashcardFilter(filter) {
+  currentFlashcardFilter = filter;
+  flashcardIndex = 0;
+  showView("flashcards");
+}
+
 function renderFlashcardsView() {
-  const card = FLASHCARDS[flashcardIndex];
+  const chapters = [
+    { id: "all", label: "Toutes (100)", count: FLASHCARDS.length },
+    { id: 1, label: "Ch 1: Architecture (16)", count: 16 },
+    { id: 2, label: "Ch 2: Types & E/S (17)", count: 17 },
+    { id: 3, label: "Ch 3: Opérateurs (17)", count: 17 },
+    { id: 4, label: "Ch 4: Conditions (16)", count: 16 },
+    { id: 5, label: "Ch 5: Boucles (17)", count: 17 },
+    { id: 6, label: "Ch 6: Séquences (17)", count: 17 }
+  ];
+
+  const filteredCards = currentFlashcardFilter === "all"
+    ? FLASHCARDS
+    : FLASHCARDS.filter(c => c.chapter === currentFlashcardFilter);
+
+  if (flashcardIndex >= filteredCards.length) {
+    flashcardIndex = 0;
+  }
+  const card = filteredCards[flashcardIndex] || FLASHCARDS[0];
+
   return `
     <div class="space-y-8 animate-fade max-w-2xl mx-auto">
       <div class="text-center">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold mb-2 border border-amber-500/20">
-          <i data-lucide="layers" class="w-4 h-4"></i> Mémorisation Active
+          <i data-lucide="layers" class="w-4 h-4"></i> Mémorisation Active • 100 Flashcards 3D
         </div>
         <h1 class="text-2xl md:text-3xl font-black text-white">Flashcards de Révision 3D</h1>
-        <p class="text-xs text-slate-400 mt-1">Mémorisez rapidement les définitions et pièges essentiels du programme.</p>
+        <p class="text-xs text-slate-400 mt-1">Mémorisez rapidement les définitions, pièges et mécanismes clés du programme.</p>
       </div>
 
-      <div class="perspective-1000 w-full h-80 cursor-pointer" onclick="flipActiveCard()">
+      <!-- Chapter Filter Pills -->
+      <div class="flex items-center justify-center gap-1.5 flex-wrap">
+        ${chapters.map(ch => `
+          <button onclick="setFlashcardFilter('${ch.id}')" 
+                  class="px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1.5 ${String(currentFlashcardFilter) === String(ch.id) ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30' : 'bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800'}">
+            <span>${ch.label}</span>
+          </button>
+        `).join("")}
+      </div>
+
+      <!-- Card Counter Indicator -->
+      <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-2">
+        <span>Filtre : ${currentFlashcardFilter === 'all' ? 'Tous les Chapitres' : ('Chapitre ' + currentFlashcardFilter)}</span>
+        <span class="text-amber-400 font-bold">${flashcardIndex + 1} / ${filteredCards.length}</span>
+      </div>
+
+      <!-- 3D Flip Card Container -->
+      <div class="perspective-1000 w-full min-h-[300px] h-80 cursor-pointer select-none" onclick="flipActiveCard()">
         <div id="activeCardInner" class="flashcard-inner relative w-full h-full transform-style-3d">
-          <div class="absolute inset-0 backface-hidden figma-card p-8 rounded-3xl flex flex-col justify-between items-center text-center shadow-2xl">
+          <!-- Front Side -->
+          <div class="absolute inset-0 backface-hidden figma-card p-8 rounded-3xl flex flex-col justify-between items-center text-center shadow-2xl border-indigo-500/30 bg-gradient-to-br from-[#0c1322] to-[#070a12]">
             <div class="flex items-center justify-between w-full">
-              <span class="badge-tag bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${card.tag}</span>
-              <span class="text-xs text-slate-500 font-mono">${flashcardIndex + 1} / ${FLASHCARDS.length}</span>
+              <span class="badge-tag bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${card.chapterTitle ? card.chapterTitle.split(':')[0] : 'Ch ' + card.chapter}</span>
+              <span class="badge-tech text-[10px]">${card.tag}</span>
             </div>
             <h3 class="text-base md:text-lg font-bold text-white leading-relaxed px-4">${card.front}</h3>
             <div class="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
-              <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-indigo-400"></i> Cliquez pour retourner
+              <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-indigo-400"></i> Cliquez pour voir la réponse
             </div>
           </div>
-          <div class="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-8 rounded-3xl border border-emerald-500/40 flex flex-col justify-between items-center text-center shadow-2xl">
-            <span class="badge-tag bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Réponse & Règle</span>
-            <p class="text-xs md:text-sm text-slate-200 leading-relaxed font-medium px-2">${card.back}</p>
-            <div class="text-xs text-slate-400 font-mono">Cliquez pour revenir</div>
+
+          <!-- Back Side -->
+          <div class="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-[#081824] via-[#091520] to-[#060e18] p-8 rounded-3xl border border-emerald-500/40 flex flex-col justify-between items-center text-center shadow-2xl">
+            <div class="flex items-center justify-between w-full">
+              <span class="badge-tag bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Règle & Explication</span>
+              <span class="text-[10px] font-mono text-slate-400">${card.tag}</span>
+            </div>
+            <p class="text-xs md:text-sm text-slate-200 leading-relaxed font-medium px-2 whitespace-pre-line">${card.back}</p>
+            <div class="text-xs text-slate-400 font-mono flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i> Cliquez pour retourner
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Navigation Controls -->
       <div class="flex items-center justify-between pt-2">
-        <button onclick="flashcardIndex=(flashcardIndex-1+FLASHCARDS.length)%FLASHCARDS.length; showView('flashcards')" 
-                class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-slate-300 flex items-center gap-2 border border-slate-800 transition">
+        <button onclick="flashcardIndex=(flashcardIndex-1+${filteredCards.length})%${filteredCards.length}; showView('flashcards')" 
+                class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-slate-300 flex items-center gap-2 border border-slate-800 transition active:scale-95">
           <i data-lucide="arrow-left" class="w-4 h-4"></i> Précédente
         </button>
-        <button onclick="FLASHCARDS.sort(()=>Math.random()-0.5); flashcardIndex=0; showView('flashcards')" 
-                class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-amber-400 flex items-center gap-1.5 border border-slate-800 transition">
+        <button onclick="flashcardIndex=Math.floor(Math.random()*${filteredCards.length}); showView('flashcards')" 
+                class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-amber-400 flex items-center gap-1.5 border border-slate-800 transition active:scale-95">
           <i data-lucide="shuffle" class="w-4 h-4"></i> Aléatoire
         </button>
-        <button onclick="flashcardIndex=(flashcardIndex+1)%FLASHCARDS.length; showView('flashcards')" 
-                class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white flex items-center gap-2 shadow-lg shadow-indigo-600/30 transition">
+        <button onclick="flashcardIndex=(flashcardIndex+1)%${filteredCards.length}; showView('flashcards')" 
+                class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white flex items-center gap-2 shadow-lg shadow-indigo-600/30 transition active:scale-95">
           Suivante <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>

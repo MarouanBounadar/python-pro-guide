@@ -76,7 +76,7 @@ const DETAILED_COURSES = [
         `
       }
     ],
-    datacamp: {
+    lab: {
       title: "Laboratoire de Code : Découverte du Moteur Python",
       consigne: "Dans cet atelier pratique, vous allez vérifier les versions et afficher les 3 composants clés du processeur.\\n1. Créez une variable <code>processeur</code> contenant la chaîne 'CPU'.\\n2. Créez une variable <code>annee_creation</code> égale à 1989.\\n3. Affichez ces deux variables à l'aide de <code>print()</code>.",
       initialCode: "# Mission Chapitre 1 :\n# 1. Créez une variable 'processeur' avec la valeur 'CPU'\n# 2. Créez une variable 'annee_creation' avec la valeur 1989\n# 3. Affichez ces deux variables avec print()\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
@@ -151,7 +151,7 @@ const DETAILED_COURSES = [
         `
       }
     ],
-    datacamp: {
+    lab: {
       title: "Laboratoire de Code : Maîtrise du Transtypage & Pièges",
       consigne: "Vous recevez la chaîne de caractères <code>s = '14.89'</code>.\\n1. Convertissez-la en float dans une variable <code>prix_float</code>.\\n2. Convertissez ce float en entier dans <code>prix_int</code> pour obtenir la troncature pure.\\n3. Affichez la valeur de <code>prix_int</code>.",
       initialCode: "s = '14.89'\n\n# Mission Chapitre 2 :\n# 1. Convertissez 's' en float dans la variable 'prix_float'\n# 2. Convertissez 'prix_float' en entier dans 'prix_int' pour obtenir la troncature pure\n# 3. Affichez la valeur de 'prix_int' avec print()\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
@@ -215,7 +215,7 @@ const DETAILED_COURSES = [
         `
       }
     ],
-    datacamp: {
+    lab: {
       title: "Laboratoire de Code : Hiérarchie & Court-Circuit",
       consigne: "Dans cet atelier, calculez l'expression mathématique exacte :\\n1. Calculez <code>x = 2 + 3 * 4 ** 2</code>.\\n2. Calculez le résultat du court-circuit : <code>test = True or False and False</code>.\\n3. Affichez x et test.",
       initialCode: "# Mission Chapitre 3 :\n# 1. Calculez dans la variable 'x' l'expression : 2 + 3 * 4 ** 2\n# 2. Évaluez dans la variable 'test' l'expression : True or False and False\n# 3. Affichez x et test\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
@@ -251,7 +251,7 @@ const DETAILED_COURSES = [
         `
       }
     ],
-    datacamp: {
+    lab: {
       title: "Laboratoire de Code : Tarif Cinéma Conditionnel",
       consigne: "Écrivez un programme qui détermine le prix d'un ticket selon la variable <code>age = 15</code> :\\n• Moins de 10 ans : 20 DH\\n• Moins de 18 ans : 35 DH\\n• Autres âges : 50 DH\\nStockez le résultat dans la variable <code>prix</code> et affichez-la.",
       initialCode: "age = 15\n\n# Mission Chapitre 4 :\n# Écrivez une structure conditionnelle if / elif / else pour définir 'prix' :\n# - Moins de 10 ans : 20 DH\n# - Moins de 18 ans : 35 DH\n# - Autres âges     : 50 DH\n# Puis affichez la variable 'prix'.\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
@@ -302,7 +302,7 @@ const DETAILED_COURSES = [
         `
       }
     ],
-    datacamp: {
+    lab: {
       title: "Laboratoire de Code : Calcul de Factorielle (n!)",
       consigne: "Calculez la factorielle de <code>n = 5</code> (5! = 1 × 2 × 3 × 4 × 5 = 120) à l'aide d'une boucle <code>for</code> et de <code>range()</code>.\\nStockez le résultat dans la variable <code>fact</code> et affichez-la.",
       initialCode: "n = 5\nfact = 1\n\n# Mission Chapitre 5 :\n# Calculez 5! (1 * 2 * 3 * 4 * 5 = 120) en utilisant une boucle for et range().\n# Multipliez 'fact' par chaque valeur de 1 à n inclus, puis affichez 'fact'.\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
@@ -345,7 +345,7 @@ const DETAILED_COURSES = [
         `
       }
     ],
-    datacamp: {
+    lab: {
       title: "Laboratoire de Code : Slicing & Copie Sécurisée",
       consigne: "Soit la liste <code>animaux = ['girafe', 'tigre', 'singe', 'souris']</code>.\\n1. Extrayez les éléments d'indice 1 à 2 inclus dans <code>sous_liste</code> à l'aide du slicing.\\n2. Inversez complètement la liste dans <code>inverse</code>.\\n3. Affichez sous_liste et inverse.",
       initialCode: "animaux = ['girafe', 'tigre', 'singe', 'souris']\n\n# Mission Chapitre 6 :\n# 1. Extrayez les éléments d'indice 1 à 2 inclus dans 'sous_liste' via slicing [start:stop]\n# 2. Créez une copie inversée complète de la liste dans 'inverse' avec le pas -1\n# 3. Affichez sous_liste et inverse\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
@@ -2072,16 +2072,806 @@ const EXAM_SUBJECTS = [
 
 // DECK FLASHCARDS 3D
 const FLASHCARDS = [
-  { id: 1, tag: "Architecture", front: "Quel est le principe fondamental de l'Architecture de Von Neumann (1945) ?", back: "Le Programme Enregistré : les instructions (code) et les données (variables) partagent le même espace physique en mémoire RAM." },
-  { id: 2, tag: "Transtypage", front: "Pourquoi int('3.14') déclenche-t-il une exception ValueError ?", back: "int() refuse tout séparateur décimal dans une chaîne littérale. Solution obligatoire : int(float('3.14')) qui donne 3." },
-  { id: 3, tag: "Booléens", front: "Pourquoi bool('False') renvoie-t-il True ?", back: "En Python, toute chaîne non vide est évaluée comme vraie (Truthy). Seules bool('') et bool(0) valent False." },
-  { id: 4, tag: "Listes", front: "Quel est le danger de l'instruction L2 = L1 sur les listes ?", back: "L'Aliasing : L2 = L1 ne copie pas la liste mais crée un second nom pointant vers le même objet en RAM. Modifier L2 modifie L1 ! Solution : L2 = L1[:]." },
-  { id: 5, tag: "Flottants", front: "Pourquoi 0.1 + 0.2 == 0.3 renvoie-t-il False ?", back: "À cause de la norme IEEE 754 de représentation des flottants en binaire : 0.1 et 0.2 produisent 0.30000000000000004." },
-  { id: 6, tag: "Logique", front: "Qu'est-ce que l'évaluation en court-circuit (Short-circuit) ?", back: "Dans A and B, si A est False, B n'est jamais lu. Dans A or B, si A est True, B n'est jamais lu." },
-  { id: 7, tag: "Boucles", front: "Quand la clause else d'une boucle s'exécute-t-elle ?", back: "Uniquement si la boucle a terminé toutes ses itérations normalement SANS avoir rencontré d'instruction break." },
-  { id: 8, tag: "Tuples", front: "Comment écrit-on obligatoirement un tuple contenant un seul élément ?", back: "Avec une virgule finale obligatoire : t = (42,). Sans virgule, (42) est un simple entier int entre parenthèses." },
-  { id: 9, tag: "Slicing", front: "Que produit l'expression L[::-1] sur une liste ou une chaîne ?", back: "Elle produit une copie inversée complète de la séquence, parcourue de droite à gauche avec un pas de -1." },
-  { id: 10, tag: "Arithmétique", front: "Dans quel sens s'évalue l'opérateur de puissance ** ?", back: "De droite à gauche ! Ainsi 2 ** 3 ** 2 = 2 ** (3 ** 2) = 2 ** 9 = 512." }
+  {
+    "id": 1,
+    "tag": "Architecture",
+    "front": "Quel est le principe fondamental de l'Architecture de Von Neumann (1945) ?",
+    "back": "Le Programme Enregistré : les instructions (code) et les données (variables) partagent le même espace physique en mémoire RAM.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 2,
+    "tag": "CPU",
+    "front": "Quels sont les deux organes majeurs qui composent le processeur (CPU) ?",
+    "back": "L'Unité de Contrôle (UC) qui orchestre l'extraction et le décodage, et l'Unité Arithmétique et Logique (UAL) qui effectue les calculs et comparaisons.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 3,
+    "tag": "Bus Matériels",
+    "front": "Quelle est la particularité du Bus d'Adresses par rapport au Bus de Données ?",
+    "back": "Le bus d'adresses est strictement UNIDIRECTIONNEL (du CPU vers la RAM), alors que le bus de données est BIDIRECTIONNEL.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 4,
+    "tag": "Cycle Machine",
+    "front": "Quelles sont les 3 étapes séquentielles du cycle d'instruction d'un ordinateur ?",
+    "back": "1. Fetch (Recherche/Chargement depuis la RAM dans le RI)\n2. Decode (Décodage de l'OpCode par l'UC)\n3. Execute (Exécution par l'UAL ou l'UC).",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 5,
+    "tag": "Registres",
+    "front": "Quel est le rôle du Compteur Ordinal (PC / Program Counter) dans le CPU ?",
+    "back": "Il contient en permanence l'adresse mémoire de la PROCHAINE instruction à exécuter par le processeur.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 6,
+    "tag": "Registres",
+    "front": "Quel est le rôle du Registre d'Instruction (RI) dans le processeur ?",
+    "back": "Il conserve le mot d'instruction binaire en cours d'analyse et de décodage par l'Unité de Contrôle.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 7,
+    "tag": "Systèmes",
+    "front": "Quelle différence fondamentale distingue un système informatique d'un système numérique ?",
+    "back": "Un système informatique est universellement programmable par logiciel pour exécuter tout algorithme, alors qu'un système numérique a un fonctionnement figé dans ses circuits.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 8,
+    "tag": "Histoire",
+    "front": "Qui a créé le langage Python et en quelle année ?",
+    "back": "Le mathématicien et informaticien néerlandais Guido van Rossum en décembre 1989 (publié en 1991).",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 9,
+    "tag": "Bytecode",
+    "front": "Qu'est-ce que le Bytecode en Python et où est-il stocké ?",
+    "back": "C'est un code intermédiaire compact indépendant du matériel, précompilé par Python et enregistré dans le sous-dossier __pycache__ sous extension .pyc.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 10,
+    "tag": "PVM",
+    "front": "Quel est le rôle de la PVM (Python Virtual Machine) ?",
+    "back": "La PVM est la machine virtuelle qui interprète le Bytecode séquentiellement et le traduit en instructions binaires réelles pour le processeur physique.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 11,
+    "tag": "Modes Python",
+    "front": "Qu'est-ce que le mode REPL (Read-Eval-Print-Loop) ?",
+    "back": "C'est le mode interactif de Python (signalé par l'invite >>>) où chaque commande saisie est lue, exécutée et affichée immédiatement de façon éphémère.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 12,
+    "tag": "Modes Python",
+    "front": "Quelle est la différence entre le mode REPL et le mode Script ?",
+    "back": "Le REPL est interactif et éphémère pour des tests rapides ; le mode Script (.py) est persistant, réutilisable et automatisable.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 13,
+    "tag": "Mémoire RAM",
+    "front": "Pourquoi la mémoire vive (RAM) perd-elle ses données à l'extinction du PC ?",
+    "back": "Parce que la RAM est une mémoire volatile constituée de condensateurs et transistors nécessitant une alimentation électrique continue pour retenir les bits.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 14,
+    "tag": "Bus de Contrôle",
+    "front": "Que transporte le bus de contrôle d'une carte mère ?",
+    "back": "Les signaux d'horloge de synchronisation, les signaux de commande lecture/écriture (Read/Write) et les interruptions matérielles.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 15,
+    "tag": "Accumulateur",
+    "front": "Quel est le rôle du registre Accumulateur (ACC) ?",
+    "back": "C'est un registre rapide servant de mémoire tampon de travail directement connecté à la sortie de l'UAL pour stocker les résultats intermédiaires.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 16,
+    "tag": "Compilateur vs Interpréteur",
+    "front": "En quoi Python est-il qualifié de langage hybride ?",
+    "back": "Parce qu'il combine une première phase de compilation transparente (source -> Bytecode) et une seconde phase d'interprétation par la machine virtuelle (PVM -> CPU).",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": 17,
+    "tag": "Variables",
+    "front": "Comment Python gère-t-il les variables en mémoire RAM ?",
+    "back": "Une variable n'est pas un conteneur physique mais une étiquette (référence) pointant vers un objet stocké en mémoire avec son id(), son type et sa valeur.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 18,
+    "tag": "Fonction id()",
+    "front": "Que renvoie la fonction native id(objet) en Python ?",
+    "back": "Elle renvoie l'identifiant entier unique de l'objet, correspondant à son adresse mémoire physique sous CPython.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 19,
+    "tag": "Affectation",
+    "front": "Que fait l'instruction en chaîne : a = b = c = 0 ?",
+    "back": "Elle crée l'objet entier 0 en RAM et fait pointer les trois variables a, b et c vers ce même emplacement mémoire.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 20,
+    "tag": "PEP 8",
+    "front": "Quels sont les caractères autorisés pour nommer une variable en Python ?",
+    "back": "Les lettres (a-z, A-Z), les chiffres (0-9) et le caractère souligné (_). Un chiffre au début est rigoureusement INTERDIT.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 21,
+    "tag": "PEP 8",
+    "front": "Pourquoi la casse des lettres (Minuscules / Majuscules) est-elle importante en Python ?",
+    "back": "Python est sensible à la casse (Case Sensitive) : Nom, nom et NOM représentent 3 variables totalement distinctes.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 22,
+    "tag": "Mots-clés",
+    "front": "Combien de mots-clés réservés (keywords) Python possède-t-il ?",
+    "back": "Environ 35 mots-clés (comme if, else, def, class, return, while) qui sont strictement interdits comme noms de variables.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 23,
+    "tag": "Entiers int",
+    "front": "Quelle est la limite de grandeur des entiers de type int en Python 3 ?",
+    "back": "Aucune limite fixe ! Les entiers ont une précision arbitraire : ils peuvent comporter des centaines de chiffres, limités uniquement par la RAM disponible.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 24,
+    "tag": "Flottants",
+    "front": "Pourquoi 0.1 + 0.2 == 0.3 renvoie-t-il False en Python ?",
+    "back": "À cause de la norme binaire IEEE 754 de représentation des flottants : 0.1 et 0.2 n'ont pas de fraction binaire exacte et produisent 0.30000000000000004.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 25,
+    "tag": "Complexes",
+    "front": "Comment s'écrit un nombre complexe sous Python ?",
+    "back": "Avec la lettre 'j' pour la partie imaginaire, par exemple : z = 3 + 4j. Sa partie réelle est z.real et sa partie imaginaire z.imag.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 26,
+    "tag": "Booléens",
+    "front": "De quel type fondamental le type booléen 'bool' hérite-t-il en Python ?",
+    "back": "Le type bool hérite directement de int : True équivaut numériquement à 1 et False équivaut numériquement à 0.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 27,
+    "tag": "Saisie input()",
+    "front": "Quel type renvoie TOUJOURS la fonction native input() ?",
+    "back": "Elle renvoie TOUJOURS une chaîne de caractères (str). Pour faire des calculs, un transtypage int() ou float() est obligatoire.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 28,
+    "tag": "Transtypage int()",
+    "front": "Quel traitement int(9.99) effectue-t-il sur les nombres à virgule ?",
+    "back": "Une troncature pure ! Il supprime la partie décimale sans faire d'arrondi : int(9.99) donne 9.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 29,
+    "tag": "Transtypage",
+    "front": "Pourquoi int('3.14') déclenche-t-il une exception ValueError ?",
+    "back": "int() refuse tout séparateur décimal dans une chaîne littérale. Solution obligatoire : int(float('3.14')) qui donne 3.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 30,
+    "tag": "Booléens",
+    "front": "Pourquoi bool('False') renvoie-t-il True ?",
+    "back": "En Python, toute chaîne non vide est évaluée comme vraie (Truthy). Seules bool('') et bool(0) valent False.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 31,
+    "tag": "Valeurs Falsy",
+    "front": "Quelles sont les valeurs principales considérées comme Falsy (évaluées à False) en Python ?",
+    "back": "False, None, 0, 0.0, chaîne vide '', liste vide [], tuple vide (), ensemble vide set(), dictionnaire vide {}.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 32,
+    "tag": "Typage Dynamique",
+    "front": "Que signifie le concept de 'Typage Dynamique' en Python ?",
+    "back": "Le programmeur n'a pas besoin de déclarer le type d'une variable à l'avance : Python détermine et adapte son type automatiquement à l'exécution selon la valeur assignée.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 33,
+    "tag": "Typage Fort",
+    "front": "Que signifie le concept de 'Typage Fort' en Python ?",
+    "back": "Python interdit les opérations implicites absurdes entre types non compatibles : par exemple, '2' + 2 déclenche une TypeError et ne convertit pas silencieusement.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": 34,
+    "tag": "Division /",
+    "front": "Que renvoie toujours l'opérateur de division simple / en Python 3 ?",
+    "back": "Il renvoie TOUJOURS un flottant (float), même si la division tombe juste (ex: 10 / 2 donne 5.0).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 35,
+    "tag": "Division //",
+    "front": "Que produit la division entière // sur les nombres négatifs (ex: -7 // 2) ?",
+    "back": "Elle arrondit vers l'entier inférieur le plus proche (vers moins l'infini) : -7 // 2 donne -4 (et non -3 !).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 36,
+    "tag": "Modulo %",
+    "front": "Que calcule l'opérateur modulo % en Python ?",
+    "back": "Il calcule le RESTE de la division entière euclidienne. Par exemple, 14 % 4 donne 2 (car 14 = 4 * 3 + 2).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 37,
+    "tag": "Modulo Négatif",
+    "front": "Quel est le signe du résultat de a % b en Python ?",
+    "back": "Le signe du reste suit TOUJOURS le signe du diviseur b : ainsi 10 % -3 vaut -2 (car 10 = -3 * -4 + (-2)).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 38,
+    "tag": "Puissance **",
+    "front": "Dans quel sens s'évalue l'opérateur de puissance ** ?",
+    "back": "De droite à gauche ! Ainsi 2 ** 3 ** 2 = 2 ** (3 ** 2) = 2 ** 9 = 512, et NON 64.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 39,
+    "tag": "Comparaisons",
+    "front": "Que signifie le chaînage d'opérateurs dans : 1 < x < 10 ?",
+    "back": "C'est un raccourci syntaxique élégant équivalent à : (1 < x) and (x < 10). Les deux conditions doivent être vraies.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 40,
+    "tag": "Comparaisons",
+    "front": "Comment Python compare-t-il les chaînes de caractères (ex: 'chat' < 'chien') ?",
+    "back": "Par comparaison lexicographique (code ASCII/Unicode) caractère par caractère de gauche à droite. Dès qu'un écart est trouvé ('a' < 'i'), le résultat est fixé.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 41,
+    "tag": "Priorité Logique",
+    "front": "Quel est l'ordre de priorité strict entre not, and et or ?",
+    "back": "1. not (le plus prioritaire)\n2. and\n3. or (le moins prioritaire).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 42,
+    "tag": "Logique",
+    "front": "Que renvoie l'expression : True or False and False ?",
+    "back": "True ! and étant prioritaire sur or : (False and False) = False, puis True or False = True.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 43,
+    "tag": "Court-Circuit",
+    "front": "Qu'est-ce que l'évaluation en court-circuit (Short-Circuit) avec l'opérateur AND ?",
+    "back": "Dans A and B, si A est False, l'expression entière est obligatoirement fausse : Python n'évalue JAMAIS B.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 44,
+    "tag": "Court-Circuit",
+    "front": "Qu'est-ce que l'évaluation en court-circuit (Short-Circuit) avec l'opérateur OR ?",
+    "back": "Dans A or B, si A est True, l'expression entière est obligatoirement vraie : Python n'évalue JAMAIS B.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 45,
+    "tag": "Court-Circuit",
+    "front": "Pourquoi False and (10 / 0 == 0) ne déclenche pas d'erreur ZeroDivisionError ?",
+    "back": "Parce que le premier terme étant False, le court-circuit évite l'évaluation du second membre.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 46,
+    "tag": "Affectation Augmentée",
+    "front": "Comment Python évalue-t-il l'instruction : A *= B + 2 ?",
+    "back": "Le membre de droite est parenthésé implicitement : A = A * (B + 2). Si A=5 et B=3, A devient 5 * 5 = 25.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 47,
+    "tag": "Opérateur is",
+    "front": "Quelle est la différence entre x == y et x is y ?",
+    "back": "x == y compare l'égalité des valeurs contenues ; x is y compare l'identité mémoire des objets (id(x) == id(y)).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 48,
+    "tag": "Opérateur in",
+    "front": "Quel est le rôle de l'opérateur 'in' sur les chaînes et listes ?",
+    "back": "Il vérifie si un élément ou une sous-chaîne est présent dans la séquence et renvoie un booléen (True/False).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 49,
+    "tag": "Concaténation",
+    "front": "Que produit l'expression : 'ab' * 3 + 'c' ?",
+    "back": "'abababc' ! La répétition * est prioritaire sur l'addition +.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 50,
+    "tag": "Opérateurs",
+    "front": "Que renvoie l'expression : not 0 ?",
+    "back": "True ! L'entier 0 étant Falsy, sa négation not 0 produit la valeur booléenne True.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": 51,
+    "tag": "Indentation",
+    "front": "Quel rôle joue l'indentation dans un bloc conditionnel if ?",
+    "back": "Elle définit la portée et l'appartenance des instructions au bloc. Une mauvaise indentation déclenche une IndentationError.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 52,
+    "tag": "Indentation PEP 8",
+    "front": "Combien d'espaces la norme PEP 8 recommande-t-elle par niveau d'indentation ?",
+    "back": "Exactement 4 espaces par niveau de bloc, sans jamais mélanger tabulations et espaces.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 53,
+    "tag": "Syntaxe if",
+    "front": "Quel symbole doit obligatoirement terminer une ligne de condition if, elif ou else ?",
+    "back": "Le caractère deux-points (:) qui introduit le bloc d'instructions indenté.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 54,
+    "tag": "Structure elif",
+    "front": "Que se passe-t-il dès qu'un elif est validé dans une série de conditions ?",
+    "back": "Son bloc est exécuté, puis Python saute immédiatement après toute la structure conditionnelle sans tester les autres elif.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 55,
+    "tag": "Clause else",
+    "front": "Une clause else peut-elle comporter une condition explicite ?",
+    "back": "Non, jamais ! else s'exécute uniquement par défaut quand toutes les conditions if et elif précédentes sont fausses.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 56,
+    "tag": "Bissextile",
+    "front": "Quelle est la règle officielle pour qu'une année soit bissextile ?",
+    "back": "Elle doit être divisible par 4 sans l'être par 100, OU être divisible par 400 : (a % 4 == 0 and a % 100 != 0) or (a % 400 == 0).",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 57,
+    "tag": "Bissextile",
+    "front": "L'année 2000 était-elle bissextile ? Et l'année 1900 ?",
+    "back": "2000 était bissextile (divisible par 400) ; 1900 ne l'était pas (divisible par 100 mais pas par 400).",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 58,
+    "tag": "Facture par Tranches",
+    "front": "Pourquoi calcule-t-on une facture par tranches cumulatives plutôt qu'avec un tarif unique ?",
+    "back": "Pour assurer l'équité progressive : chaque tranche de volume d'eau ou d'électricité est facturée à son propre barème sans surtaxer la consommation de base.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 59,
+    "tag": "Opérateur Ternaire",
+    "front": "Quelle est la syntaxe de l'expression conditionnelle ternaire en Python ?",
+    "back": "valeur_si_vrai if condition else valeur_si_faux. Exemple : r = 'Majeur' if age >= 18 else 'Mineur'.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 60,
+    "tag": "Instruction pass",
+    "front": "À quoi sert l'instruction 'pass' en Python ?",
+    "back": "C'est une instruction vide qui ne fait rien, utilisée pour créer un bloc syntaxiquement valide en attente de code.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 61,
+    "tag": "Conditions Imbriquées",
+    "front": "Qu'est-ce qu'une condition imbriquée (nested if) ?",
+    "back": "C'est un bloc conditionnel if placé à l'intérieur d'un autre bloc if, indenté avec un niveau supplémentaire.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 62,
+    "tag": "if successifs vs elif",
+    "front": "Quelle est la différence entre deux if successifs et un if / elif ?",
+    "back": "Deux if successifs sont tous les deux évalués indépendamment ; dans if / elif, le elif n'est testé que si le if était False.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 63,
+    "tag": "Condition Falsy",
+    "front": "Que fait Python si on écrit : if []: ?",
+    "back": "Comme la liste vide [] est Falsy (vaut False), le bloc if ne s'exécutera pas et le contrôle passera au else s'il existe.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 64,
+    "tag": "Comparaison de Chaînes",
+    "front": "Que renvoie : '10' < '2' en Python ?",
+    "back": "True ! Les deux opérandes étant des chaînes str, Python compare le premier caractère : '1' a un code ASCII inférieur à '2'.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 65,
+    "tag": "Priorité",
+    "front": "Dans if x > 0 and x < 10:, les parenthèses sont-elles obligatoires ?",
+    "back": "Non, les opérateurs de comparaison (<, >) sont naturellement prioritaires sur l'opérateur logique and.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 66,
+    "tag": "Sécurité",
+    "front": "Comment valider qu'un code PIN utilisateur contient exactement 4 chiffres numériques ?",
+    "back": "pin.isdigit() and len(pin) == 4.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": 67,
+    "tag": "Boucles",
+    "front": "Quand privilégie-t-on une boucle while par rapport à une boucle for ?",
+    "back": "Quand le nombre d'itérations n'est pas connu d'avance et dépend d'une condition dynamique qui évolue au fil du temps.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 68,
+    "tag": "Boucle Infinie",
+    "front": "Quelle est la cause la plus fréquente d'une boucle while infinie ?",
+    "back": "L'oubli de la mise à jour (incrémentation/décrémentation) de la variable de contrôle à l'intérieur du corps de la boucle.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 69,
+    "tag": "Fonction range()",
+    "front": "Que génère l'appel range(stop) avec un seul argument ?",
+    "back": "Une suite arithmétique d'entiers débutant à 0 et s'arrêtant à stop - 1 par pas de 1 (ex: range(4) donne 0, 1, 2, 3).",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 70,
+    "tag": "Fonction range()",
+    "front": "Que génère l'appel range(start, stop, step) ?",
+    "back": "Une suite débutant à start, progressant par bonds de step, et s'arrêtant strictement avant la borne stop.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 71,
+    "tag": "range Décompte",
+    "front": "Comment générer un compte à rebours de 5 à 1 inclus avec range() ?",
+    "back": "range(5, 0, -1) : départ à 5, pas de -1, s'arrête avant 0 (donne 5, 4, 3, 2, 1).",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 72,
+    "tag": "Instruction break",
+    "front": "Quel est l'effet de l'instruction 'break' dans une boucle ?",
+    "back": "Elle interrompt immédiatement et définitivement la boucle la plus proche et transfère le contrôle à la suite du programme.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 73,
+    "tag": "Instruction continue",
+    "front": "Quel est l'effet de l'instruction 'continue' dans une boucle ?",
+    "back": "Elle abandonne immédiatement le tour de boucle courant et passe directement à l'itération suivante.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 74,
+    "tag": "Boucle-else",
+    "front": "Quand la clause else d'une boucle s'exécute-t-elle ?",
+    "back": "Uniquement si la boucle a terminé toutes ses itérations normalement SANS avoir rencontré d'instruction break.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 75,
+    "tag": "Boucle-else",
+    "front": "Dans quel cas classique d'algorithme la clause boucle-else est-elle très utile ?",
+    "back": "Dans les algorithmes de recherche d'un élément ou de test de primalité : pour exécuter un traitement si l'élément n'a pas été trouvé.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 76,
+    "tag": "Factorielle",
+    "front": "Comment se définit mathématiquement la factorielle de n (notée n!) ?",
+    "back": "n! = 1 * 2 * 3 * ... * n, avec par convention mathématique 0! = 1.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 77,
+    "tag": "Nombre Premier",
+    "front": "Qu'est-ce qu'un nombre premier ?",
+    "back": "Un entier supérieur ou égal à 2 qui ne possède que deux diviseurs distincts : 1 et lui-même.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 78,
+    "tag": "Optimisation Primalité",
+    "front": "Pourquoi arrête-t-on le test de primalité d'un nombre n à racine(n) ?",
+    "back": "Car si n a un diviseur d > racine(n), il possède obligatoirement son complémentaire n/d < racine(n). Tout chercher au-delà est inutile.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 79,
+    "tag": "Fonction enumerate()",
+    "front": "Que renvoie la fonction native enumerate(sequence) ?",
+    "back": "Elle génère à chaque itération un tuple contenant l'indice numérique et la valeur de l'élément : (indice, element).",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 80,
+    "tag": "Boucles Imbriquées",
+    "front": "Dans deux boucles imbriquées for i in range(3): for j in range(4):, combien de tours sont effectués au total ?",
+    "back": "3 * 4 = 12 tours au total. La boucle interne réalise toutes ses itérations pour chaque valeur de la boucle externe.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 81,
+    "tag": "while condition",
+    "front": "Que fait l'instruction : while True: ?",
+    "back": "Elle démarre une boucle infinie volontaire qui doit obligatoirement être interrompue de l'intérieur par un break.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 82,
+    "tag": "Accumulateur",
+    "front": "Pourquoi initialise-t-on un accumulateur de produit à 1 et non à 0 ?",
+    "back": "Car 1 est l'élément neutre de la multiplication (multiplier par 0 donnerait toujours 0). Pour une somme, on initialise à 0.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 83,
+    "tag": "range() type",
+    "front": "Quel type d'objet est renvoyé par range(10) en Python 3 ?",
+    "back": "Un objet de type générateur range (immuable et économe en mémoire) qui ne calcule les nombres qu'au fur et à mesure du parcours.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": 84,
+    "tag": "Indexation",
+    "front": "Que désigne l'indice -1 dans toute séquence Python (chaîne, liste, tuple) ?",
+    "back": "Il désigne le DERNIER élément de la séquence. L'indice -2 désigne l'avant-dernier, etc.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 85,
+    "tag": "Slicing",
+    "front": "Quelle est la syntaxe générale du découpage de séquences (Slicing) ?",
+    "back": "sequence[debut : fin : pas]. La borne de fin est TOUJOURS exclue de l'extraction.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 86,
+    "tag": "Inversion Slicing",
+    "front": "Que produit l'expression L[::-1] sur une liste ou une chaîne ?",
+    "back": "Elle produit une copie inversée complète de la séquence, parcourue de droite à gauche avec un pas de -1.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 87,
+    "tag": "Aliasing",
+    "front": "Quel est le danger mortel de l'instruction L2 = L1 sur les listes ?",
+    "back": "L'Aliasing : L2 = L1 ne copie pas la liste mais crée un second nom pointant vers le même objet en RAM. Modifier L2 modifie L1 !",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 88,
+    "tag": "Copie Sécurisée",
+    "front": "Comment créer une copie réelle et indépendante d'une liste L1 ?",
+    "back": "En utilisant le slicing complet L2 = L1[:] ou la méthode L2 = L1.copy().",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 89,
+    "tag": "Immuabilité",
+    "front": "Citer 3 types fondamentaux d'objets IMMUABLES en Python.",
+    "back": "int, float, bool, str, tuple. Leurs valeurs ne peuvent jamais être altérées après leur création.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 90,
+    "tag": "Mutabilité",
+    "front": "Citer 3 types fondamentaux d'objets MUTABLES en Python.",
+    "back": "list (listes), set (ensembles), dict (dictionnaires). Leurs éléments peuvent être modifiés, ajoutés ou supprimés sur place.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 91,
+    "tag": "Tuples",
+    "front": "Comment écrit-on obligatoirement un tuple contenant un seul élément ?",
+    "back": "Avec une virgule finale obligatoire : t = (42,). Sans virgule, (42) est un simple entier int entre parenthèses.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 92,
+    "tag": "Listes append()",
+    "front": "Quelle est la différence entre L.append([3, 4]) et L.extend([3, 4]) ?",
+    "back": "append() ajoute la liste [3, 4] comme un seul élément imbriqué ; extend() déballe les éléments 3 et 4 et les ajoute individuellement.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 93,
+    "tag": "Listes pop()",
+    "front": "Que fait la méthode L.pop(i) sur une liste ?",
+    "back": "Elle retire ET renvoie la valeur de l'élément situé à l'indice i (par défaut le dernier si i n'est pas spécifié).",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 94,
+    "tag": "Listes sort()",
+    "front": "Pourquoi l'instruction L = L.sort() est-elle une grave erreur d'examen ?",
+    "back": "Parce que sort() modifie la liste directement sur place et renvoie None ! Écrire L = L.sort() détruit votre liste en lui assignant None.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 95,
+    "tag": "Listes sorted()",
+    "front": "Quelle est la différence entre L.sort() et sorted(L) ?",
+    "back": "L.sort() trie sur place et renvoie None ; sorted(L) ne touche pas à L et renvoie une NOUVELLE liste triée.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 96,
+    "tag": "Ensembles set()",
+    "front": "Comment déclare-t-on un ensemble vide (Set vide) en Python ?",
+    "back": "En écrivant s = set(). Écrire s = {} crée un dictionnaire vide, ce qui est un piège classique !",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 97,
+    "tag": "Ensembles set",
+    "front": "Quelle propriété remarquable caractérise les ensembles (set) en Python ?",
+    "back": "L'unicité absolue : les ensembles éliminent automatiquement tous les doublons et ne stockent chaque valeur qu'une seule fois.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 98,
+    "tag": "Dictionnaires",
+    "front": "Quelle contrainte fondamentale s'applique aux CLÉS d'un dictionnaire ?",
+    "back": "Les clés doivent impérativement être hashables, donc IMMUABLES (ex: int, str, tuple). Une liste ne peut jamais être une clé de dictionnaire !",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 99,
+    "tag": "Dictionnaires get()",
+    "front": "Pourquoi préfère-t-on d.get('cle', defaut) à d['cle'] ?",
+    "back": "d.get() renvoie la valeur par défaut si la clé n'existe pas, évitant ainsi le crash du programme par exception KeyError.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": 100,
+    "tag": "Dictionnaires in",
+    "front": "Que vérifie l'expression : 'Ali' in dictionnaire ?",
+    "back": "Elle vérifie si 'Ali' fait partie des CLÉS du dictionnaire (recherche en temps constant O(1)), et non pas de ses valeurs.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  }
 ];
 
 
@@ -2103,123 +2893,1504 @@ const EXAM_TRAPS = [
 // BANQUE DE QUIZ & QCM D'AUTO-ÉVALUATION RAPIDE
 const QUIZ_BANK = [
   {
-    id: "q1",
-    tag: "Architecture",
-    question: "Dans l'architecture de Von Neumann, quel bus transporte les adresses mémoire de manière unidirectionnelle ?",
-    options: ["Bus de données", "Bus d'adresses", "Bus de contrôle", "Bus d'instructions"],
-    correct: 1,
-    explanation: "Le bus d'adresses est strictement unidirectionnel : il va du processeur (CPU) vers la mémoire (RAM) pour indiquer l'emplacement ciblé."
+    "id": "q1",
+    "tag": "Architecture",
+    "question": "Dans l'architecture de Von Neumann (1945), quel composant est qualifié de 'chef d'orchestre' chargé d'extraire et de décoder les instructions ?",
+    "options": [
+      "L'Unité Arithmétique et Logique (UAL)",
+      "L'Unité de Contrôle (UC)",
+      "La mémoire vive (RAM)",
+      "Le bus de données"
+    ],
+    "correct": 1,
+    "explanation": "L'Unité de Contrôle (UC) gère le séquençage : elle lit l'instruction (Fetch) et la décode (Decode).",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q2",
-    tag: "Types & Transtypage",
-    question: "Quelle est l'exception levée par l'instruction : int('15.5') ?",
-    options: ["TypeError", "ValueError", "SyntaxError", "ZeroDivisionError"],
-    correct: 1,
-    explanation: "ValueError ! int() n'accepte pas de chaîne contenant un point décimal. Pour la convertir, utilisez : int(float('15.5'))."
+    "id": "q2",
+    "tag": "Architecture",
+    "question": "Quel bus de l'ordinateur est strictement UNIDIRECTIONNEL ?",
+    "options": [
+      "Le bus de données",
+      "Le bus d'adresses",
+      "Le bus de contrôle",
+      "Le bus système"
+    ],
+    "correct": 1,
+    "explanation": "Le bus d'adresses ne circule que dans un seul sens : du CPU vers la mémoire RAM pour spécifier la case cible.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q3",
-    tag: "Opérateurs",
-    question: "Quelle est la valeur de : 2 + 3 * 4 ** 2 ?",
-    options: ["80", "50", "400", "38"],
-    correct: 1,
-    explanation: "La puissance ** est prioritaire : 4² = 16. Puis la multiplication : 3 * 16 = 48. Enfin l'addition : 2 + 48 = 50."
+    "id": "q3",
+    "tag": "Architecture",
+    "question": "Dans le cycle d'instruction d'un processeur, quel est l'ordre chronologique exact des trois étapes de base ?",
+    "options": [
+      "Decode -> Fetch -> Execute",
+      "Fetch -> Decode -> Execute",
+      "Execute -> Fetch -> Decode",
+      "Fetch -> Execute -> Store"
+    ],
+    "correct": 1,
+    "explanation": "Le cycle machine séquentiel est : 1. Recherche (Fetch), 2. Décodage (Decode), 3. Exécution (Execute).",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q4",
-    tag: "Conditionnelles",
-    question: "L'année 2000 est-elle bissextile selon la règle grégorienne ?",
-    options: ["Oui (divisible par 400)", "Non (divisible par 100)", "Non (règle des siècles)", "Seulement sous Linux"],
-    correct: 0,
-    explanation: "Oui ! Les années séculaires (multiples de 100) sont bissextiles si et seulement si elles sont également divisibles par 400 (ce qui est le cas pour 2000)."
+    "id": "q4",
+    "tag": "Architecture",
+    "question": "Quel registre du processeur contient l'adresse mémoire de la PROCHAINE instruction à exécuter ?",
+    "options": [
+      "Le Registre d'Instruction (RI)",
+      "Le Compteur de Programme (PC / CO)",
+      "L'Accumulateur (ACC)",
+      "Le Registre d'État (PSW)"
+    ],
+    "correct": 1,
+    "explanation": "Le Compteur Ordinal (CO / PC : Program Counter) pointe toujours sur l'adresse de la prochaine instruction en RAM.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q5",
-    tag: "Boucles",
-    question: "Quelle est la sortie de ce code ?\nfor i in range(2):\n    pass\nelse:\n    print('OK')",
-    options: ["Affiche 'OK'", "N'affiche rien", "SyntaxError", "Affiche 0 1 'OK'"],
-    correct: 0,
-    explanation: "Le bloc else d'une boucle s'exécute toujours lorsque la boucle se termine normalement sans avoir rencontré d'instruction break."
+    "id": "q5",
+    "tag": "Architecture",
+    "question": "Quel registre interne stocke temporairement l'instruction en cours de décodage par l'UC ?",
+    "options": [
+      "Le Registre d'Instruction (RI)",
+      "Le Compteur Ordinal (PC)",
+      "Le Registre d'Adresses (MAR)",
+      "La mémoire cache L1"
+    ],
+    "correct": 0,
+    "explanation": "Le Registre d'Instruction (RI) reçoit le code binaire de l'instruction courante pour que l'UC l'analyse.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q6",
-    tag: "Séquences & Slicing",
-    question: "Soit s = 'PYTHON'. Que vaut s[1:5:2] ?",
-    options: ["'YH'", "'TO'", "'YTN'", "'PTO'"],
-    correct: 0,
-    explanation: "Indices de 1 à 5 exclu avec un pas de 2 : indice 1 ('Y') et indice 3 ('H') => 'YH'."
+    "id": "q6",
+    "tag": "Architecture",
+    "question": "Quel bus transporte physiquement les signaux de lecture/écriture (Read/Write) et les impulsions d'horloge ?",
+    "options": [
+      "Le bus de données",
+      "Le bus de contrôle",
+      "Le bus d'adresses",
+      "Le bus PCI"
+    ],
+    "correct": 1,
+    "explanation": "Le bus de contrôle transporte les signaux de commande, de synchronisation temporelle (horloge) et d'interruptions.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q7",
-    tag: "Aliasing",
-    question: "Soit L1 = [1, 2] ; L2 = L1 ; L2[0] = 99. Que vaut L1[0] ?",
-    options: ["1", "99", "IndexError", "None"],
-    correct: 1,
-    explanation: "99 ! L2 = L1 ne copie pas la liste, mais crée un deuxième nom pointant vers le même objet en RAM. Pour copier réellement : L2 = L1[:]."
+    "id": "q7",
+    "tag": "Architecture",
+    "question": "Quelle est la caractéristique fondamentale qui distingue un système informatique d'un simple système numérique ?",
+    "options": [
+      "Il traite des signaux discrets",
+      "Il est universellement programmable par logiciel",
+      "Il utilise de l'électricité",
+      "Il possède un écran"
+    ],
+    "correct": 1,
+    "explanation": "Un système informatique est programmable arbitrairement, alors qu'un système numérique classique a un fonctionnement figé dans ses circuits.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q8",
-    tag: "Court-Circuit",
-    question: "Que produit l'expression : True or (10 / 0 == 0) ?",
-    options: ["ZeroDivisionError", "True", "False", "None"],
-    correct: 1,
-    explanation: "True ! Le premier membre de l'opérateur 'or' étant True, le second membre n'est jamais évalué (règle du court-circuit)."
+    "id": "q8",
+    "tag": "Fondements Python",
+    "question": "Qui a créé le langage Python et en quelle année a-t-il été conçu ?",
+    "options": [
+      "Dennis Ritchie en 1972",
+      "Guido van Rossum en 1989",
+      "Bjarne Stroustrup en 1983",
+      "James Gosling en 1995"
+    ],
+    "correct": 1,
+    "explanation": "Guido van Rossum a débuté la conception de Python en décembre 1989 aux Pays-Bas.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q9",
-    tag: "Flottants",
-    question: "Pourquoi 0.1 + 0.2 == 0.3 renvoie-t-il False en Python ?",
-    options: ["C'est un bogue de Python 3", "En raison de la norme binaire IEEE 754", "0.1 est arrondi à 0", "Parce que 0.3 est un int"],
-    correct: 1,
-    explanation: "En binaire (IEEE 754), 0.1 et 0.2 sont des fractions périodiques infinies. Leur somme donne 0.30000000000000004, différent de 0.3."
+    "id": "q9",
+    "tag": "Moteur Python",
+    "question": "Quel est le nom du code intermédiaire généré par le compilateur Python avant son exécution ?",
+    "options": [
+      "Code Machine",
+      "Bytecode",
+      "Assembleur x86",
+      "Binaire exécutable"
+    ],
+    "correct": 1,
+    "explanation": "Le Bytecode est un jeu d'instructions compact et indépendant du matériel, précompilé dans les fichiers .pyc.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q10",
-    tag: "Tuples",
-    question: "Quel est le type de la variable x = (5) ?",
-    options: ["tuple", "int", "list", "error"],
-    correct: 1,
-    explanation: "int ! Les parenthèses simples sans virgule indiquent une priorité arithmétique. Un tuple à un élément s'écrit obligatoirement avec une virgule : (5,)."
+    "id": "q10",
+    "tag": "Moteur Python",
+    "question": "Où sont généralement sauvegardés les fichiers de Bytecode compilés (.pyc) sous Python 3 ?",
+    "options": [
+      "Dans le dossier racine C:\\",
+      "Dans le sous-dossier __pycache__",
+      "Dans le registre Windows",
+      "Ils sont uniquement en mémoire vive"
+    ],
+    "correct": 1,
+    "explanation": "Python 3 stocke automatiquement les fichiers Bytecode dans le dossier __pycache__ pour accélérer les futurs chargements.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q11",
-    tag: "Listes",
-    question: "Quelle méthode modifie la liste sur place et renvoie None ?",
-    options: ["L.sort()", "sorted(L)", "L.copy()", "len(L)"],
-    correct: 0,
-    explanation: "L.sort() trie la liste directement sur place et renvoie None, tandis que sorted(L) renvoie une nouvelle liste triée."
+    "id": "q11",
+    "tag": "Moteur Python",
+    "question": "Quel composant logiciel lit le Bytecode et le traduit en instructions pour le processeur physique ?",
+    "options": [
+      "La PVM (Python Virtual Machine)",
+      "Le compilateur GCC",
+      "Le système d'exploitation seul",
+      "Le BIOS"
+    ],
+    "correct": 0,
+    "explanation": "La Machine Virtuelle Python (PVM) interprète le Bytecode séquentiellement et exécute les instructions sur la machine hôte.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q12",
-    tag: "Ensembles",
-    question: "Comment déclarer un ensemble vide (set) ?",
-    options: ["s = {}", "s = set()", "s = []", "s = ()"],
-    correct: 1,
-    explanation: "s = set() crée un ensemble vide. L'instruction s = {} crée quant à elle un dictionnaire vide !"
+    "id": "q12",
+    "tag": "Environnement",
+    "question": "Que signifie l'acronyme REPL en Python ?",
+    "options": [
+      "Read - Execute - Print - Loop",
+      "Read - Eval - Print - Loop",
+      "Run - Error - Pause - Log",
+      "Real - Engine - Python - Link"
+    ],
+    "correct": 1,
+    "explanation": "REPL désigne la boucle interactive : Lecture (Read) -> Évaluation (Eval) -> Affichage (Print) -> Répétition (Loop).",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q13",
-    tag: "Dictionnaires",
-    question: "Soit d = {'a': 1, 'b': 2}. Que vaut d.get('c', 10) ?",
-    options: ["KeyError", "None", "10", "0"],
-    correct: 2,
-    explanation: "10 ! La méthode get(clé, défaut) retourne la valeur par défaut spécifiée si la clé n'existe pas, évitant ainsi l'erreur KeyError."
+    "id": "q13",
+    "tag": "Environnement",
+    "question": "Quelle invite de commande caractéristique signale que le mode interactif Python REPL est prêt ?",
+    "options": [
+      ">>>",
+      "...",
+      "$",
+      "#"
+    ],
+    "correct": 0,
+    "explanation": "L'invite standard du REPL Python est composée de trois chevrons : >>>.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q14",
-    tag: "Boucles",
-    question: "Combien d'itérations produit : for i in range(1, 10, 3) ?",
-    options: ["3", "4", "9", "10"],
-    correct: 0,
-    explanation: "3 itérations : 1, 4, 7 (la valeur suivante 10 atteint la borne supérieure qui est exclue)."
+    "id": "q14",
+    "tag": "Architecture",
+    "question": "Pourquoi la mémoire vive (RAM) est-elle dite 'volatile' ?",
+    "options": [
+      "Elle est très rapide",
+      "Elle perd tout son contenu dès que l'alimentation électrique est coupée",
+      "Elle ne peut être lue qu'une seule fois",
+      "Elle est physiquement flexible"
+    ],
+    "correct": 1,
+    "explanation": "La RAM a besoin de courant électrique continu pour maintenir ses cellules mémoire chargées ; hors tension, les données s'effacent.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
   },
   {
-    id: "q15",
-    tag: "Immuabilité",
-    question: "Quel type parmi les suivants est IMMUABLE ?",
-    options: ["list", "set", "dict", "tuple"],
-    correct: 3,
-    explanation: "Le tuple (comme str, int et float) est rigoureusement immuable. Ses éléments ne peuvent être ni modifiés, ni ajoutés, ni supprimés après création."
+    "id": "q15",
+    "tag": "Architecture",
+    "question": "Dans le processeur, quel registre stocke les résultats intermédiaires des opérations arithmétiques de l'UAL ?",
+    "options": [
+      "L'Accumulateur (ACC)",
+      "Le Registre d'Instruction (RI)",
+      "Le Bus d'adresses",
+      "La mémoire ROM"
+    ],
+    "correct": 0,
+    "explanation": "L'Accumulateur (ACC) est un registre de travail directement relié à la sortie de l'UAL pour conserver les résultats de calcul.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": "q16",
+    "tag": "Moteur Python",
+    "question": "Quelle est la principale différence d'exécution entre C et Python ?",
+    "options": [
+      "C est purement interprété, Python est compilé natif",
+      "C est compilé directement en code machine natif, Python est compilé en Bytecode interprété par la PVM",
+      "Python ne s'exécute que dans un navigateur",
+      "Il n'y a aucune différence"
+    ],
+    "correct": 1,
+    "explanation": "Le langage C produit directement un binaire machine pour l'architecture cible, tandis que Python passe par la couche PVM.",
+    "chapter": 1,
+    "chapterTitle": "Ch 1: Architecture & Moteur Python"
+  },
+  {
+    "id": "q17",
+    "tag": "Nommage PEP 8",
+    "question": "Parmi ces noms de variable, lequel est rigoureusement VALIDE selon Python ?",
+    "options": [
+      "2eme_note",
+      "note_etudiant",
+      "total$",
+      "class"
+    ],
+    "correct": 1,
+    "explanation": "note_etudiant est valide. Un nom ne peut pas débuter par un chiffre, contenir de caractère spécial ($) ou être un mot-clé (class).",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q18",
+    "tag": "Nommage PEP 8",
+    "question": "Combien de mots-clés réservés (keywords) Python possède-t-il environ (ex: if, for, def) ?",
+    "options": [
+      "Environ 10",
+      "Environ 35",
+      "Plus de 200",
+      "Zéro"
+    ],
+    "correct": 1,
+    "explanation": "Python compte 35 mots-clés réservés dans sa version standard 3.x.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q19",
+    "tag": "Variables",
+    "question": "Soit l'instruction : a = b = c = 10. Comment qualifie-t-on cette affectation ?",
+    "options": [
+      "Affectation parallèle",
+      "Affectation en chaîne (multiple)",
+      "Affectation conditionnelle",
+      "Erreur de syntaxe"
+    ],
+    "correct": 1,
+    "explanation": "C'est une affectation en chaîne : les 3 variables a, b et c pointent vers le même objet entier 10.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q20",
+    "tag": "Variables",
+    "question": "Soit l'instruction : x, y = 10, 'Ali'. Comment qualifie-t-on cette affectation ?",
+    "options": [
+      "Affectation parallèle (unpacking)",
+      "Affectation chaînée",
+      "Affectation récursive",
+      "SyntaxError"
+    ],
+    "correct": 0,
+    "explanation": "C'est une affectation parallèle basée sur le dépaquetage de tuple.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q21",
+    "tag": "Mémoire",
+    "question": "Quelle fonction native renvoie l'adresse mémoire unique (identifiant) d'un objet en RAM ?",
+    "options": [
+      "memory()",
+      "id()",
+      "address()",
+      "pointer()"
+    ],
+    "correct": 1,
+    "explanation": "La fonction id(objet) renvoie l'identifiant entier unique de l'objet, correspondant à son adresse mémoire CPython.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q22",
+    "tag": "Types",
+    "question": "Quelle est la taille maximale d'un entier de type int en Python 3 ?",
+    "options": [
+      "32 bits (environ 2 milliards)",
+      "64 bits",
+      "Théoriquement illimitée (limitée uniquement par la RAM de la machine)",
+      "128 bits"
+    ],
+    "correct": 2,
+    "explanation": "En Python 3, le type int bénéficie d'une précision arbitraire : il s'agrandit dynamiquement selon la taille du nombre.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q23",
+    "tag": "Flottants",
+    "question": "Pourquoi l'instruction : print(0.1 + 0.2 == 0.3) affiche-t-elle False ?",
+    "options": [
+      "C'est une erreur dans Python 3",
+      "À cause de la représentation approchée des flottants en binaire selon la norme IEEE 754",
+      "Parce que 0.3 est un int",
+      "Parce que + n'est pas permis entre float"
+    ],
+    "correct": 1,
+    "explanation": "0.1 et 0.2 n'ont pas de représentation binaire exacte finie ; 0.1 + 0.2 vaut en réalité 0.30000000000000004.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q24",
+    "tag": "Complexes",
+    "question": "Comment s'écrit le nombre complexe 3 + 4i en syntaxe Python standard ?",
+    "options": [
+      "3 + 4i",
+      "3 + 4j",
+      "complex(3, 4i)",
+      "3 + 4*I"
+    ],
+    "correct": 1,
+    "explanation": "Python utilise la lettre 'j' (ou 'J') issue de l'ingénierie électrique pour désigner l'unité imaginaire.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q25",
+    "tag": "Booléens",
+    "question": "De quel type fondamental le type booléen 'bool' hérite-t-il directement en Python ?",
+    "options": [
+      "str",
+      "int",
+      "float",
+      "object uniquement"
+    ],
+    "correct": 1,
+    "explanation": "bool est une sous-classe directe de int : True équivaut à 1 et False équivaut à 0.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q26",
+    "tag": "Saisie input()",
+    "question": "Quel est TOUJOURS le type de retour de la fonction native input() ?",
+    "options": [
+      "int si on tape des chiffres",
+      "float si on tape un point",
+      "str (chaîne de caractères)",
+      "Dépend de la saisie"
+    ],
+    "correct": 2,
+    "explanation": "input() renvoie impérativement une chaîne de caractères (str). Un transtypage est indispensable pour obtenir un nombre.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q27",
+    "tag": "Transtypage",
+    "question": "Que renvoie l'évaluation de : int(9.99) ?",
+    "options": [
+      "10",
+      "9",
+      "9.0",
+      "ValueError"
+    ],
+    "correct": 1,
+    "explanation": "int() effectue une troncature pure de la partie décimale, sans aucun arrondi, donnant 9.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q28",
+    "tag": "Transtypage",
+    "question": "Quelle exception est déclenchée par l'instruction : int('3.14') ?",
+    "options": [
+      "TypeError",
+      "ValueError",
+      "ZeroDivisionError",
+      "SyntaxError"
+    ],
+    "correct": 1,
+    "explanation": "ValueError ! int() refuse tout caractère non numérique comme le point décimal dans une chaîne.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q29",
+    "tag": "Transtypage",
+    "question": "Quelle est la solution correcte pour convertir la chaîne '3.14' en entier 3 ?",
+    "options": [
+      "int(round('3.14'))",
+      "int(float('3.14'))",
+      "float(int('3.14'))",
+      "str(int('3.14'))"
+    ],
+    "correct": 1,
+    "explanation": "Il faut d'abord convertir la chaîne en flottant via float('3.14') puis tronquer en int.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q30",
+    "tag": "Booléens",
+    "question": "Que vaut l'expression : bool('False') ?",
+    "options": [
+      "False",
+      "True",
+      "None",
+      "ValueError"
+    ],
+    "correct": 1,
+    "explanation": "True ! En Python, toute chaîne de caractères non vide est Truthy, même si elle contient le mot 'False'.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q31",
+    "tag": "Booléens",
+    "question": "Quelle valeur parmi les suivantes produit False lorsqu'elle est passée à bool() ?",
+    "options": [
+      "' ' (espace)",
+      "[] (liste vide)",
+      "-1",
+      "['False']"
+    ],
+    "correct": 1,
+    "explanation": "Une liste vide [] est considérée comme Falsy et produit False.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q32",
+    "tag": "Chaînes",
+    "question": "Quel caractère d'échappement permet d'insérer un saut de ligne dans une chaîne str ?",
+    "options": [
+      "\\t",
+      "\\n",
+      "\\r",
+      "\\b"
+    ],
+    "correct": 1,
+    "explanation": "\\n insère un saut de ligne (newline).",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q33",
+    "tag": "Typage",
+    "question": "Pourquoi dit-on que Python est un langage à typage FORT ?",
+    "options": [
+      "Il impose de déclarer les types au début",
+      "Il interdit les opérations implicites absurdes entre types incompatibles (ex: '5' + 2 lève TypeError)",
+      "Il est compilé en assembleur",
+      "Il ne supporte que les entiers"
+    ],
+    "correct": 1,
+    "explanation": "Typage fort signifie que Python ne fait pas de coercition implicite dangereuse : il exige des conversions explicites.",
+    "chapter": 2,
+    "chapterTitle": "Ch 2: Types, Variables & E/S"
+  },
+  {
+    "id": "q34",
+    "tag": "Opérateurs",
+    "question": "Quel est le type du résultat de l'opération 10 / 2 en Python 3 ?",
+    "options": [
+      "int",
+      "float",
+      "double",
+      "Fraction"
+    ],
+    "correct": 1,
+    "explanation": "En Python 3, l'opérateur / renvoie TOUJOURS un float (ici 5.0), même si la division est exacte.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q35",
+    "tag": "Opérateurs",
+    "question": "Que vaut l'opération de division entière : 15 // 4 ?",
+    "options": [
+      "3",
+      "3.75",
+      "4",
+      "3.0"
+    ],
+    "correct": 0,
+    "explanation": "15 // 4 vaut 3 (la partie entière du quotient).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q36",
+    "tag": "Opérateurs",
+    "question": "Que vaut la division entière avec un nombre négatif : -7 // 2 ?",
+    "options": [
+      "-3",
+      "-3.5",
+      "-4",
+      "-3.0"
+    ],
+    "correct": 2,
+    "explanation": "La division entière // arrondit vers moins l'infini (Floor) : -3.5 devient -4.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q37",
+    "tag": "Opérateurs",
+    "question": "Que vaut l'opération modulo : 14 % 4 ?",
+    "options": [
+      "3",
+      "2",
+      "3.5",
+      "0"
+    ],
+    "correct": 1,
+    "explanation": "14 = 4 * 3 + 2, le reste est donc 2.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q38",
+    "tag": "Opérateurs",
+    "question": "En Python, quel est le signe du résultat de l'opération modulo a % b ?",
+    "options": [
+      "Toujours positif",
+      "Le même signe que le diviseur b",
+      "Le même signe que le dividende a",
+      "Aléatoire"
+    ],
+    "correct": 1,
+    "explanation": "En Python, le reste du modulo prend rigoureusement le signe du diviseur b : ainsi 10 % -3 vaut -2.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q39",
+    "tag": "Puissance",
+    "question": "Dans quel sens s'évalue l'opérateur de puissance ** en Python ?",
+    "options": [
+      "De gauche à droite",
+      "De droite à gauche",
+      "Selon la taille des nombres",
+      "De façon aléatoire"
+    ],
+    "correct": 1,
+    "explanation": "L'opérateur ** est associatif de droite à gauche : 2 ** 3 ** 2 = 2 ** (3 ** 2) = 2 ** 9 = 512.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q40",
+    "tag": "Comparaison",
+    "question": "Que renvoie l'expression avec chaînage d'opérateurs : 1 < 2 < 3 > 2 ?",
+    "options": [
+      "True",
+      "False",
+      "SyntaxError",
+      "TypeError"
+    ],
+    "correct": 0,
+    "explanation": "True ! L'expression est équivalente à (1 < 2) and (2 < 3) and (3 > 2), les 3 conditions étant vraies.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q41",
+    "tag": "Comparaison",
+    "question": "Que renvoie la comparaison lexicographique : 'chat' < 'chien' ?",
+    "options": [
+      "False car 'chat' est plus court",
+      "True car 'a' précède 'i' dans l'ordre alphabétique",
+      "TypeError",
+      "None"
+    ],
+    "correct": 1,
+    "explanation": "True ! À l'indice 2, 'a' < 'i' : la comparaison s'arrête immédiatement.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q42",
+    "tag": "Logique",
+    "question": "Quel opérateur logique possède la priorité la plus ÉLEVÉE entre and, or et not ?",
+    "options": [
+      "or",
+      "and",
+      "not",
+      "Ils ont la même priorité"
+    ],
+    "correct": 2,
+    "explanation": "L'ordre strict des priorités logiques est : 1. not, 2. and, 3. or.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q43",
+    "tag": "Logique",
+    "question": "Que renvoie l'évaluation de : True or False and False ?",
+    "options": [
+      "False",
+      "True",
+      "None",
+      "Error"
+    ],
+    "correct": 1,
+    "explanation": "True ! and étant prioritaire sur or : (False and False) = False, puis True or False = True.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q44",
+    "tag": "Court-Circuit",
+    "question": "Que produit le code : False and (10 / 0 == 0) ?",
+    "options": [
+      "ZeroDivisionError",
+      "False",
+      "True",
+      "None"
+    ],
+    "correct": 1,
+    "explanation": "False ! Grâce au court-circuit, le premier membre étant False, le second membre n'est jamais exécuté.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q45",
+    "tag": "Court-Circuit",
+    "question": "Que produit le code : True or (5 / 0 == 1) ?",
+    "options": [
+      "ZeroDivisionError",
+      "True",
+      "False",
+      "1"
+    ],
+    "correct": 1,
+    "explanation": "True ! Le premier membre étant True, l'évaluation du 'or' s'arrête sans évaluer la division par zéro.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q46",
+    "tag": "Affectation",
+    "question": "Si A = 5 et B = 3, que vaut A après : A *= B + 2 ?",
+    "options": [
+      "17",
+      "25",
+      "30",
+      "15"
+    ],
+    "correct": 1,
+    "explanation": "25 ! Le membre de droite est parenthésé implicitement : A = A * (B + 2) = 5 * 5 = 25.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q47",
+    "tag": "Opérateurs",
+    "question": "Que produit l'expression : '2' + '3' * 2 ?",
+    "options": [
+      "'26'",
+      "'233'",
+      "'10'",
+      "TypeError"
+    ],
+    "correct": 1,
+    "explanation": "'233' ! La multiplication est prioritaire : '3' * 2 = '33', puis '2' + '33' = '233'.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q48",
+    "tag": "Identité is",
+    "question": "Quelle est la différence fondamentale entre les opérateurs '==' et 'is' ?",
+    "options": [
+      "Aucune différence",
+      "'==' compare les valeurs, alors que 'is' compare les adresses mémoire (l'identité des objets)",
+      "'is' est pour les entiers, '==' pour les chaînes",
+      "'is' est obsolète"
+    ],
+    "correct": 1,
+    "explanation": "x == y vérifie si les contenus sont égaux ; x is y vérifie si id(x) == id(y) (même objet physique en RAM).",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q49",
+    "tag": "Appartenance",
+    "question": "Quel mot-clé teste si un élément appartient à une séquence en Python ?",
+    "options": [
+      "exists",
+      "in",
+      "contains",
+      "has"
+    ],
+    "correct": 1,
+    "explanation": "L'opérateur 'in' (et sa négation 'not in') teste l'appartenance à toute séquence.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q50",
+    "tag": "Priorités",
+    "question": "Quelle est la valeur de : 10 - 2 * 3 + 4 // 2 ?",
+    "options": [
+      "6",
+      "14",
+      "8",
+      "2"
+    ],
+    "correct": 0,
+    "explanation": "Multiplication et division d'abord : 2 * 3 = 6, et 4 // 2 = 2. Puis de gauche à droite : 10 - 6 + 2 = 6.",
+    "chapter": 3,
+    "chapterTitle": "Ch 3: Opérateurs, Priorités & Court-Circuit"
+  },
+  {
+    "id": "q51",
+    "tag": "Indentation",
+    "question": "Comment Python délimite-t-il la portée des blocs d'instructions dans une condition if ?",
+    "options": [
+      "Par des accolades { }",
+      "Par des mots-clés begin / end",
+      "Par l'indentation (alignement des espaces)",
+      "Par des points-virgules"
+    ],
+    "correct": 2,
+    "explanation": "En Python, l'indentation fait partie de la grammaire officielle du langage.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q52",
+    "tag": "Indentation",
+    "question": "Quel est le nombre d'espaces recommandé par la norme officielle PEP 8 pour chaque niveau d'indentation ?",
+    "options": [
+      "2 espaces",
+      "4 espaces",
+      "8 espaces",
+      "1 tabulation obligatoire"
+    ],
+    "correct": 1,
+    "explanation": "Le standard PEP 8 préconise exactement 4 espaces par niveau de bloc.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q53",
+    "tag": "Syntaxe if",
+    "question": "Quel caractère est obligatoire à la fin de la ligne d'un 'if', 'elif' ou 'else' ?",
+    "options": [
+      "; (point-virgule)",
+      ": (deux-points)",
+      "{ (accolade)",
+      "Rien du tout"
+    ],
+    "correct": 1,
+    "explanation": "Les deux-points (:) sont obligatoires pour introduire le bloc d'instructions qui suit.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q54",
+    "tag": "Syntaxe elif",
+    "question": "Quel mot-clé officiel permet d'écrire 'sinon si' en Python ?",
+    "options": [
+      "else if",
+      "elseif",
+      "elif",
+      "elsif"
+    ],
+    "correct": 2,
+    "explanation": "elif est la seule forme admise en Python pour chaîner des conditions.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q55",
+    "tag": "Évaluation elif",
+    "question": "Dans une chaîne if / elif / elif / else, que se passe-t-il dès qu'un elif est évalué à True ?",
+    "options": [
+      "Tous les autres elif sont quand même testés",
+      "Le bloc est exécuté puis Python sort immédiatement de la structure conditionnelle",
+      "Le programme s'arrête",
+      "La clause else est exécutée obligatoirement"
+    ],
+    "correct": 1,
+    "explanation": "Dès qu'une condition est vérifiée, son bloc s'exécute et toutes les conditions suivantes sont ignorées.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q56",
+    "tag": "Clause else",
+    "question": "Une clause 'else:' peut-elle comporter une condition explicite (ex: else x > 0:) ?",
+    "options": [
+      "Oui",
+      "Non, jamais (else ne prend aucune condition)",
+      "Uniquement dans les boucles",
+      "Seulement en Python 2"
+    ],
+    "correct": 1,
+    "explanation": "else ne prend JAMAIS de condition. Si on a besoin d'une condition, on doit utiliser elif.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q57",
+    "tag": "Bissextile",
+    "question": "Selon la règle grégorienne, l'année 1900 est-elle bissextile ?",
+    "options": [
+      "Oui, car divisible par 4",
+      "Non, car divisible par 100 mais pas par 400",
+      "Oui, car divisible par 100",
+      "Non définie"
+    ],
+    "correct": 1,
+    "explanation": "Une année séculaire (divisible par 100) n'est bissextile que si elle est également divisible par 400 (ex: 2000 l'était, mais pas 1900).",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q58",
+    "tag": "Bissextile",
+    "question": "Quelle expression booléenne teste rigoureusement si une année 'a' est bissextile ?",
+    "options": [
+      "(a % 4 == 0)",
+      "(a % 4 == 0 and a % 100 != 0) or (a % 400 == 0)",
+      "(a % 4 == 0) or (a % 100 == 0)",
+      "(a % 400 == 0 and a % 4 == 0)"
+    ],
+    "correct": 1,
+    "explanation": "C'est la formule mathématique canonique du calendrier grégorien.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q59",
+    "tag": "Facture d'eau",
+    "question": "Dans le calcul d'une facture par tranches cumulatives (0-10m³ à 2DH, au-delà à 5DH), que paie un client consommant 15m³ ?",
+    "options": [
+      "15 * 5 = 75 DH",
+      "10 * 2 + 5 * 5 = 45 DH",
+      "15 * 2 = 30 DH",
+      "5 * 5 = 25 DH"
+    ],
+    "correct": 1,
+    "explanation": "Chaque tranche s'applique à son volume propre : 10m³ à 2DH (20DH) + les 5m³ restants à 5DH (25DH) = 45 DH.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q60",
+    "tag": "Opérateur ternaire",
+    "question": "Quelle est la syntaxe correcte de l'expression conditionnelle ternaire en Python ?",
+    "options": [
+      "condition ? val1 : val2",
+      "val1 if condition else val2",
+      "if condition then val1 else val2",
+      "val1 when condition else val2"
+    ],
+    "correct": 1,
+    "explanation": "La forme ternaire Python s'écrit : valeur_si_vrai if condition else valeur_si_faux.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q61",
+    "tag": "Conditions",
+    "question": "Soit x = 5. Que vaut r après : r = 'Pair' if x % 2 == 0 else 'Impair' ?",
+    "options": [
+      "'Pair'",
+      "'Impair'",
+      "None",
+      "SyntaxError"
+    ],
+    "correct": 1,
+    "explanation": "5 % 2 vaut 1 (différent de 0), donc la clause else est choisie : 'Impair'.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q62",
+    "tag": "Pass",
+    "question": "À quoi sert l'instruction 'pass' dans un bloc if en Python ?",
+    "options": [
+      "À quitter le script",
+      "À servir de bouchon vide (ne rien faire) pour éviter une erreur d'indentation",
+      "À passer à la ligne suivante",
+      "À recommencer le test"
+    ],
+    "correct": 1,
+    "explanation": "pass est une instruction nulle qui permet de définir un bloc syntaxiquement valide sans code actif.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q63",
+    "tag": "Imbrication",
+    "question": "Peut-on imbriquer une structure if à l'intérieur d'un autre bloc if ?",
+    "options": [
+      "Non, c'est interdit",
+      "Oui, avec un niveau d'indentation supplémentaire pour chaque niveau",
+      "Seulement jusqu'à 2 niveaux",
+      "Uniquement avec des fonctions"
+    ],
+    "correct": 1,
+    "explanation": "L'imbrication est illimitée en Python à condition de respecter les retraits d'indentation.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q64",
+    "tag": "Conditions",
+    "question": "Que vaut x après :\\nx = 10\\nif x > 5:\\n    x += 2\\nif x > 10:\\n    x += 3",
+    "options": [
+      "12",
+      "15",
+      "10",
+      "13"
+    ],
+    "correct": 1,
+    "explanation": "Comme ce sont deux 'if' indépendants (et non un elif) : x passe à 12, puis comme 12 > 10, x passe à 15.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q65",
+    "tag": "Conditions",
+    "question": "Que vaut x après :\\nx = 10\\nif x > 5:\\n    x += 2\\nelif x > 10:\\n    x += 3",
+    "options": [
+      "12",
+      "15",
+      "10",
+      "13"
+    ],
+    "correct": 0,
+    "explanation": "Avec 'elif', dès que le premier if est validé (x passe à 12), le bloc elif est sauté : x vaut 12.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q66",
+    "tag": "Condition",
+    "question": "Que produit le test : if []: print('A') else: print('B') ?",
+    "options": [
+      "A",
+      "B",
+      "TypeError",
+      "None"
+    ],
+    "correct": 1,
+    "explanation": "B ! Une liste vide [] est évaluée comme Falsy par Python.",
+    "chapter": 4,
+    "chapterTitle": "Ch 4: Structures Conditionnelles"
+  },
+  {
+    "id": "q67",
+    "tag": "Boucle while",
+    "question": "Quand utilise-t-on préférentiellement une boucle while plutôt qu'une boucle for ?",
+    "options": [
+      "Quand le nombre d'itérations est connu d'avance",
+      "Quand la répétition dépend d'une condition dynamique dont on ignore le nombre d'itérations",
+      "Uniquement pour les listes",
+      "Quand on veut un programme plus rapide"
+    ],
+    "correct": 1,
+    "explanation": "while s'impose pour les boucles d'attente, de validation de saisie ou d'algorithmes à convergence inconnue.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q68",
+    "tag": "Boucle while",
+    "question": "Quelle erreur majeure se produit si on oublie d'incrémenter la variable de contrôle dans un while ?",
+    "options": [
+      "Une boucle infinie qui bloque le programme",
+      "Une exception IndexError",
+      "Le script s'arrête immédiatement",
+      "Une SyntaxError"
+    ],
+    "correct": 0,
+    "explanation": "Si la condition reste éternellement vraie, la boucle s'exécute à l'infini sans s'arrêter.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q69",
+    "tag": "range()",
+    "question": "Combien d'itérations produit l'instruction : for i in range(5): ?",
+    "options": [
+      "4 itérations",
+      "5 itérations (de 0 à 4)",
+      "6 itérations",
+      "0 itération"
+    ],
+    "correct": 1,
+    "explanation": "range(5) génère 5 valeurs : 0, 1, 2, 3 et 4.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q70",
+    "tag": "range()",
+    "question": "Quel est le dernier entier généré par l'appel : range(2, 10, 3) ?",
+    "options": [
+      "10",
+      "8",
+      "9",
+      "11"
+    ],
+    "correct": 1,
+    "explanation": "Les valeurs sont : 2, 5, 8. La valeur suivante 11 dépasse la borne 10 qui est exclue.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q71",
+    "tag": "range()",
+    "question": "Quelle séquence d'entiers est produite par : list(range(5, 0, -1)) ?",
+    "options": [
+      "[5, 4, 3, 2, 1]",
+      "[5, 4, 3, 2, 1, 0]",
+      "[4, 3, 2, 1, 0]",
+      "[]"
+    ],
+    "correct": 0,
+    "explanation": "[5, 4, 3, 2, 1] ! La borne de fin 0 est exclue du décompte.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q72",
+    "tag": "break",
+    "question": "Quel est l'effet immédiat de l'instruction 'break' dans une boucle ?",
+    "options": [
+      "Passe au tour suivant",
+      "Quitte immédiatement et définitivement la boucle",
+      "Arrête tout le script Python",
+      "Recommence la boucle depuis le début"
+    ],
+    "correct": 1,
+    "explanation": "break force la sortie immédiate de la boucle la plus interne.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q73",
+    "tag": "continue",
+    "question": "Quel est l'effet de l'instruction 'continue' dans une boucle ?",
+    "options": [
+      "Quitte définitivement la boucle",
+      "Interrompt l'itération en cours et passe directement à la suivante",
+      "Met en pause le programme",
+      "Annule le tour précédent"
+    ],
+    "correct": 1,
+    "explanation": "continue saute le reste du corps de boucle pour l'itération actuelle et enchaîne sur la suivante.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q74",
+    "tag": "Boucle-else",
+    "question": "Quand le bloc 'else:' associé à une boucle for ou while s'exécute-t-il ?",
+    "options": [
+      "À chaque itération",
+      "Uniquement si la boucle s'est terminée normalement SANS rencontrer de break",
+      "En cas d'erreur dans la boucle",
+      "Jamais"
+    ],
+    "correct": 1,
+    "explanation": "La clause else d'une boucle s'exécute si et seulement si aucune instruction break n'a interrompu la boucle.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q75",
+    "tag": "Boucle-else",
+    "question": "Que produit le code :\\nfor i in range(3):\\n    if i == 1: break\\nelse: print('Fin')",
+    "options": [
+      "Affiche 'Fin'",
+      "N'affiche rien",
+      "Affiche 0 1 'Fin'",
+      "Error"
+    ],
+    "correct": 1,
+    "explanation": "N'affiche rien ! Le break a été rencontré au tour i = 1, ce qui désactive le bloc else.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q76",
+    "tag": "Factorielle",
+    "question": "Combien vaut la factorielle de 5 (notée 5!) ?",
+    "options": [
+      "15",
+      "120",
+      "25",
+      "24"
+    ],
+    "correct": 1,
+    "explanation": "5! = 1 * 2 * 3 * 4 * 5 = 120.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q77",
+    "tag": "Primalité",
+    "question": "Quel est le plus petit nombre premier naturel ?",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "correct": 2,
+    "explanation": "2 est le premier nombre premier (et le seul qui soit pair). 1 n'est pas premier par définition.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q78",
+    "tag": "Primalité",
+    "question": "Pour tester si n est premier, jusqu'à quelle borne maximale suffit-il de chercher des diviseurs potentiels ?",
+    "options": [
+      "n - 1",
+      "n // 2",
+      "racine carrée de n (int(n**0.5) + 1)",
+      "100"
+    ],
+    "correct": 2,
+    "explanation": "Si n admet un diviseur supérieur à racine(n), il admet obligatoirement un diviseur complémentaire inférieur ou égal à racine(n).",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q79",
+    "tag": "Accumulateur",
+    "question": "Quel schéma algorithmique classique calcule la somme des éléments d'une liste ?",
+    "options": [
+      "s = 0 puis s += x pour chaque x",
+      "s = 1 puis s *= x",
+      "s = [] puis s.append(x)",
+      "s = None"
+    ],
+    "correct": 0,
+    "explanation": "On initialise un accumulateur à l'élément neutre de l'addition (0) et on ajoute chaque valeur.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q80",
+    "tag": "Boucles",
+    "question": "Combien de fois le mot 'Test' est-il affiché :\\nfor i in range(2):\\n    for j in range(3):\\n        print('Test')",
+    "options": [
+      "5 fois",
+      "6 fois",
+      "2 fois",
+      "3 fois"
+    ],
+    "correct": 1,
+    "explanation": "2 itérations externes * 3 itérations internes = 6 affichages au total.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q81",
+    "tag": "while",
+    "question": "Quelle condition dans un while garantit que la boucle ne s'exécutera JAMAIS ?",
+    "options": [
+      "while True:",
+      "while False:",
+      "while 1:",
+      "while 0 == 0:"
+    ],
+    "correct": 1,
+    "explanation": "while False: la condition est fausse dès l'entrée, le corps n'est jamais exécuté.",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q82",
+    "tag": "range()",
+    "question": "Que renvoie list(range(10, 2)) avec un pas par défaut de +1 ?",
+    "options": [
+      "[10, 9, 8, ...]",
+      "[] (liste vide)",
+      "IndexError",
+      "ValueError"
+    ],
+    "correct": 1,
+    "explanation": "Une liste vide [] car le début (10) est supérieur à la fin (2) avec un pas positif (+1).",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q83",
+    "tag": "Boucles",
+    "question": "Quelle fonction permet de parcourir simultanément les indices et les valeurs d'une séquence ?",
+    "options": [
+      "zip()",
+      "enumerate()",
+      "range()",
+      "items()"
+    ],
+    "correct": 1,
+    "explanation": "enumerate(sequence) renvoie à chaque tour un tuple (indice, element).",
+    "chapter": 5,
+    "chapterTitle": "Ch 5: Boucles for & while"
+  },
+  {
+    "id": "q84",
+    "tag": "Indexation",
+    "question": "Soit la liste L = ['a', 'b', 'c', 'd']. Quel est l'indice de l'élément 'd' avec un indice négatif ?",
+    "options": [
+      "-0",
+      "-1",
+      "-4",
+      "-3"
+    ],
+    "correct": 1,
+    "explanation": "En indexation négative, -1 désigne toujours le tout dernier élément.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q85",
+    "tag": "Slicing",
+    "question": "Soit la chaîne s = 'UNIVERSITE'. Que vaut le slicing s[3:7] ?",
+    "options": [
+      "'IVER'",
+      "'VERS'",
+      "'VERSI'",
+      "'IV'"
+    ],
+    "correct": 1,
+    "explanation": "Indices 3, 4, 5, 6 : 'V' (3), 'E' (4), 'R' (5), 'S' (6). La borne 7 est exclue.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q86",
+    "tag": "Slicing",
+    "question": "Quelle syntaxe courte permet d'inverser complètement une chaîne ou une liste via slicing ?",
+    "options": [
+      "s[0:-1]",
+      "s[::-1]",
+      "s.reverse()",
+      "reversed(s)"
+    ],
+    "correct": 1,
+    "explanation": "s[::-1] parcourt du début à la fin avec un pas de -1, ce qui produit la copie inversée.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q87",
+    "tag": "Aliasing",
+    "question": "Soit le code :\\nL1 = [1, 2]\\nL2 = L1\\nL2.append(3)\\nQue vaut len(L1) ?",
+    "options": [
+      "2",
+      "3",
+      "Error",
+      "1"
+    ],
+    "correct": 1,
+    "explanation": "3 ! L2 = L1 crée un alias vers le même objet en RAM. Modifier L2 modifie directement L1.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q88",
+    "tag": "Copie",
+    "question": "Comment créer une copie réelle et INDÉPENDANTE d'une liste L1 pour éviter l'aliasing ?",
+    "options": [
+      "L2 = L1",
+      "L2 = L1[:]",
+      "L2 = copy(L1)",
+      "L2 = set(L1)"
+    ],
+    "correct": 1,
+    "explanation": "L2 = L1[:] (ou L1.copy()) crée une nouvelle liste distincte en mémoire.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q89",
+    "tag": "Mutabilité",
+    "question": "Quel type parmi les suivants est rigoureusement IMMUABLE ?",
+    "options": [
+      "list",
+      "set",
+      "dict",
+      "str"
+    ],
+    "correct": 3,
+    "explanation": "str est immuable. On ne peut pas modifier un caractère sur place (ex: s[0] = 'a' lève TypeError).",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q90",
+    "tag": "Mutabilité",
+    "question": "Peut-on modifier un élément d'un tuple après sa création (ex: t[0] = 99) ?",
+    "options": [
+      "Oui toujours",
+      "Non, cela lève une exception TypeError",
+      "Oui si c'est un entier",
+      "Seulement avec pop()"
+    ],
+    "correct": 1,
+    "explanation": "Les tuples sont immuables : 'tuple' object does not support item assignment.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q91",
+    "tag": "Tuples",
+    "question": "Comment déclare-t-on obligatoirement un tuple contenant un seul élément ?",
+    "options": [
+      "t = (42)",
+      "t = (42,)",
+      "t = [42]",
+      "t = tuple(42)"
+    ],
+    "correct": 1,
+    "explanation": "Avec une virgule finale obligatoire : (42,). Sans virgule, (42) est un simple entier entre parenthèses.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q92",
+    "tag": "Listes",
+    "question": "Quelle méthode de liste ajoute un élément à la fin ?",
+    "options": [
+      "add()",
+      "push()",
+      "append()",
+      "insert()"
+    ],
+    "correct": 2,
+    "explanation": "append() insère un élément à la dernière position de la liste.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q93",
+    "tag": "Listes",
+    "question": "Quelle méthode insère un élément à un indice spécifique dans une liste ?",
+    "options": [
+      "insert(indice, element)",
+      "add(element, indice)",
+      "append_at()",
+      "set()"
+    ],
+    "correct": 0,
+    "explanation": "insert(i, x) place la valeur x à l'indice i en décalant les éléments suivants.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q94",
+    "tag": "Listes",
+    "question": "Quelle est la différence entre L.sort() et sorted(L) ?",
+    "options": [
+      "Aucune",
+      "L.sort() modifie la liste en place et renvoie None ; sorted(L) renvoie une NOUVELLE liste triée",
+      "L.sort() ne fonctionne que sur les chaînes",
+      "sorted(L) modifie la liste en place"
+    ],
+    "correct": 1,
+    "explanation": "L.sort() est une méthode in-place (retourne None). sorted() est une fonction qui crée une nouvelle liste.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q95",
+    "tag": "Listes",
+    "question": "Quelle est la sortie de : print([1, 2].extend([3, 4])) ?",
+    "options": [
+      "[1, 2, 3, 4]",
+      "None",
+      "[3, 4]",
+      "TypeError"
+    ],
+    "correct": 1,
+    "explanation": "None ! extend() modifie la liste sur place et ne renvoie rien (None).",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q96",
+    "tag": "Ensembles (set)",
+    "question": "Comment déclare-t-on syntaxiquement un ensemble vide ?",
+    "options": [
+      "s = {}",
+      "s = set()",
+      "s = []",
+      "s = set([])"
+    ],
+    "correct": 1,
+    "explanation": "set() crée un ensemble vide. La syntaxe {} est réservée aux dictionnaires vides !",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q97",
+    "tag": "Ensembles (set)",
+    "question": "Quelle est la caractéristique principale d'un ensemble (set) en Python ?",
+    "options": [
+      "Il conserve l'ordre d'insertion",
+      "Il élimine automatiquement tous les doublons et ne contient que des valeurs uniques",
+      "Il accepte des listes comme éléments",
+      "Il utilise des clés"
+    ],
+    "correct": 1,
+    "explanation": "Un set est une collection non ordonnée d'éléments uniques.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q98",
+    "tag": "Dictionnaires",
+    "question": "Quel type d'objet NE PEUT PAS être utilisé comme clé dans un dictionnaire ?",
+    "options": [
+      "int",
+      "str",
+      "tuple",
+      "list"
+    ],
+    "correct": 3,
+    "explanation": "Les clés d'un dict doivent être hashables (immuables). Les listes étant mutables, elles sont interdites comme clés.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q99",
+    "tag": "Dictionnaires",
+    "question": "Quelle méthode permet de récupérer la valeur d'une clé sans risquer d'erreur KeyError si la clé est absente ?",
+    "options": [
+      "dict.search()",
+      "dict.get(cle, defaut)",
+      "dict.find()",
+      "dict[cle]"
+    ],
+    "correct": 1,
+    "explanation": "dict.get('cle', valeur_par_defaut) renvoie la valeur par défaut au lieu de planter avec KeyError.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
+  },
+  {
+    "id": "q100",
+    "tag": "Dictionnaires",
+    "question": "Que renvoie l'opérateur 'in' sur un dictionnaire (ex: 'Ali' in d) ?",
+    "options": [
+      "Vérifie si 'Ali' est une CLÉ du dictionnaire",
+      "Vérifie si 'Ali' est une VALEUR du dictionnaire",
+      "Recherche dans les clés et les valeurs",
+      "SyntaxError"
+    ],
+    "correct": 0,
+    "explanation": "L'opérateur 'in' vérifie uniquement l'existence dans les CLÉS du dictionnaire.",
+    "chapter": 6,
+    "chapterTitle": "Ch 6: Séquences & Dictionnaires"
   }
 ];
+

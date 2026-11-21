@@ -44,7 +44,7 @@ def run_user_code(code_str, timeout=4.0):
     t.join(timeout=timeout)
     if t.is_alive():
         res["timed_out"] = True
-        res["error"] = "Erreur: Le programme a dÃ©passÃ© le temps limite de 4 secondes (boucle infinie possible)."
+        res["error"] = "Erreur: Le programme a dépassé le temps limite de 4 secondes (boucle infinie possible)."
     return res
 
 def start_server(port, base_dir):
@@ -95,14 +95,14 @@ def main():
     base_dir = get_base_dir()
     port = get_free_port()
     
-    # DÃ©marrage du serveur HTTP local
+    # Démarrage du serveur HTTP local
     server_thread = threading.Thread(target=start_server, args=(port, base_dir), daemon=True)
     server_thread.start()
     
     url = f"http://127.0.0.1:{port}/index.html"
-    title = "Python Pro Guide - SMI / IA S1 (UniversitÃ© Ibn Tofail)"
+    title = "Python Pro Guide - SMI / IA S1 (Université Ibn Tofail)"
 
-    # FenÃªtre desktop native via webview
+    # Fenêtre desktop native via webview
     try:
         import webview
         webview.create_window(
@@ -116,7 +116,7 @@ def main():
         )
         webview.start()
     except Exception:
-        # Fallback au navigateur web par dÃ©faut
+        # Fallback au navigateur web par défaut
         webbrowser.open(url)
         import time
         try:
