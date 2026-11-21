@@ -84,10 +84,26 @@
         <button onclick="showView('flashcards')" data-nav="flashcards" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white flex items-center gap-2">
           <i data-lucide="layers" class="w-4 h-4 text-purple-400"></i> Flashcards 3D
         </button>
+
+        <button onclick="showView('playground')" data-nav="playground" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white flex items-center gap-2">
+          <i data-lucide="terminal" class="w-4 h-4 text-rose-400"></i> Playground Libre
+        </button>
       </nav>
 
-      <!-- Global Progression Widget -->
+      <!-- Global Progression Widget & Action Controls -->
       <div class="hidden lg:flex items-center gap-3 bg-slate-950/80 px-4 py-2 rounded-2xl border border-slate-800 shrink-0">
+        <!-- Badges Button -->
+        <button onclick="toggleBadgesModal()" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-amber-500/30 text-amber-300 text-xs font-bold flex items-center gap-1.5 transition shadow-sm" title="Voir mes Badges & XP">
+          <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+          <span id="badgesBadgeText">0/6</span>
+        </button>
+
+        <!-- Sound Toggle Button -->
+        <button id="soundToggleBtn" onclick="toggleSound()" class="p-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-cyan-400 transition" title="Activer / Couper le son">
+          <i data-lucide="volume-2" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Progress Mini Bar -->
         <div class="w-28 space-y-1">
           <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
             <span>Progression</span>
@@ -127,6 +143,15 @@
         <button onclick="showView('flashcards'); toggleMobileMenu()" class="w-full text-left p-3 rounded-xl text-xs font-bold bg-slate-900 text-slate-200 flex items-center gap-2">
           <i data-lucide="layers" class="w-4 h-4 text-purple-400"></i> Flashcards 3D
         </button>
+        <button onclick="showView('playground'); toggleMobileMenu()" class="w-full text-left p-3 rounded-xl text-xs font-bold bg-slate-900 text-slate-200 flex items-center gap-2">
+          <i data-lucide="terminal" class="w-4 h-4 text-rose-400"></i> Playground Libre
+        </button>
+        <button onclick="toggleBadgesModal(); toggleMobileMenu()" class="w-full text-left p-3 rounded-xl text-xs font-bold bg-slate-900 text-amber-300 flex items-center gap-2 border border-amber-500/20">
+          <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i> Mes Badges & Trophées
+        </button>
+        <button onclick="toggleSound()" class="w-full text-left p-3 rounded-xl text-xs font-bold bg-slate-900 text-cyan-300 flex items-center gap-2">
+          <i data-lucide="volume-2" class="w-4 h-4 text-cyan-400"></i> Activer / Couper Son
+        </button>
       </div>
     </div>
   </div>
@@ -151,13 +176,55 @@
   <!-- Footer -->
   <footer class="p-6 border-t border-slate-800/80 text-center text-xs text-slate-500 no-print">
     <p>Plateforme Universitaire Complète • Programmation Python 1 (SMI / IA S1 - UIT Kénitra)</p>
-    <p class="mt-1 text-[11px] text-slate-600">6 Cours magistraux • 6 Ateliers pratiques • 24 Exercices résolus • 2 Examens complets sur 20 pts • 100 Quiz QCM • 100 Flashcards 3D</p>
+    <p class="mt-1 text-[11px] text-slate-600">6 Cours magistraux • 6 Ateliers pratiques • 24 Exercices résolus • 6 Examens notés sur 20 • Générateur d'Examens Blancs Infini • 100 Quiz QCM • 100 Flashcards 3D • Playground Libre • 6 Badges d'Excellence & Audio FX</p>
   </footer>
+
+  <!-- Badges & Trophées Modal -->
+  <div id="badgesModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="figma-card w-full max-w-2xl p-6 md:p-8 rounded-3xl border-amber-500/30 bg-gradient-to-b from-[#101726] to-[#090d16] space-y-6 shadow-2xl relative">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+            <i data-lucide="trophy" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h2 class="text-lg md:text-xl font-black text-white">Trophées & Badges d'Excellence</h2>
+            <p class="text-xs text-slate-400">Débloquez ces 6 badges universitaires en accomplissant vos révisions.</p>
+          </div>
+        </div>
+        <button onclick="toggleBadgesModal()" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Badges Grid Container -->
+      <div id="badgesGridContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-1">
+        <!-- Dynamiquement injecté par app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification for Badge Unlock -->
+  <div id="badgeToast" class="hidden fixed bottom-6 right-6 z-50 bg-gradient-to-r from-amber-600 to-indigo-600 text-white p-4 rounded-2xl shadow-2xl border border-amber-400/40 flex items-center gap-3 transform transition-all duration-300">
+    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-amber-200">
+      <i data-lucide="award" class="w-6 h-6"></i>
+    </div>
+    <div>
+      <div class="text-[10px] uppercase font-bold tracking-wider text-amber-200">Nouveau Trophée Débloqué !</div>
+      <div id="badgeToastTitle" class="text-sm font-black text-white">Major de Promo</div>
+    </div>
+  </div>
 
   <script>
     function toggleMobileMenu() {
       const drawer = document.getElementById("mobileDrawer");
       drawer.classList.toggle("hidden");
+    }
+    function toggleBadgesModal() {
+      const modal = document.getElementById("badgesModal");
+      if (modal) modal.classList.toggle("hidden");
+      if (window.renderBadgesGrid) window.renderBadgesGrid();
     }
   </script>
 

@@ -12,15 +12,201 @@ let flashcardIndex = 0;
 let currentQuizFilter = 'all';
 let currentFlashcardFilter = 'all';
 
+// Audio Synthesizer (Zero-dependency Web Audio API)
+let soundEnabled = JSON.parse(localStorage.getItem("py_sound_enabled") ?? "true");
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem("py_sound_enabled", JSON.stringify(soundEnabled));
+  updateSoundButton();
+  if (soundEnabled) playAudioFeedback("click");
+}
+
+function updateSoundButton() {
+  const btn = document.getElementById("soundToggleBtn");
+  if (btn) {
+    btn.innerHTML = soundEnabled 
+      ? `<i data-lucide="volume-2" class="w-4 h-4 text-cyan-400"></i>`
+      : `<i data-lucide="volume-x" class="w-4 h-4 text-slate-500"></i>`;
+    btn.title = soundEnabled ? "Effets sonores activés (cliquer pour couper)" : "Effets sonores coupés (cliquer pour activer)";
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  }
+}
+
+function playAudioFeedback(type) {
+  if (!soundEnabled) return;
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+
+    if (type === "success") {
+      const freqs = [523.25, 659.25, 783.99]; // Do, Mi, Sol
+      freqs.forEach((f, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(f, ctx.currentTime + i * 0.08);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.22);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + i * 0.08);
+        osc.stop(ctx.currentTime + i * 0.08 + 0.22);
+      });
+    } else if (type === "error") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(174.61, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(146.83, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.25);
+    } else if (type === "badge_unlock") {
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // Do, Mi, Sol, Do aigu
+      notes.forEach((f, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(f, ctx.currentTime + i * 0.1);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + i * 0.1);
+        osc.stop(ctx.currentTime + i * 0.1 + 0.35);
+      });
+    } else if (type === "click") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      gain.gain.setValueAtTime(0.05, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.05);
+    }
+  } catch (e) {}
+}
+
+// Gamification & Badges System
+function checkBadges(triggerSound = true) {
+  if (!userProgress.unlockedBadges) userProgress.unlockedBadges = [];
+  const newlyUnlocked = [];
+
+  // 1. Premier Pas
+  if (userProgress.readChapters && userProgress.readChapters.length >= 1 && !userProgress.unlockedBadges.includes("first_step")) {
+    userProgress.unlockedBadges.push("first_step");
+    newlyUnlocked.push("first_step");
+  }
+  // 2. Alchimiste du Code
+  if (userProgress.completedLabs && userProgress.completedLabs.length >= 3 && !userProgress.unlockedBadges.includes("code_novice")) {
+    userProgress.unlockedBadges.push("code_novice");
+    newlyUnlocked.push("code_novice");
+  }
+  // 3. Chasseur de Pièges
+  if (userProgress.passedQuizzes && userProgress.passedQuizzes.length >= 20 && !userProgress.unlockedBadges.includes("trap_hunter")) {
+    userProgress.unlockedBadges.push("trap_hunter");
+    newlyUnlocked.push("trap_hunter");
+  }
+  // 4. Maître Algorithmique
+  if (userProgress.completedLabs && userProgress.completedLabs.length >= 6 && !userProgress.unlockedBadges.includes("code_master")) {
+    userProgress.unlockedBadges.push("code_master");
+    newlyUnlocked.push("code_master");
+  }
+  // 5. Major de Promo
+  const hasHighExam = Object.values(userProgress.passedExams || {}).some(s => (typeof s === 'number' ? s : s.note) >= 16);
+  if (hasHighExam && !userProgress.unlockedBadges.includes("major_promo")) {
+    userProgress.unlockedBadges.push("major_promo");
+    newlyUnlocked.push("major_promo");
+  }
+  // 6. Génie du Python
+  if (calculateProgress() === 100 && !userProgress.unlockedBadges.includes("python_guru")) {
+    userProgress.unlockedBadges.push("python_guru");
+    newlyUnlocked.push("python_guru");
+  }
+
+  if (newlyUnlocked.length > 0) {
+    saveProgress();
+    if (triggerSound) {
+      playAudioFeedback("badge_unlock");
+      showBadgeToast(newlyUnlocked[0]);
+    }
+  }
+
+  updateBadgesHeaderButton();
+}
+
+function updateBadgesHeaderButton() {
+  const el = document.getElementById("badgesBadgeText");
+  if (el && typeof BADGES_CONFIG !== 'undefined') {
+    const count = userProgress.unlockedBadges ? userProgress.unlockedBadges.length : 0;
+    el.innerText = `${count}/${BADGES_CONFIG.length}`;
+  }
+}
+
+function renderBadgesGrid() {
+  const container = document.getElementById("badgesGridContainer");
+  if (!container || typeof BADGES_CONFIG === 'undefined') return;
+
+  container.innerHTML = BADGES_CONFIG.map(b => {
+    const isUnlocked = userProgress.unlockedBadges && userProgress.unlockedBadges.includes(b.id);
+    return `
+      <div class="p-4 rounded-2xl border transition-all ${isUnlocked ? 'bg-gradient-to-br from-slate-900 to-indigo-950/60 border-amber-500/40 shadow-lg shadow-amber-500/10' : 'bg-slate-950/60 border-slate-800/80 opacity-60'} flex items-start gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${b.color} flex items-center justify-center text-white shrink-0 shadow-md ${isUnlocked ? 'scale-105' : 'grayscale'}">
+          <i data-lucide="${b.icon}" class="w-6 h-6"></i>
+        </div>
+        <div class="space-y-1 flex-1">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs md:text-sm font-bold text-white">${b.title}</h4>
+            <span class="text-[10px] font-mono font-bold ${isUnlocked ? 'text-amber-400 bg-amber-500/10 border border-amber-500/30' : 'text-slate-500 bg-slate-900'} px-2 py-0.5 rounded-full">
+              ${isUnlocked ? 'Débloqué ✅' : 'Verrouillé 🔒'}
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">${b.desc}</p>
+          <div class="pt-1 text-[10px] font-mono text-cyan-400 font-bold">+${b.xp} XP</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+}
+window.renderBadgesGrid = renderBadgesGrid;
+
+function showBadgeToast(badgeId) {
+  if (typeof BADGES_CONFIG === 'undefined') return;
+  const b = BADGES_CONFIG.find(item => item.id === badgeId);
+  if (!b) return;
+
+  const toast = document.getElementById("badgeToast");
+  const title = document.getElementById("badgeToastTitle");
+  if (toast && title) {
+    title.innerText = `${b.title} (+${b.xp} XP)`;
+    toast.classList.remove("hidden");
+    setTimeout(() => {
+      toast.classList.add("hidden");
+    }, 4500);
+  }
+}
+
 // Progress Tracking System (Persistance LocalStorage)
 let userProgress = JSON.parse(localStorage.getItem("py_progress_v2") || JSON.stringify({
   readChapters: ["ch1"],
   completedLabs: [],
   doneExercises: [],
   passedExams: {},
-  passedQuizzes: []
+  passedQuizzes: [],
+  unlockedBadges: []
 }));
 if (!userProgress.completedLabs) userProgress.completedLabs = [];
+if (!userProgress.unlockedBadges) userProgress.unlockedBadges = [];
 
 function saveProgress() {
   localStorage.setItem("py_progress_v2", JSON.stringify(userProgress));
@@ -66,6 +252,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function initApp() {
   setupNavigation();
   updateProgressBar();
+  updateSoundButton();
+  checkBadges(false);
   showView("courses");
   lucide.createIcons();
 }
@@ -107,6 +295,8 @@ function showView(viewId, param = null) {
     main.innerHTML = renderQuizView();
   } else if (viewId === "flashcards") {
     main.innerHTML = renderFlashcardsView();
+  } else if (viewId === "playground") {
+    main.innerHTML = renderPlaygroundView();
   }
 
   lucide.createIcons();
@@ -736,6 +926,26 @@ function renderExamsView() {
         <p class="text-xs text-slate-400 mt-1">Banque massive d'épreuves officielles sur 20 points, chronométrées avec calcul automatique de la note et corrigé pas à pas.</p>
       </div>
 
+      <!-- Random Exam Generator Hero Card -->
+      <div class="figma-card p-6 md:p-8 rounded-3xl border-amber-500/40 bg-gradient-to-br from-[#1c1408] via-[#100d07] to-[#070912] shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="flex flex-wrap items-center justify-between gap-6 relative z-10">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold border border-amber-500/30">
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i> Mode Entraînement Infini
+            </div>
+            <h2 class="text-xl md:text-2xl font-black text-white">Générateur d'Examen Blanc Aléatoire</h2>
+            <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+              Tirez un sujet d'examen unique et inédit composé de <strong>10 questions de QCM</strong> piochées au hasard dans le programme, <strong>2 problèmes d'analyse de trace mémoire</strong> et <strong>1 problème d'algorithmique</strong>. Barème officiel complet sur 20 points en 45 minutes !
+            </p>
+          </div>
+          <button onclick="generateAndStartRandomExam()" 
+                  class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-xs md:text-sm flex items-center gap-2.5 shadow-xl shadow-amber-500/25 transition active:scale-[0.98]">
+            <i data-lucide="dice-5" class="w-5 h-5 fill-slate-950"></i> Lancer un Examen Blanc Unique
+          </button>
+        </div>
+      </div>
+
       <!-- Exam Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         ${EXAM_SUBJECTS.map(exam => {
@@ -798,8 +1008,12 @@ function renderExamsView() {
   `;
 }
 
-function startExam(examId) {
-  activeExam = EXAM_SUBJECTS.find(e => e.id === examId);
+function startExam(examOrId) {
+  if (typeof examOrId === "object" && examOrId !== null) {
+    activeExam = examOrId;
+  } else {
+    activeExam = EXAM_SUBJECTS.find(e => e.id === examOrId);
+  }
   if (!activeExam) return;
   examAnswers = {};
   const durationMin = typeof activeExam.duration === 'number' ? activeExam.duration : 30;
@@ -896,6 +1110,10 @@ function finishExam() {
   const finalScore = Math.round((earnedPoints / totalPossible) * 20 * 10) / 10;
   userProgress.passedExams[activeExam.id] = finalScore;
   saveProgress();
+  checkBadges();
+  if (finalScore >= 16) playAudioFeedback("badge_unlock");
+  else if (finalScore >= 10) playAudioFeedback("success");
+  else playAudioFeedback("error");
 
   const finishedExam = activeExam;
   const userAnswersCopy = { ...examAnswers };
@@ -1094,11 +1312,15 @@ function checkQuizItem(qId, selected, correct) {
   if (exp) exp.classList.remove("hidden");
 
   if (selected === correct) {
+    playAudioFeedback("success");
     if (!userProgress.passedQuizzes) userProgress.passedQuizzes = [];
     if (!userProgress.passedQuizzes.includes(qId)) {
       userProgress.passedQuizzes.push(qId);
       saveProgress();
+      checkBadges();
     }
+  } else {
+    playAudioFeedback("error");
   }
 
   lucide.createIcons();
@@ -1213,4 +1435,333 @@ function flipActiveCard() {
 function toggleElement(id) {
   const el = document.getElementById(id);
   if (el) el.classList.toggle("hidden");
+}
+
+
+// =========================================================================
+// 6. GÉNÉRATEUR D'EXAMEN BLANC ALÉATOIRE (INFINI)
+// =========================================================================
+function generateAndStartRandomExam() {
+  playAudioFeedback("click");
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  
+  // 1. Piocher 10 questions aléatoires du QUIZ_BANK
+  const selectedQuestions = [];
+  for (let ch = 1; ch <= 6; ch++) {
+    const chQuestions = QUIZ_BANK.filter(q => q.chapter === ch);
+    const countToPick = (ch === 1 || ch === 2 || ch === 3 || ch === 4) ? 2 : 1;
+    const shuffled = [...chQuestions].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < countToPick && i < shuffled.length; i++) {
+      selectedQuestions.push(shuffled[i]);
+    }
+  }
+
+  while (selectedQuestions.length < 10) {
+    const remaining = QUIZ_BANK.filter(q => !selectedQuestions.some(sq => sq.id === q.id));
+    if (remaining.length === 0) break;
+    const randomPick = remaining[Math.floor(Math.random() * remaining.length)];
+    selectedQuestions.push(randomPick);
+  }
+
+  const examQuestions = selectedQuestions.map((q, idx) => ({
+    id: `rand_q_${idx + 1}`,
+    q: `[QCM Chapitre ${q.chapter}] ${q.question}`,
+    options: q.options,
+    correct: q.correct,
+    pts: 1,
+    explain: q.explanation
+  }));
+
+  // 2. Ajouter 2 problèmes d'analyse de trace mémoire (2 pts chacun)
+  const dryRunPool = [
+    {
+      q: "Trace Mémoire : Quelle est la valeur finale affichée par ce fragment de code ?\n\ns = 0\nfor i in range(1, 6):\n    if i % 2 == 0:\n        continue\n    s += i\nprint(s)",
+      options: ["9 (car 1 + 3 + 5)", "6 (car 2 + 4)", "15 (car 1+2+3+4+5)", "10"],
+      correct: 0,
+      pts: 2,
+      explain: "L'instruction continue ignore les itérations où i est pair (2 et 4). Seuls 1, 3 et 5 sont accumulés : 1 + 3 + 5 = 9."
+    },
+    {
+      q: "Trace Mémoire : Quel est le contenu de la liste 'L2' après ces instructions ?\n\nL1 = [10, 20, 30]\nL2 = L1\nL2.append(40)\nL1[0] = 99",
+      options: ["[99, 20, 30, 40] (Aliasing)", "[10, 20, 30, 40]", "[10, 20, 30]", "TypeError"],
+      correct: 0,
+      pts: 2,
+      explain: "L'instruction L2 = L1 ne copie pas la liste mais crée un ALIAS pointant vers le même espace mémoire en RAM. Modifier L1 ou L2 modifie la même liste !"
+    },
+    {
+      q: "Évaluation Logique : Quelle est la valeur retournée par l'expression suivante ?\n\nres = 0 or [] or 'Ibn Tofail' and 42\nprint(res)",
+      options: ["42", "'Ibn Tofail'", "True", "0"],
+      correct: 0,
+      pts: 2,
+      explain: "0 et [] sont Falsy. 'Ibn Tofail' est Truthy, donc l'opérateur 'and' évalue et retourne le second opérande qui est 42."
+    },
+    {
+      q: "Slicing Négatif : Que produit l'instruction suivante sur la chaîne 'KENITRA' ?\n\ns = 'KENITRA'\nprint(s[-3::-1])",
+      options: ["'TINEK'", "'ART'", "'AR'", "'INEK'"],
+      correct: 0,
+      pts: 2,
+      explain: "s[-3] cible le caractère 'T'. Avec un pas négatif de -1, le parcours s'effectue vers la gauche : 'T', 'I', 'N', 'E', 'K' -> 'TINEK'."
+    }
+  ];
+  const chosenDryRun = [...dryRunPool].sort(() => Math.random() - 0.5).slice(0, 2);
+  chosenDryRun.forEach((dq, dIdx) => {
+    examQuestions.push({
+      id: `rand_trace_${dIdx + 1}`,
+      q: `[Problème d'Analyse ${dIdx + 1}] ${dq.q}`,
+      options: dq.options,
+      correct: dq.correct,
+      pts: 2,
+      explain: dq.explain
+    });
+  });
+
+  // 3. Ajouter 1 problème de synthèse algorithmique (6 pts)
+  const algoPool = [
+    {
+      q: "[Synthèse Algorithmique - 6 Pts]\nSoit la fonction suivante :\ndef f(L):\n    d = {}\n    for x in L:\n        d[x] = d.get(x, 0) + 1\n    return max(d, key=d.get)\n\nQue retourne f(['a', 'b', 'a', 'c', 'a', 'b']) ?",
+      options: [
+        "'a' (l'élément le plus fréquent / le mode statistique)",
+        "3 (le nombre d'occurrences)",
+        "['a', 'b', 'c'] (les clés sans doublons)",
+        "KeyError"
+      ],
+      correct: 0,
+      pts: 6,
+      explain: "Cette fonction construit l'histogramme des fréquences avec d.get(x, 0) + 1, puis max(d, key=d.get) extrait la clé possédant le nombre maximal d'occurrences ('a' apparaît 3 fois)."
+    },
+    {
+      q: "[Synthèse Algorithmique - 6 Pts]\nOn souhaite filtrer et doubler les entiers impairs d'une liste L = [1, 2, 3, 4, 5, 6].\nQuelle liste en compréhension produit [2, 6, 10] ?",
+      options: [
+        "[x * 2 for x in L if x % 2 != 0]",
+        "[x * 2 for x in L if x % 2 == 0]",
+        "[x for x in L if x % 2 != 0 * 2]",
+        "[x * 2 if x % 2 != 0 else x for x in L]"
+      ],
+      correct: 0,
+      pts: 6,
+      explain: "La syntaxe canonique est [expression for x in iterable if condition]. Pour isoler les impairs (x % 2 != 0) et doubler leur valeur : [1*2, 3*2, 5*2] = [2, 6, 10]."
+    }
+  ];
+  const chosenAlgo = algoPool[Math.floor(Math.random() * algoPool.length)];
+  examQuestions.push({
+    id: `rand_algo_1`,
+    q: chosenAlgo.q,
+    options: chosenAlgo.options,
+    correct: chosenAlgo.correct,
+    pts: 6,
+    explain: chosenAlgo.explain
+  });
+
+  const randomExam = {
+    id: `exam_rand_${randomNum}`,
+    sessionBadge: `BLANC #${randomNum}`,
+    title: `Examen Blanc Aléatoire Inédit #${randomNum}`,
+    desc: `Épreuve générée dynamiquement : 10 QCM du programme (10 pts) + 2 analyses de trace mémoire (4 pts) + 1 synthèse algorithmique (6 pts). Barème complet sur 20 points.`,
+    duration: 45,
+    totalPoints: 20,
+    questions: examQuestions
+  };
+
+  startExam(randomExam);
+}
+
+// =========================================================================
+// 7. PLAYGROUND & SANDBOX PYTHON LIBRE
+// =========================================================================
+function renderPlaygroundView() {
+  return `
+    <div class="space-y-8 animate-fade max-w-5xl mx-auto">
+      <!-- Header -->
+      <div class="figma-card p-6 md:p-8 rounded-3xl border-rose-500/20 bg-gradient-to-br from-[#120e24] via-[#090b16] to-[#060810]">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 text-xs font-semibold mb-2 border border-rose-500/20">
+              <i data-lucide="terminal" class="w-4 h-4"></i> Environnement Libre • Python 3.12
+            </div>
+            <h1 class="text-2xl md:text-3xl font-black text-white">Playground Python Universitaire</h1>
+            <p class="text-xs text-slate-400 mt-1">Expérimentez librement votre code, testez vos algorithmes et chargez des modèles canoniques de Kénitra.</p>
+          </div>
+
+          <!-- Snippet Loader -->
+          <div class="flex items-center gap-2">
+            <select id="snippetSelector" onchange="loadSelectedSnippet()" class="bg-slate-900 border border-slate-800 text-xs font-medium text-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-rose-500/50">
+              <option value="">-- Charger un Algorithme Classique --</option>
+              ${typeof PLAYGROUND_SNIPPETS !== 'undefined' ? PLAYGROUND_SNIPPETS.map(s => `
+                <option value="${s.id}">${s.title} (${s.category})</option>
+              `).join("") : ""}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playground Split Editor & Terminal Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <!-- Editor Side -->
+        <div class="space-y-3 flex flex-col">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+            <span class="flex items-center gap-1.5 text-slate-300 font-semibold">
+              <i data-lucide="file-code" class="w-4 h-4 text-rose-400"></i> scratchpad.py (Éditeur)
+            </span>
+            <div class="flex items-center gap-3">
+              <button onclick="copyPlaygroundCode()" class="text-[11px] text-slate-400 hover:text-white flex items-center gap-1 transition" title="Copier le code">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copier
+              </button>
+              <button onclick="resetPlaygroundCode()" class="text-[11px] text-slate-400 hover:text-rose-400 flex items-center gap-1 transition" title="Effacer le code">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Vierge
+              </button>
+            </div>
+          </div>
+
+          <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-[#060a13] focus-within:border-rose-500/60 transition flex-1 flex flex-col min-h-[380px]">
+            <div class="bg-slate-900/60 border-b border-slate-800 px-4 py-2 flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                <span class="text-[10px] text-slate-500 font-mono ml-2">python 3.12 • bac à sable</span>
+              </div>
+              <span id="playgroundSnippetBadge" class="text-[10px] font-mono text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20 hidden"></span>
+            </div>
+            <textarea id="playgroundEditor" rows="16" spellcheck="false" 
+                      class="w-full flex-1 bg-transparent p-4 font-mono text-xs md:text-sm text-emerald-300 focus:outline-none resize-none leading-relaxed"># Bienvenue dans le Playground Python Libre (UIT Kénitra)
+# Tapez votre propre code ou choisissez un algorithme dans le menu ci-dessus !
+
+def salutation(nom):
+    return f"Bonjour {nom}, bienvenue dans la plateforme Python !"
+
+for i in range(1, 4):
+    print(f"[{i}] {salutation('Étudiant SMI')}")
+</textarea>
+          </div>
+
+          <!-- Run Buttons -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <button onclick="runPlaygroundCode()" 
+                    class="py-3 px-5 rounded-xl bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-600/25 transition active:scale-[0.98]">
+              <i data-lucide="play" class="w-4 h-4 fill-white"></i> Exécuter le code (F5)
+            </button>
+            <button onclick="clearPlaygroundTerminal()" 
+                    class="py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold text-xs flex items-center justify-center gap-2 border border-slate-800 transition active:scale-[0.98]">
+              <i data-lucide="eraser" class="w-4 h-4"></i> Effacer la console
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal Side -->
+        <div class="space-y-3 flex flex-col">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+            <span class="flex items-center gap-1.5 text-slate-300 font-semibold">
+              <i data-lucide="terminal" class="w-4 h-4 text-emerald-400"></i> Console / Sortie (Stdout & Stderr)
+            </span>
+            <span id="playgroundExecTimer" class="text-[10px] text-slate-500 font-mono">Prêt</span>
+          </div>
+
+          <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-[#05070e] flex-1 flex flex-col min-h-[380px]">
+            <div class="bg-slate-900/60 border-b border-slate-800 px-4 py-2 flex items-center justify-between">
+              <span class="text-[10px] text-slate-500 font-mono">bash / stdout</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            </div>
+            <div id="playgroundTerminal" class="p-4 font-mono text-xs md:text-sm text-slate-300 overflow-y-auto flex-1 leading-relaxed whitespace-pre-wrap">
+              <span class="text-slate-600 italic">Cliquez sur « Exécuter le code » pour lancer le script...</span>
+            </div>
+          </div>
+
+          <!-- Academic Tip Card -->
+          <div class="p-4 rounded-2xl bg-indigo-950/20 border border-indigo-500/20 text-xs text-indigo-300 flex items-start gap-2.5">
+            <i data-lucide="lightbulb" class="w-4 h-4 text-indigo-400 shrink-0 mt-0.5"></i>
+            <div>
+              <strong>Astuce UIT Kénitra :</strong> Vous pouvez tester les fonctions intégrées comme <code class="text-cyan-300">len()</code>, <code class="text-cyan-300">sum()</code>, <code class="text-cyan-300">ord()</code>, <code class="text-cyan-300">chr()</code>, ainsi que les découpages par tranches <code class="text-cyan-300">L[::2]</code> et dictionnaires.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function loadSelectedSnippet() {
+  const sel = document.getElementById("snippetSelector");
+  if (!sel || !sel.value || typeof PLAYGROUND_SNIPPETS === 'undefined') return;
+  const snippet = PLAYGROUND_SNIPPETS.find(s => s.id === sel.value);
+  if (!snippet) return;
+
+  const editor = document.getElementById("playgroundEditor");
+  if (editor) editor.value = snippet.code;
+
+  const badge = document.getElementById("playgroundSnippetBadge");
+  if (badge) {
+    badge.innerText = `${snippet.title} (${snippet.category})`;
+    badge.classList.remove("hidden");
+  }
+  playAudioFeedback("click");
+}
+
+function copyPlaygroundCode() {
+  const editor = document.getElementById("playgroundEditor");
+  if (!editor) return;
+  try {
+    navigator.clipboard.writeText(editor.value);
+    alert("Code copié dans le presse-papier !");
+  } catch (e) {
+    editor.select();
+    document.execCommand("copy");
+    alert("Code copié dans le presse-papier !");
+  }
+  playAudioFeedback("click");
+}
+
+function resetPlaygroundCode() {
+  const editor = document.getElementById("playgroundEditor");
+  if (editor) editor.value = "# Écrivez votre code Python libre ici :\n\n";
+  const badge = document.getElementById("playgroundSnippetBadge");
+  if (badge) badge.classList.add("hidden");
+  const sel = document.getElementById("snippetSelector");
+  if (sel) sel.value = "";
+  playAudioFeedback("click");
+}
+
+function clearPlaygroundTerminal() {
+  const term = document.getElementById("playgroundTerminal");
+  if (term) term.innerHTML = `<span class="text-slate-600 italic">Console effacée. Prêt pour une nouvelle exécution.</span>`;
+  const timer = document.getElementById("playgroundExecTimer");
+  if (timer) timer.innerText = "Prêt";
+  playAudioFeedback("click");
+}
+
+async function runPlaygroundCode() {
+  const editor = document.getElementById("playgroundEditor");
+  const terminal = document.getElementById("playgroundTerminal");
+  const timer = document.getElementById("playgroundExecTimer");
+  if (!editor || !terminal) return;
+
+  const code = editor.value;
+  terminal.innerHTML = `<span class="text-cyan-400 font-mono flex items-center gap-2"><i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Exécution en cours...</span>`;
+  if (timer) timer.innerText = "Exécution...";
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+
+  const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  const res = await executePythonApiOrFallback(code);
+  const endTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  const duration = Math.round(endTime - startTime);
+
+  if (timer) timer.innerText = `Temps: ${duration} ms`;
+
+  let termHtml = "";
+  if (res.output) {
+    termHtml += `<div class="text-emerald-400 whitespace-pre-wrap">${escapeHtml(res.output)}</div>`;
+  }
+  if (res.error) {
+    termHtml += `<div class="text-rose-400 whitespace-pre-wrap font-semibold">${escapeHtml(res.error)}</div>`;
+  }
+  if (!res.output && !res.error) {
+    termHtml += `<div class="text-slate-500 italic">Code exécuté avec succès en ${duration} ms (aucune sortie console).</div>`;
+  }
+
+  terminal.innerHTML = termHtml;
+
+  if (res.error) {
+    playAudioFeedback("error");
+  } else {
+    playAudioFeedback("success");
+  }
 }

@@ -4394,3 +4394,236 @@ const QUIZ_BANK = [
   }
 ];
 
+
+
+// =========================================================================
+// 8. EXTRA: BIBLIOTHÈQUE D'ALGORITHMES POUR LE PLAYGROUND (SANDBOX LIBRE)
+// =========================================================================
+const PLAYGROUND_SNIPPETS = [
+  {
+    id: "bubble_sort",
+    title: "Tri à Bulles (Bubble Sort)",
+    category: "Algorithmique",
+    description: "Tri par permutations successives avec l'idiome Python de déballage de variables.",
+    code: `# Algorithme de Tri à Bulles (SMI / IA S1 UIT Kénitra)
+def tri_a_bulles(liste):
+    T = liste.copy()
+    n = len(T)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if T[j] > T[j + 1]:
+                # Permutation simultanée sans variable temporaire
+                T[j], T[j + 1] = T[j + 1], T[j]
+    return T
+
+notes = [14.5, 9.0, 18.0, 11.5, 16.0, 7.5, 19.5, 12.0]
+print("Liste originale :", notes)
+print("Liste triée     :", tri_a_bulles(notes))
+`
+  },
+  {
+    id: "primalite",
+    title: "Test de Primalité Optimisé",
+    category: "Mathématiques",
+    description: "Vérification efficace de nombres premiers avec borne de recherche sqrt(n).",
+    code: `# Test de Primalité optimisé (Algorithme de Kénitra)
+def est_premier(n):
+    if n < 2:
+        return False
+    if n in (2, 3):
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    d = 5
+    while d * d <= n:
+        if n % d == 0 or n % (d + 2) == 0:
+            return False
+        d += 6
+    return True
+
+print("=== Nombres Premiers de 1 à 60 ===")
+premiers = [x for x in range(1, 61) if est_premier(x)]
+print(f"Trouvé {len(premiers)} nombres premiers :")
+print(premiers)
+`
+  },
+  {
+    id: "fibonacci",
+    title: "Suite de Fibonacci (Itératif)",
+    category: "Séquences",
+    description: "Génération itérative en O(n) des termes de Fibonacci.",
+    code: `# Suite de Fibonacci en O(n)
+def fibonacci(n_termes):
+    suite = []
+    a, b = 0, 1
+    for _ in range(n_termes):
+        suite.append(a)
+        a, b = b, a + b  # Affectation multiple
+    return suite
+
+print("=== Les 15 premiers termes de Fibonacci ===")
+print(fibonacci(15))
+`
+  },
+  {
+    id: "pgcd",
+    title: "Algorithme d'Euclide (PGCD)",
+    category: "Algorithmique",
+    description: "Calcul du Plus Grand Commun Diviseur par divisions successives.",
+    code: `# Calcul du PGCD par l'Algorithme d'Euclide
+def pgcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return abs(a)
+
+val1, val2 = 360, 252
+resultat = pgcd(val1, val2)
+print(f"Le PGCD({val1}, {val2}) = {resultat}")
+`
+  },
+  {
+    id: "cesar",
+    title: "Chiffrement de César (Code Secret)",
+    category: "Cryptographie & Strings",
+    description: "Chiffrement et déchiffrement par décalage avec ord() et chr().",
+    code: `# Chiffrement par décalage de César
+def chiffrer_cesar(texte, decalage):
+    resultat = ""
+    for c in texte:
+        if c.isalpha():
+            base = ord('A') if c.isupper() else ord('a')
+            nouveau = chr((ord(c) - base + decalage) % 26 + base)
+            resultat += nouveau
+        else:
+            resultat += c
+    return resultat
+
+message = "Python SMI 2026 Ibn Tofail"
+chiffre = chiffrer_cesar(message, 3)
+dechiffre = chiffrer_cesar(chiffre, -3)
+
+print("Message original :", message)
+print("Texte chiffré    :", chiffre)
+print("Déchiffré        :", dechiffre)
+`
+  },
+  {
+    id: "etudiants_dict",
+    title: "Gestion des Notes (Dictionnaires)",
+    category: "Structures de données",
+    code: `# Gestion d'une promotion universitaire avec dictionnaires
+etudiants = [
+    {"nom": "Yassine", "cc": 15.5, "examen": 17.0},
+    {"nom": "Fatima",  "cc": 18.0, "examen": 19.5},
+    {"nom": "Amine",   "cc": 11.0, "examen": 9.5},
+    {"nom": "Salma",   "cc": 14.0, "examen": 13.5},
+    {"nom": "Karim",   "cc": 8.0,  "examen": 10.0}
+]
+
+print("=== RELEVÉ DES NOTES SMI / IA S1 (UIT) ===")
+print(f"{'Nom':<10} | {'CC':<5} | {'Exam':<5} | {'Moyenne':<7} | {'Statut':<10} | {'Mention'}")
+print("-" * 58)
+
+for e in etudiants:
+    moy = e["cc"] * 0.4 + e["examen"] * 0.6
+    statut = "Validé" if moy >= 10 else "Rattrapage"
+    if moy >= 16: mention = "Très Bien"
+    elif moy >= 14: mention = "Bien"
+    elif moy >= 12: mention = "Assez Bien"
+    elif moy >= 10: mention = "Passable"
+    else: mention = "Ajourné"
+    print(f"{e['nom']:<10} | {e['cc']:<5.1f} | {e['examen']:<5.1f} | {moy:>6.2f}/20 | {statut:<10} | {mention}")
+`
+  },
+  {
+    id: "palindrome",
+    title: "Détecteur de Palindrome (Slicing)",
+    category: "Séquences & Slicing",
+    description: "Vérification élégante avec inversion de chaîne par slicing [::-1].",
+    code: `# Détection de Palindrome par Slicing [::-1]
+def est_palindrome(chaine):
+    nettoyee = "".join(c.lower() for c in chaine if c.isalnum())
+    return nettoyee == nettoyee[::-1]
+
+mots = ["Radar", "Python", "Engage le jeu que je le gagne", "Kayak", "Kénitra"]
+print("=== Test de Palindromes ===")
+for m in mots:
+    statut = "✅ OUI" if est_palindrome(m) else "❌ NON"
+    print(f"'{m}' -> {statut}")
+`
+  },
+  {
+    id: "matrice_2d",
+    title: "Matrice Carrée & Trace Diagonale",
+    category: "Listes Imbriquées",
+    code: `# Manipulation de Matrices (Listes 2D)
+matrice = [
+    [4,  7,  2],
+    [3,  8,  5],
+    [9,  1,  6]
+]
+
+print("--- Matrice 3x3 ---")
+for ligne in matrice:
+    print("  [ " + "  ".join(f"{val:>2}" for val in ligne) + " ]")
+
+# Calcul de la trace (somme de la diagonale principale)
+trace = sum(matrice[i][i] for i in range(len(matrice)))
+print(f"\nTrace (somme diagonale principale) = {trace}")
+`
+  }
+];
+
+// =========================================================================
+// 9. CONFIGURATION DU SYSTÈME DE GAMIFICATION & BADGES D'EXCELLENCE
+// =========================================================================
+const BADGES_CONFIG = [
+  {
+    id: "first_step",
+    title: "Premier Pas",
+    icon: "compass",
+    color: "from-blue-500 to-cyan-500",
+    desc: "Lire et valider votre tout premier cours magistral.",
+    xp: 50
+  },
+  {
+    id: "code_novice",
+    title: "Alchimiste du Code",
+    icon: "terminal",
+    color: "from-emerald-500 to-teal-500",
+    desc: "Réussir et valider au moins 3 laboratoires pratiques de code.",
+    xp: 150
+  },
+  {
+    id: "trap_hunter",
+    title: "Chasseur de Pièges",
+    icon: "target",
+    color: "from-amber-500 to-orange-500",
+    desc: "Résoudre avec succès au moins 20 questions de Quiz QCM.",
+    xp: 200
+  },
+  {
+    id: "code_master",
+    title: "Maître Algorithmique",
+    icon: "zap",
+    color: "from-indigo-500 to-purple-500",
+    desc: "Valider l'intégralité des 6 laboratoires interactifs de la plateforme.",
+    xp: 300
+  },
+  {
+    id: "major_promo",
+    title: "Major de Promo",
+    icon: "award",
+    color: "from-rose-500 to-pink-500",
+    desc: "Obtenir une note d'excellence supérieure ou égale à 16/20 à un examen.",
+    xp: 400
+  },
+  {
+    id: "python_guru",
+    title: "Génie du Python",
+    icon: "crown",
+    color: "from-amber-400 to-yellow-500",
+    desc: "Atteindre 100% de complétion sur l'ensemble de la plateforme universitaire.",
+    xp: 500
+  }
+];
