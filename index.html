@@ -44,12 +44,13 @@
 <body class="bg-[#0b1120] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-blue-600 selection:text-white">
 
   <!-- Mobile Top Bar -->
-  <header class="md:hidden sticky top-0 z-50 glass-panel border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+  <header class="md:hidden sticky top-0 z-50 glass-panel border-b border-slate-800 px-4 py-3 flex items-center justify-between no-print">
     <div class="flex items-center gap-2">
       <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-black text-white text-base">Py</div>
       <span class="font-extrabold text-sm text-white">Python Pro Guide</span>
     </div>
     <div class="flex items-center gap-2">
+      <span id="userXPBadgeMobile" class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full font-mono font-bold">50 XP</span>
       <button onclick="toggleMobileMenu()" class="p-2 rounded-lg bg-slate-800 text-slate-300">
         <i data-lucide="menu" class="w-5 h-5"></i>
       </button>
@@ -58,7 +59,7 @@
 
   <div class="flex-1 flex overflow-hidden">
     <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="hidden md:flex flex-col w-72 glass-panel border-l border-slate-800/80 p-4 shrink-0 overflow-y-auto">
+    <aside id="sidebar" class="hidden md:flex flex-col w-72 glass-panel border-l border-slate-800/80 p-4 shrink-0 overflow-y-auto no-print">
       <!-- Logo & Academic Badge -->
       <div class="flex items-center gap-3 px-2 py-3 mb-4 border-b border-slate-800">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
@@ -70,31 +71,57 @@
         </div>
       </div>
 
+      <!-- User XP & Badges Ribbon -->
+      <div onclick="showView('badges')" class="bg-gradient-to-r from-purple-900/40 to-indigo-900/40 border border-purple-500/30 p-2.5 rounded-xl mb-4 flex items-center justify-between cursor-pointer hover:border-purple-400 transition">
+        <div class="flex items-center gap-2">
+          <i data-lucide="medal" class="w-4 h-4 text-purple-400"></i>
+          <span class="text-xs font-bold text-slate-200">نقاطي وأوسمتي</span>
+        </div>
+        <span id="userXPBadge" class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full font-mono font-bold">50 XP</span>
+      </div>
+
       <!-- Quick Action Buttons -->
-      <div class="space-y-1.5 mb-6">
-        <button onclick="showView('home')" data-nav="home" class="nav-main w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition bg-blue-600 text-white">
-          <span class="flex items-center gap-2.5"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> نظرة عامة والبرنامج</span>
+      <div class="space-y-1 mb-5">
+        <button onclick="showView('home')" data-nav="home" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition bg-blue-600 text-white">
+          <span class="flex items-center gap-2"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> نظرة عامة والبرنامج</span>
         </button>
 
-        <button onclick="showView('exam')" data-nav="exam" class="nav-main w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white group">
-          <span class="flex items-center gap-2.5"><i data-lucide="award" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition"></i> محاكي الامتحانات (/20)</span>
-          <span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-mono font-bold">EXAM</span>
+        <button onclick="showView('exam')" data-nav="exam" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white group">
+          <span class="flex items-center gap-2"><i data-lucide="award" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition"></i> امتحان تجريبي عشوائي (/20)</span>
+          <span class="text-[9px] bg-amber-500/20 text-amber-300 px-1 py-0.5 rounded font-mono font-bold">LIVE</span>
         </button>
 
-        <button onclick="showView('td')" data-nav="td" class="nav-main w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
-          <span class="flex items-center gap-2.5"><i data-lucide="file-check" class="w-4 h-4 text-emerald-400"></i> حلول السلاسل (TD)</span>
+        <button onclick="showView('visualizer')" data-nav="visualizer" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="network" class="w-4 h-4 text-sky-400"></i> محاكي الذاكرة والأدريسات</span>
+          <span class="text-[9px] bg-sky-500/20 text-sky-300 px-1 py-0.5 rounded font-mono font-bold">RAM</span>
         </button>
 
-        <button onclick="showView('traps')" data-nav="traps" class="nav-main w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
-          <span class="flex items-center gap-2.5"><i data-lucide="shield-alert" class="w-4 h-4 text-red-400"></i> فخاخ الامتحانات (Pièges)</span>
+        <button onclick="showView('calculators')" data-nav="calculators" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="calculator" class="w-4 h-4 text-emerald-400"></i> حاسبات ومختبر التمارين</span>
         </button>
 
-        <button onclick="showView('playground')" data-nav="playground" class="nav-main w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
-          <span class="flex items-center gap-2.5"><i data-lucide="code-2" class="w-4 h-4 text-sky-400"></i> محاكي الأكواد (Playground)</span>
+        <button onclick="showView('flashcards')" data-nav="flashcards" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="layers" class="w-4 h-4 text-amber-400"></i> بطاقات مراجعة 3D</span>
         </button>
 
-        <button onclick="showView('summary')" data-nav="summary" class="nav-main w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
-          <span class="flex items-center gap-2.5"><i data-lucide="bookmark" class="w-4 h-4 text-purple-400"></i> ملخص الحفظ السريع</span>
+        <button onclick="showView('glossary')" data-nav="glossary" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="book-a" class="w-4 h-4 text-blue-400"></i> قاموس المصطلحات 3 لغات</span>
+        </button>
+
+        <button onclick="showView('td')" data-nav="td" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="file-check" class="w-4 h-4 text-emerald-400"></i> حلول سلاسل TD (1 & 2)</span>
+        </button>
+
+        <button onclick="showView('traps')" data-nav="traps" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="shield-alert" class="w-4 h-4 text-red-400"></i> فخاخ الامتحانات (Pièges)</span>
+        </button>
+
+        <button onclick="showView('playground')" data-nav="playground" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="code-2" class="w-4 h-4 text-sky-400"></i> محاكي الأكواد (Playground)</span>
+        </button>
+
+        <button onclick="showView('summary')" data-nav="summary" class="nav-main w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+          <span class="flex items-center gap-2"><i data-lucide="bookmark" class="w-4 h-4 text-purple-400"></i> ملخص الحفظ السريع</span>
         </button>
       </div>
 
@@ -122,18 +149,18 @@
     <!-- Main Content Canvas -->
     <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-[#0b1120]">
       <!-- Top Bar -->
-      <div class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 px-6 py-3.5 flex items-center justify-between">
+      <div class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 px-6 py-3.5 flex items-center justify-between no-print">
         <div class="flex items-center gap-4 flex-1 max-w-md">
           <div class="relative w-full">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2"></i>
-            <input id="searchInput" type="text" placeholder="ابحث عن أي مفهوم (Von Neumann, Slicing, Modulo, ...) واضغط Enter" 
+            <input id="searchInput" type="text" placeholder="ابحث عن أي مفهوم (Von Neumann, Aliasing, Modulo, ...) واضغط Enter" 
                    class="w-full bg-slate-900/80 text-xs text-slate-200 pr-9 pl-4 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-blue-500 placeholder:text-slate-500">
           </div>
         </div>
 
         <div class="flex items-center gap-3">
           <button onclick="showView('exam')" class="px-3.5 py-1.5 rounded-lg bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs font-bold hover:bg-amber-500/20 transition flex items-center gap-1.5">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Exam Mode
+            <i data-lucide="award" class="w-3.5 h-3.5"></i> Exam Simulator
           </button>
           <a href="https://github.com" target="_blank" title="GitHub" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
             <i data-lucide="github" class="w-4 h-4"></i>
@@ -147,15 +174,15 @@
       </div>
 
       <!-- Footer -->
-      <footer class="p-6 border-t border-slate-800 text-center text-xs text-slate-500">
+      <footer class="p-6 border-t border-slate-800 text-center text-xs text-slate-500 no-print">
         <p>منصة التحضير الأكاديمي لمادة Programmation Python 1 • جامعة ابن طفيل (SMI / IA S1) 2026/2027</p>
-        <p class="mt-1 text-[11px] text-slate-600">جاهزة للرفع على GitHub ومشاركتها مع زملائك بالكلية 🚀</p>
+        <p class="mt-1 text-[11px] text-slate-600">جاهزة للرفع على GitHub ومشاركتها كـ .EXE أو موقع ويب 🚀</p>
       </footer>
     </main>
   </div>
 
   <!-- Mobile Drawer -->
-  <div id="mobileDrawer" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm md:hidden">
+  <div id="mobileDrawer" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm md:hidden no-print">
     <div class="w-72 h-full bg-[#0f172a] p-4 flex flex-col overflow-y-auto">
       <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
         <span class="font-bold text-white text-sm">القائمة الرئيسية</span>
@@ -163,13 +190,16 @@
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
-      <div class="space-y-2">
+      <div class="space-y-1.5">
         <button onclick="showView('home'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-blue-600 text-white">الرئيسية</button>
-        <button onclick="showView('exam'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-amber-600 text-white">محاكي الامتحانات (/20)</button>
-        <button onclick="showView('td'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">حلول السلسلة 1 و 2</button>
+        <button onclick="showView('exam'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-amber-600 text-white">امتحان تجريبي عشوائي (/20)</button>
+        <button onclick="showView('visualizer'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-sky-600 text-white">محاكي الذاكرة (RAM Visualizer)</button>
+        <button onclick="showView('calculators'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">حاسبات ومختبر التمارين</button>
+        <button onclick="showView('flashcards'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">بطاقات مراجعة 3D</button>
+        <button onclick="showView('glossary'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">قاموس المصطلحات</button>
+        <button onclick="showView('td'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">حلول سلاسل TD</button>
         <button onclick="showView('traps'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">فخاخ الامتحانات (Pièges)</button>
-        <button onclick="showView('playground'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">المحاكي التفاعلي</button>
-        <button onclick="showView('summary'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">ملخص الحفظ</button>
+        <button onclick="showView('badges'); toggleMobileMenu()" class="w-full text-right p-2.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-200">الأوسمة ونقاطي</button>
       </div>
     </div>
   </div>
