@@ -1,4 +1,4 @@
-// Base de Données Universitaire & Défis Pratiques DataCamp
+// Base de Données Universitaire & Laboratoires Pratiques
 // SMI / IA - Semestre 1 • Faculté des Sciences Kénitra (UIT) • Pr. Imane EL ALAOUI
 
 const APP_CONFIG = {
@@ -77,9 +77,9 @@ const DETAILED_COURSES = [
       }
     ],
     datacamp: {
-      title: "Atelier Pratique DataCamp : Découverte du Moteur Python",
+      title: "Laboratoire de Code : Découverte du Moteur Python",
       consigne: "Dans cet atelier pratique, vous allez vérifier les versions et afficher les 3 composants clés du processeur.\\n1. Créez une variable <code>processeur</code> contenant la chaîne 'CPU'.\\n2. Créez une variable <code>annee_creation</code> égale à 1989.\\n3. Affichez ces deux variables à l'aide de <code>print()</code>.",
-      initialCode: "# Atelier Chapitre 1 - Écrivez votre code ici :\nprocesseur = 'CPU'\nannee_creation = 1989\n\n# Affichez les variables :\nprint(processeur, annee_creation)\n",
+      initialCode: "# Mission Chapitre 1 :\n# 1. Créez une variable 'processeur' avec la valeur 'CPU'\n# 2. Créez une variable 'annee_creation' avec la valeur 1989\n# 3. Affichez ces deux variables avec print()\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
       hint: "Utilisez la fonction print(processeur, annee_creation).",
       solution: "processeur = 'CPU'\nannee_creation = 1989\nprint(processeur, annee_creation)",
       expectedOutputKeyword: "1989"
@@ -152,9 +152,9 @@ const DETAILED_COURSES = [
       }
     ],
     datacamp: {
-      title: "Atelier Pratique DataCamp : Maîtrise du Transtypage & Pièges",
+      title: "Laboratoire de Code : Maîtrise du Transtypage & Pièges",
       consigne: "Vous recevez la chaîne de caractères <code>s = '14.89'</code>.\\n1. Convertissez-la en float dans une variable <code>prix_float</code>.\\n2. Convertissez ce float en entier dans <code>prix_int</code> pour obtenir la troncature pure.\\n3. Affichez la valeur de <code>prix_int</code>.",
-      initialCode: "# Atelier Chapitre 2 - Écrivez votre code ici :\ns = '14.89'\n\n# 1. Convertir en float :\nprix_float = float(s)\n\n# 2. Tronquer en int :\nprix_int = int(prix_float)\n\n# 3. Afficher :\nprint(prix_int)\n",
+      initialCode: "s = '14.89'\n\n# Mission Chapitre 2 :\n# 1. Convertissez 's' en float dans la variable 'prix_float'\n# 2. Convertissez 'prix_float' en entier dans 'prix_int' pour obtenir la troncature pure\n# 3. Affichez la valeur de 'prix_int' avec print()\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
       hint: "Utilisez int(float(s)) pour éviter l'erreur ValueError.",
       solution: "s = '14.89'\nprix_float = float(s)\nprix_int = int(prix_float)\nprint(prix_int)",
       expectedOutputKeyword: "14"
@@ -216,9 +216,9 @@ const DETAILED_COURSES = [
       }
     ],
     datacamp: {
-      title: "Atelier Pratique DataCamp : Hiérarchie & Court-Circuit",
+      title: "Laboratoire de Code : Hiérarchie & Court-Circuit",
       consigne: "Dans cet atelier, calculez l'expression mathématique exacte :\\n1. Calculez <code>x = 2 + 3 * 4 ** 2</code>.\\n2. Calculez le résultat du court-circuit : <code>test = True or False and False</code>.\\n3. Affichez x et test.",
-      initialCode: "# Atelier Chapitre 3 - Écrivez votre code ici :\nx = 2 + 3 * 4 ** 2\ntest = True or False and False\n\nprint('x =', x)\nprint('test =', test)\n",
+      initialCode: "# Mission Chapitre 3 :\n# 1. Calculez dans la variable 'x' l'expression : 2 + 3 * 4 ** 2\n# 2. Évaluez dans la variable 'test' l'expression : True or False and False\n# 3. Affichez x et test\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
       hint: "La puissance s'évalue avant la multiplication. and est prioritaire sur or.",
       solution: "x = 2 + 3 * 4 ** 2\ntest = True or False and False\nprint('x =', x)\nprint('test =', test)",
       expectedOutputKeyword: "50"
@@ -252,9 +252,9 @@ const DETAILED_COURSES = [
       }
     ],
     datacamp: {
-      title: "Atelier Pratique DataCamp : Tarif Cinéma Conditionnel",
+      title: "Laboratoire de Code : Tarif Cinéma Conditionnel",
       consigne: "Écrivez un programme qui détermine le prix d'un ticket selon la variable <code>age = 15</code> :\\n• Moins de 10 ans : 20 DH\\n• Moins de 18 ans : 35 DH\\n• Autres âges : 50 DH\\nStockez le résultat dans la variable <code>prix</code> et affichez-la.",
-      initialCode: "# Atelier Chapitre 4 - Écrivez votre code ici :\nage = 15\n\nif age < 10:\n    prix = 20\nelif age < 18:\n    prix = 35\nelse:\n    prix = 50\n\nprint('Prix :', prix)\n",
+      initialCode: "age = 15\n\n# Mission Chapitre 4 :\n# Écrivez une structure conditionnelle if / elif / else pour définir 'prix' :\n# - Moins de 10 ans : 20 DH\n# - Moins de 18 ans : 35 DH\n# - Autres âges     : 50 DH\n# Puis affichez la variable 'prix'.\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
       hint: "Utilisez if age < 10 suivi de elif age < 18.",
       solution: "age = 15\nif age < 10:\n    prix = 20\nelif age < 18:\n    prix = 35\nelse:\n    prix = 50\nprint('Prix :', prix)",
       expectedOutputKeyword: "35"
@@ -303,9 +303,9 @@ const DETAILED_COURSES = [
       }
     ],
     datacamp: {
-      title: "Atelier Pratique DataCamp : Calcul de Factorielle (n!)",
+      title: "Laboratoire de Code : Calcul de Factorielle (n!)",
       consigne: "Calculez la factorielle de <code>n = 5</code> (5! = 1 × 2 × 3 × 4 × 5 = 120) à l'aide d'une boucle <code>for</code> et de <code>range()</code>.\\nStockez le résultat dans la variable <code>fact</code> et affichez-la.",
-      initialCode: "# Atelier Chapitre 5 - Écrivez votre code ici :\nn = 5\nfact = 1\n\nfor i in range(1, n + 1):\n    fact *= i\n\nprint('Factorielle =', fact)\n",
+      initialCode: "n = 5\nfact = 1\n\n# Mission Chapitre 5 :\n# Calculez 5! (1 * 2 * 3 * 4 * 5 = 120) en utilisant une boucle for et range().\n# Multipliez 'fact' par chaque valeur de 1 à n inclus, puis affichez 'fact'.\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
       hint: "Faites itérer i de 1 à n + 1 pour inclure n.",
       solution: "n = 5\nfact = 1\nfor i in range(1, n + 1):\n    fact *= i\nprint('Factorielle =', fact)",
       expectedOutputKeyword: "120"
@@ -346,9 +346,9 @@ const DETAILED_COURSES = [
       }
     ],
     datacamp: {
-      title: "Atelier Pratique DataCamp : Slicing & Copie Sécurisée",
+      title: "Laboratoire de Code : Slicing & Copie Sécurisée",
       consigne: "Soit la liste <code>animaux = ['girafe', 'tigre', 'singe', 'souris']</code>.\\n1. Extrayez les éléments d'indice 1 à 2 inclus dans <code>sous_liste</code> à l'aide du slicing.\\n2. Inversez complètement la liste dans <code>inverse</code>.\\n3. Affichez sous_liste et inverse.",
-      initialCode: "# Atelier Chapitre 6 - Écrivez votre code ici :\nanimaux = ['girafe', 'tigre', 'singe', 'souris']\n\nsous_liste = animaux[1:3]\ninverse = animaux[::-1]\n\nprint('Sous-liste :', sous_liste)\nprint('Inversé :', inverse)\n",
+      initialCode: "animaux = ['girafe', 'tigre', 'singe', 'souris']\n\n# Mission Chapitre 6 :\n# 1. Extrayez les éléments d'indice 1 à 2 inclus dans 'sous_liste' via slicing [start:stop]\n# 2. Créez une copie inversée complète de la liste dans 'inverse' avec le pas -1\n# 3. Affichez sous_liste et inverse\n\n# À vous de jouer (écrivez votre code ci-dessous) :\n\n",
       hint: "Pour inverser, utilisez le pas négatif animaux[::-1].",
       solution: "animaux = ['girafe', 'tigre', 'singe', 'souris']\nsous_liste = animaux[1:3]\ninverse = animaux[::-1]\nprint('Sous-liste :', sous_liste)\nprint('Inversé :', inverse)",
       expectedOutputKeyword: "souris"
@@ -2082,4 +2082,144 @@ const FLASHCARDS = [
   { id: 8, tag: "Tuples", front: "Comment écrit-on obligatoirement un tuple contenant un seul élément ?", back: "Avec une virgule finale obligatoire : t = (42,). Sans virgule, (42) est un simple entier int entre parenthèses." },
   { id: 9, tag: "Slicing", front: "Que produit l'expression L[::-1] sur une liste ou une chaîne ?", back: "Elle produit une copie inversée complète de la séquence, parcourue de droite à gauche avec un pas de -1." },
   { id: 10, tag: "Arithmétique", front: "Dans quel sens s'évalue l'opérateur de puissance ** ?", back: "De droite à gauche ! Ainsi 2 ** 3 ** 2 = 2 ** (3 ** 2) = 2 ** 9 = 512." }
+];
+
+
+// LES 10 PIÈGES CLASSIQUES DE L'EXAMEN UIT KÉNITRA
+const EXAM_TRAPS = [
+  { trap: "Piège int('3.14')", explanation: "int() refuse tout séparateur décimal dans une chaîne de caractères et lève une ValueError. Solution : int(float('3.14'))." },
+  { trap: "Piège 0.1 + 0.2 == 0.3", explanation: "Renvoie False en raison de la norme binaire IEEE 754 de représentation des flottants (0.1 + 0.2 = 0.30000000000000004)." },
+  { trap: "Piège bool('False')", explanation: "Renvoie True ! Toute chaîne non vide est Truthy en Python. Seule bool('') est False." },
+  { trap: "Piège Aliasing L2 = L1", explanation: "L2 = L1 ne copie pas la liste mais crée un alias vers le même objet en RAM. Pour copier : L2 = L1[:] ou L1.copy()." },
+  { trap: "Piège Associativité de **", explanation: "La puissance s'évalue de droite à gauche : 2 ** 3 ** 2 = 2 ** 9 = 512, et NON 64 !" },
+  { trap: "Piège Division entière négative", explanation: "-7 // 2 donne -4 (arrondi vers moins l'infini), et non -3 !" },
+  { trap: "Piège Tuple à 1 élément", explanation: "t = (42) est un entier int. Pour créer un tuple, la virgule est obligatoire : t = (42,)." },
+  { trap: "Piège print(L.reverse())", explanation: "reverse() et sort() modifient la liste en place et renvoient None. Ne jamais écrire L = L.reverse() !" },
+  { trap: "Piège Modulo avec diviseur négatif", explanation: "En Python, le signe du reste suit le diviseur : 10 % -3 vaut -2 (car 10 = -3 * -4 + (-2))." },
+  { trap: "Piège Opérateur 'in' sur dictionnaire", explanation: "'valeur' in dict vérifie la présence des CLÉS uniquement, pas des valeurs ! Pour tester les valeurs : 'valeur' in dict.values()." }
+];
+
+
+// BANQUE DE QUIZ & QCM D'AUTO-ÉVALUATION RAPIDE
+const QUIZ_BANK = [
+  {
+    id: "q1",
+    tag: "Architecture",
+    question: "Dans l'architecture de Von Neumann, quel bus transporte les adresses mémoire de manière unidirectionnelle ?",
+    options: ["Bus de données", "Bus d'adresses", "Bus de contrôle", "Bus d'instructions"],
+    correct: 1,
+    explanation: "Le bus d'adresses est strictement unidirectionnel : il va du processeur (CPU) vers la mémoire (RAM) pour indiquer l'emplacement ciblé."
+  },
+  {
+    id: "q2",
+    tag: "Types & Transtypage",
+    question: "Quelle est l'exception levée par l'instruction : int('15.5') ?",
+    options: ["TypeError", "ValueError", "SyntaxError", "ZeroDivisionError"],
+    correct: 1,
+    explanation: "ValueError ! int() n'accepte pas de chaîne contenant un point décimal. Pour la convertir, utilisez : int(float('15.5'))."
+  },
+  {
+    id: "q3",
+    tag: "Opérateurs",
+    question: "Quelle est la valeur de : 2 + 3 * 4 ** 2 ?",
+    options: ["80", "50", "400", "38"],
+    correct: 1,
+    explanation: "La puissance ** est prioritaire : 4² = 16. Puis la multiplication : 3 * 16 = 48. Enfin l'addition : 2 + 48 = 50."
+  },
+  {
+    id: "q4",
+    tag: "Conditionnelles",
+    question: "L'année 2000 est-elle bissextile selon la règle grégorienne ?",
+    options: ["Oui (divisible par 400)", "Non (divisible par 100)", "Non (règle des siècles)", "Seulement sous Linux"],
+    correct: 0,
+    explanation: "Oui ! Les années séculaires (multiples de 100) sont bissextiles si et seulement si elles sont également divisibles par 400 (ce qui est le cas pour 2000)."
+  },
+  {
+    id: "q5",
+    tag: "Boucles",
+    question: "Quelle est la sortie de ce code ?\nfor i in range(2):\n    pass\nelse:\n    print('OK')",
+    options: ["Affiche 'OK'", "N'affiche rien", "SyntaxError", "Affiche 0 1 'OK'"],
+    correct: 0,
+    explanation: "Le bloc else d'une boucle s'exécute toujours lorsque la boucle se termine normalement sans avoir rencontré d'instruction break."
+  },
+  {
+    id: "q6",
+    tag: "Séquences & Slicing",
+    question: "Soit s = 'PYTHON'. Que vaut s[1:5:2] ?",
+    options: ["'YH'", "'TO'", "'YTN'", "'PTO'"],
+    correct: 0,
+    explanation: "Indices de 1 à 5 exclu avec un pas de 2 : indice 1 ('Y') et indice 3 ('H') => 'YH'."
+  },
+  {
+    id: "q7",
+    tag: "Aliasing",
+    question: "Soit L1 = [1, 2] ; L2 = L1 ; L2[0] = 99. Que vaut L1[0] ?",
+    options: ["1", "99", "IndexError", "None"],
+    correct: 1,
+    explanation: "99 ! L2 = L1 ne copie pas la liste, mais crée un deuxième nom pointant vers le même objet en RAM. Pour copier réellement : L2 = L1[:]."
+  },
+  {
+    id: "q8",
+    tag: "Court-Circuit",
+    question: "Que produit l'expression : True or (10 / 0 == 0) ?",
+    options: ["ZeroDivisionError", "True", "False", "None"],
+    correct: 1,
+    explanation: "True ! Le premier membre de l'opérateur 'or' étant True, le second membre n'est jamais évalué (règle du court-circuit)."
+  },
+  {
+    id: "q9",
+    tag: "Flottants",
+    question: "Pourquoi 0.1 + 0.2 == 0.3 renvoie-t-il False en Python ?",
+    options: ["C'est un bogue de Python 3", "En raison de la norme binaire IEEE 754", "0.1 est arrondi à 0", "Parce que 0.3 est un int"],
+    correct: 1,
+    explanation: "En binaire (IEEE 754), 0.1 et 0.2 sont des fractions périodiques infinies. Leur somme donne 0.30000000000000004, différent de 0.3."
+  },
+  {
+    id: "q10",
+    tag: "Tuples",
+    question: "Quel est le type de la variable x = (5) ?",
+    options: ["tuple", "int", "list", "error"],
+    correct: 1,
+    explanation: "int ! Les parenthèses simples sans virgule indiquent une priorité arithmétique. Un tuple à un élément s'écrit obligatoirement avec une virgule : (5,)."
+  },
+  {
+    id: "q11",
+    tag: "Listes",
+    question: "Quelle méthode modifie la liste sur place et renvoie None ?",
+    options: ["L.sort()", "sorted(L)", "L.copy()", "len(L)"],
+    correct: 0,
+    explanation: "L.sort() trie la liste directement sur place et renvoie None, tandis que sorted(L) renvoie une nouvelle liste triée."
+  },
+  {
+    id: "q12",
+    tag: "Ensembles",
+    question: "Comment déclarer un ensemble vide (set) ?",
+    options: ["s = {}", "s = set()", "s = []", "s = ()"],
+    correct: 1,
+    explanation: "s = set() crée un ensemble vide. L'instruction s = {} crée quant à elle un dictionnaire vide !"
+  },
+  {
+    id: "q13",
+    tag: "Dictionnaires",
+    question: "Soit d = {'a': 1, 'b': 2}. Que vaut d.get('c', 10) ?",
+    options: ["KeyError", "None", "10", "0"],
+    correct: 2,
+    explanation: "10 ! La méthode get(clé, défaut) retourne la valeur par défaut spécifiée si la clé n'existe pas, évitant ainsi l'erreur KeyError."
+  },
+  {
+    id: "q14",
+    tag: "Boucles",
+    question: "Combien d'itérations produit : for i in range(1, 10, 3) ?",
+    options: ["3", "4", "9", "10"],
+    correct: 0,
+    explanation: "3 itérations : 1, 4, 7 (la valeur suivante 10 atteint la borne supérieure qui est exclue)."
+  },
+  {
+    id: "q15",
+    tag: "Immuabilité",
+    question: "Quel type parmi les suivants est IMMUABLE ?",
+    options: ["list", "set", "dict", "tuple"],
+    correct: 3,
+    explanation: "Le tuple (comme str, int et float) est rigoureusement immuable. Ses éléments ne peuvent être ni modifiés, ni ajoutés, ni supprimés après création."
+  }
 ];

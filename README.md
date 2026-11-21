@@ -6,7 +6,7 @@
 
 ## 🌟 مميزات المنصة (Core Features)
 
-1. **أوراش برمجية تفاعلية على طريقة DataCamp (Ateliers Pratiques DataCamp)**:
+1. **أوراش برمجية تفاعلية التفاعلية المدمجة في كل درس (Laboratoire Pratique Interactif)**:
    - كل فصل دراسي يحتوي في نهايته على مختبر تطبيقي مباشر (Instructions + Éditeur de Code + Console interactive Stdout).
    - زر **Exécuter le code** لتشغيل الكود ورؤية النتيجة فوراً في التيرمينال.
    - زر **Vérifier ma solution** للتحقق التلقائي من صحة الحل ومنح نقاط الخبرة (+50 XP).
@@ -68,7 +68,7 @@ python main.py
 git add .
 
 # 2. تسجيل التغييرات (Commit)
-git commit -m "Add DataCamp interactive labs, real Python executor and complete exams"
+git commit -m "Add المختبر التفاعلي interactive labs, real Python executor and complete exams"
 
 # 3. التأكد من اسم الفرع الرئيسي
 git branch -M main

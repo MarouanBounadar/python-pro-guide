@@ -53,7 +53,7 @@ function updateProgressBar() {
   if (subtext) {
     let totalExos = 0;
     Object.keys(CHAPTER_EXERCISES).forEach(k => totalExos += CHAPTER_EXERCISES[k].length);
-    subtext.innerText = `${userProgress.readChapters.length}/6 Cours • ${userProgress.completedLabs.length}/6 Labs DataCamp • ${userProgress.doneExercises.length}/${totalExos} Exos • ${Object.keys(userProgress.passedExams).length}/${EXAM_SUBJECTS.length} Examens`;
+    subtext.innerText = `${userProgress.readChapters.length}/6 Cours • ${userProgress.completedLabs.length}/6 Labs Pratiques • ${userProgress.doneExercises.length}/${totalExos} Exos • ${Object.keys(userProgress.passedExams).length}/${EXAM_SUBJECTS.length} Examens`;
   }
 }
 
@@ -175,7 +175,7 @@ function renderCoursesView(chapterId) {
               <div class="flex items-center gap-2">
                 <span class="text-[10px] uppercase tracking-wider font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Atelier Pratique DataCamp
+                  Laboratoire Pratique Interactif
                 </span>
                 ${isLabDone ? '<span class="text-[11px] font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Validé (+50 XP)</span>' : ''}
               </div>
