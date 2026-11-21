@@ -13,10 +13,12 @@ let flashcardIndex = 0;
 // Progress Tracking System (Persistance LocalStorage)
 let userProgress = JSON.parse(localStorage.getItem("py_progress_v2") || JSON.stringify({
   readChapters: ["ch1"],
+  completedLabs: [],
   doneExercises: [],
   passedExams: {},
   passedQuizzes: []
 }));
+if (!userProgress.completedLabs) userProgress.completedLabs = [];
 
 function saveProgress() {
   localStorage.setItem("py_progress_v2", JSON.stringify(userProgress));
@@ -28,12 +30,14 @@ function calculateProgress() {
   let totalExos = 0;
   Object.keys(CHAPTER_EXERCISES).forEach(k => totalExos += CHAPTER_EXERCISES[k].length); // 24
   const totalExams = EXAM_SUBJECTS.length; // 2
-  const totalItems = totalChapters + totalExos + totalExams;
+  const totalLabs = DETAILED_COURSES.length; // 6 DataCamp Labs
+  const totalItems = totalChapters + totalExos + totalExams + totalLabs;
 
   const doneChapters = userProgress.readChapters.length;
   const doneExos = userProgress.doneExercises.length;
   const doneExams = Object.keys(userProgress.passedExams).length;
-  const totalDone = doneChapters + doneExos + doneExams;
+  const doneLabs = userProgress.completedLabs.length;
+  const totalDone = doneChapters + doneExos + doneExams + doneLabs;
 
   return Math.min(100, Math.round((totalDone / totalItems) * 100));
 }
@@ -49,7 +53,7 @@ function updateProgressBar() {
   if (subtext) {
     let totalExos = 0;
     Object.keys(CHAPTER_EXERCISES).forEach(k => totalExos += CHAPTER_EXERCISES[k].length);
-    subtext.innerText = `${userProgress.readChapters.length}/6 Cours • ${userProgress.doneExercises.length}/${totalExos} Exercices • ${Object.keys(userProgress.passedExams).length}/2 Examens`;
+    subtext.innerText = `${userProgress.readChapters.length}/6 Cours • ${userProgress.completedLabs.length}/6 Labs DataCamp • ${userProgress.doneExercises.length}/${totalExos} Exos • ${Object.keys(userProgress.passedExams).length}/2 Examens`;
   }
 }
 
@@ -106,10 +110,11 @@ function showView(viewId, param = null) {
   lucide.createIcons();
 }
 
-// ----------------- 1. COURS DÉTAILLÉS & RÉSUMÉS -----------------
+// ----------------- 1. COURS DÉTAILLÉS & ATELIERS DATACAMP -----------------
 function renderCoursesView(chapterId) {
   const ch = DETAILED_COURSES.find(c => c.id === chapterId) || DETAILED_COURSES[0];
   const isRead = userProgress.readChapters.includes(ch.id);
+  const isLabDone = userProgress.completedLabs.includes(ch.id);
 
   return `
     <div class="space-y-8 animate-fade max-w-5xl mx-auto">
@@ -155,6 +160,128 @@ function renderCoursesView(chapterId) {
         `).join("")}
       </div>
 
+      <!-- DATACAMP INTERACTIVE HANDS-ON LAB -->
+      ${ch.datacamp ? `
+      <div class="figma-card p-6 md:p-8 rounded-3xl border-emerald-500/30 bg-gradient-to-b from-[#0c1424] to-[#070b14] space-y-6 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Header -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-black shadow-lg shadow-emerald-500/10">
+              <i data-lucide="terminal" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] uppercase tracking-wider font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Atelier Pratique DataCamp
+                </span>
+                ${isLabDone ? '<span class="text-[11px] font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Validé (+50 XP)</span>' : ''}
+              </div>
+              <h3 class="text-base md:text-lg font-bold text-white mt-1">${ch.datacamp.title}</h3>
+            </div>
+          </div>
+          
+          <!-- Action Tools -->
+          <div class="flex items-center gap-2">
+            <button onclick="toggleDatacampHint('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-amber-300 border border-amber-500/30 flex items-center gap-1.5 transition">
+              <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> Indice
+            </button>
+            <button onclick="toggleDatacampSolution('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 transition">
+              <i data-lucide="code" class="w-3.5 h-3.5"></i> Solution
+            </button>
+            <button onclick="resetDatacampCode('${ch.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-xs font-semibold text-slate-400 hover:text-white border border-slate-800 flex items-center gap-1.5 transition" title="Réinitialiser le code">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Consigne & Objectif -->
+        <div class="p-4 md:p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80 text-xs md:text-sm text-slate-300 leading-relaxed">
+          <div class="flex items-center gap-2 font-bold text-emerald-400 mb-2">
+            <i data-lucide="target" class="w-4 h-4"></i> Instructions / Mission :
+          </div>
+          <div class="space-y-1.5 text-slate-300">${ch.datacamp.consigne}</div>
+        </div>
+
+        <!-- Indice Drawer -->
+        <div id="dc-hint-${ch.id}" class="hidden p-4 rounded-2xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200">
+          <div class="font-bold flex items-center gap-1.5 text-amber-300 mb-1">
+            <i data-lucide="help-circle" class="w-4 h-4"></i> Indice Pédagogique :
+          </div>
+          <div>${ch.datacamp.hint}</div>
+        </div>
+
+        <!-- Solution Drawer -->
+        <div id="dc-solution-${ch.id}" class="hidden p-4 rounded-2xl bg-cyan-950/30 border border-cyan-500/30 text-xs text-cyan-200">
+          <div class="font-bold flex items-center gap-1.5 text-cyan-300 mb-2">
+            <i data-lucide="check-check" class="w-4 h-4"></i> Solution Officielle :
+          </div>
+          <pre class="font-mono bg-[#05070e] p-3 rounded-xl border border-cyan-500/20 text-cyan-300 text-xs overflow-x-auto whitespace-pre">${ch.datacamp.solution}</pre>
+        </div>
+
+        <!-- Editor & Terminal Split Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <!-- Left: Code Editor -->
+          <div class="space-y-2 flex flex-col">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+              <span class="flex items-center gap-1.5 text-slate-300 font-semibold">
+                <i data-lucide="file-code" class="w-3.5 h-3.5 text-emerald-400"></i> main.py (Éditeur)
+              </span>
+              <span class="text-[11px] text-slate-500 font-mono">Python 3.12</span>
+            </div>
+            
+            <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-[#060a13] focus-within:border-emerald-500/60 transition flex-1 flex flex-col">
+              <div class="bg-slate-900/60 border-b border-slate-800 px-3 py-1.5 flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                <span class="text-[10px] text-slate-500 font-mono ml-2">script interactif</span>
+              </div>
+              <textarea id="dc-editor-${ch.id}" rows="9" spellcheck="false" 
+                        class="w-full flex-1 bg-transparent p-4 font-mono text-xs md:text-sm text-emerald-300 focus:outline-none resize-none leading-relaxed">${ch.datacamp.initialCode}</textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <button onclick="runDatacampCode('${ch.id}')" 
+                      class="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center justify-center gap-2 border border-slate-700 shadow-md transition active:scale-[0.98]">
+                <i data-lucide="play" class="w-4 h-4 text-emerald-400 fill-emerald-400"></i> Exécuter le code
+              </button>
+              <button onclick="checkDatacampSolution('${ch.id}')" 
+                      class="py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition active:scale-[0.98]">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Vérifier ma solution
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Terminal Output -->
+          <div class="space-y-2 flex flex-col">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+              <span class="flex items-center gap-1.5 text-slate-300 font-semibold">
+                <i data-lucide="terminal" class="w-3.5 h-3.5 text-emerald-400"></i> Console / Sortie (Stdout)
+              </span>
+              <button onclick="clearTerminal('${ch.id}')" class="text-[10px] text-slate-500 hover:text-slate-300 transition">Effacer</button>
+            </div>
+
+            <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-[#05070e] flex-1 flex flex-col">
+              <div class="bg-slate-900/60 border-b border-slate-800 px-3 py-1.5 flex items-center justify-between">
+                <span class="text-[10px] text-slate-500 font-mono">bash / stdout</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              </div>
+              <div id="dc-terminal-${ch.id}" class="p-4 font-mono text-xs text-slate-300 overflow-y-auto min-h-[190px] flex-1 whitespace-pre-wrap leading-relaxed">
+                <span class="text-slate-600 italic">Cliquez sur « Exécuter le code » pour voir la sortie console ici...</span>
+              </div>
+            </div>
+
+            <!-- Feedback Area -->
+            <div id="dc-feedback-${ch.id}" class="min-h-[42px] flex items-center"></div>
+          </div>
+        </div>
+      </div>
+      ` : ''}
+
       <!-- Exam Summary Checklist -->
       <div class="figma-card p-6 md:p-8 rounded-3xl border-indigo-500/30 space-y-4 bg-gradient-to-br from-indigo-950/30 to-slate-900/60">
         <h3 class="text-base font-bold text-white flex items-center gap-2">
@@ -188,6 +315,296 @@ function toggleChapterRead(chId) {
   showView("courses", chId);
 }
 
+// ----------------- DATACAMP LAB HANDLERS & PYTHON EXECUTOR -----------------
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function toggleDatacampHint(chId) {
+  const el = document.getElementById(`dc-hint-${chId}`);
+  if (el) el.classList.toggle("hidden");
+}
+
+function toggleDatacampSolution(chId) {
+  const el = document.getElementById(`dc-solution-${chId}`);
+  if (el) el.classList.toggle("hidden");
+}
+
+function resetDatacampCode(chId) {
+  const ch = DETAILED_COURSES.find(c => c.id === chId);
+  if (!ch || !ch.datacamp) return;
+  const editor = document.getElementById(`dc-editor-${chId}`);
+  if (editor) editor.value = ch.datacamp.initialCode;
+  const feedback = document.getElementById(`dc-feedback-${chId}`);
+  if (feedback) feedback.innerHTML = "";
+  const terminal = document.getElementById(`dc-terminal-${chId}`);
+  if (terminal) terminal.innerHTML = `<span class="text-slate-600 italic">Code réinitialisé. Cliquez sur « Exécuter le code ».</span>`;
+}
+
+function clearTerminal(chId) {
+  const terminal = document.getElementById(`dc-terminal-${chId}`);
+  if (terminal) terminal.innerHTML = `<span class="text-slate-600 italic">Console effacée.</span>`;
+}
+
+async function executePythonApiOrFallback(code) {
+  try {
+    const res = await fetch('/api/run_code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        output: data.output || '',
+        error: data.error || '',
+        isRealPython: true
+      };
+    }
+  } catch (e) {
+    // Fallback to JS evaluation if offline/file:///
+  }
+  return evaluatePythonFallbackInJS(code);
+}
+
+function evaluatePythonFallbackInJS(code) {
+  let output = "";
+  let error = "";
+  try {
+    const lines = code.split('\n');
+    let env = {};
+    
+    for (let rawLine of lines) {
+      let line = rawLine.trim();
+      if (!line || line.startsWith('#')) continue;
+      if (line.includes('#')) line = line.split('#')[0].trim();
+
+      // print(...)
+      if (line.startsWith('print(') && line.endsWith(')')) {
+        let content = line.substring(6, line.length - 1).trim();
+        let parts = parsePrintArgs(content);
+        let evaluatedParts = parts.map(p => evalExpr(p, env));
+        output += evaluatedParts.join(' ') + '\n';
+        continue;
+      }
+      
+      // Variable assignment: var = expr
+      if (line.includes('=') && !line.includes('==') && !line.includes('<=') && !line.includes('>=') && !line.includes('!=')) {
+        let eqIdx = line.indexOf('=');
+        let varName = line.substring(0, eqIdx).trim();
+        let expr = line.substring(eqIdx + 1).trim();
+        
+        if (varName.includes(',')) {
+          let vars = varName.split(',').map(v => v.trim());
+          let vals = expr.split(',').map(v => evalExpr(v.trim(), env));
+          vars.forEach((v, idx) => { env[v] = vals[idx]; });
+        } else {
+          env[varName] = evalExpr(expr, env);
+        }
+        continue;
+      }
+    }
+  } catch (err) {
+    error = "SyntaxError: " + err.message;
+  }
+  return { output, error, isRealPython: false };
+}
+
+function parsePrintArgs(str) {
+  let args = [];
+  let current = "";
+  let inQuotes = false;
+  let quoteChar = "";
+  for (let i = 0; i < str.length; i++) {
+    let c = str[i];
+    if ((c === '"' || c === "'") && (i === 0 || str[i-1] !== '\\')) {
+      if (!inQuotes) { inQuotes = true; quoteChar = c; }
+      else if (quoteChar === c) { inQuotes = false; }
+    }
+    if (c === ',' && !inQuotes) {
+      args.push(current.trim());
+      current = "";
+    } else {
+      current += c;
+    }
+  }
+  if (current.trim()) args.push(current.trim());
+  return args;
+}
+
+function evalExpr(expr, env) {
+  expr = expr.trim();
+  if (expr === 'True') return true;
+  if (expr === 'False') return false;
+  if (expr === 'None') return null;
+  
+  // Strings
+  if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) {
+    return expr.substring(1, expr.length - 1);
+  }
+  
+  // Numbers
+  if (!isNaN(expr) && expr !== '') return Number(expr);
+  
+  // int(float(x)) or int(x) or float(x)
+  if (expr.startsWith('int(') && expr.endsWith(')')) {
+    let sub = expr.substring(4, expr.length - 1);
+    let val = evalExpr(sub, env);
+    return Math.trunc(Number(val));
+  }
+  if (expr.startsWith('float(') && expr.endsWith(')')) {
+    let sub = expr.substring(6, expr.length - 1);
+    let val = evalExpr(sub, env);
+    return parseFloat(val);
+  }
+  if (expr.startsWith('str(') && expr.endsWith(')')) {
+    let sub = expr.substring(4, expr.length - 1);
+    return String(evalExpr(sub, env));
+  }
+  if (expr.startsWith('bool(') && expr.endsWith(')')) {
+    let sub = expr.substring(5, expr.length - 1);
+    let val = evalExpr(sub, env);
+    return Boolean(val);
+  }
+  if (expr.startsWith('len(') && expr.endsWith(')')) {
+    let sub = expr.substring(4, expr.length - 1);
+    let val = evalExpr(sub, env);
+    return val ? val.length : 0;
+  }
+
+  // Lists: ['a', 'b']
+  if (expr.startsWith('[') && expr.endsWith(']')) {
+    let inner = expr.substring(1, expr.length - 1).trim();
+    if (!inner) return [];
+    return inner.split(',').map(item => evalExpr(item.trim(), env));
+  }
+
+  // Slicing: arr[1:3] or arr[::-1]
+  if (expr.includes('[') && expr.endsWith(']')) {
+    let openIdx = expr.indexOf('[');
+    let baseName = expr.substring(0, openIdx).trim();
+    let sliceSpec = expr.substring(openIdx + 1, expr.length - 1).trim();
+    let baseVal = env[baseName] !== undefined ? env[baseName] : evalExpr(baseName, env);
+    
+    if (sliceSpec.includes(':')) {
+      let parts = sliceSpec.split(':');
+      if (parts.length === 3 && parts[2] === '-1') {
+        if (Array.isArray(baseVal)) return [...baseVal].reverse();
+        if (typeof baseVal === 'string') return baseVal.split('').reverse().join('');
+      }
+      let start = parts[0] ? Number(parts[0]) : 0;
+      let stop = parts[1] ? Number(parts[1]) : (baseVal ? baseVal.length : 0);
+      if (Array.isArray(baseVal) || typeof baseVal === 'string') {
+        return baseVal.slice(start, stop);
+      }
+    } else {
+      let idx = Number(sliceSpec);
+      return baseVal ? baseVal[idx] : undefined;
+    }
+  }
+
+  // Variable lookup
+  if (env[expr] !== undefined) return env[expr];
+
+  // Mathematical / Boolean expression evaluation
+  try {
+    let jsExpr = expr.replace(/\b([a-zA-Z_]\w*)\b/g, (match) => {
+      if (match === 'True') return 'true';
+      if (match === 'False') return 'false';
+      if (match === 'and') return '&&';
+      if (match === 'or') return '||';
+      if (match === 'not') return '!';
+      if (env[match] !== undefined) {
+        return typeof env[match] === 'string' ? JSON.stringify(env[match]) : env[match];
+      }
+      return match;
+    });
+    return Function('"use strict"; return (' + jsExpr + ')')();
+  } catch(e) {
+    return expr;
+  }
+}
+
+async function runDatacampCode(chId) {
+  const editor = document.getElementById(`dc-editor-${chId}`);
+  const terminal = document.getElementById(`dc-terminal-${chId}`);
+  if (!editor || !terminal) return;
+
+  const code = editor.value;
+  terminal.innerHTML = `<span class="text-cyan-400 font-mono flex items-center gap-2"><i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Exécution en cours...</span>`;
+  lucide.createIcons();
+
+  const res = await executePythonApiOrFallback(code);
+  let termHtml = "";
+  if (res.output) {
+    termHtml += `<div class="text-emerald-400 whitespace-pre-wrap">${escapeHtml(res.output)}</div>`;
+  }
+  if (res.error) {
+    termHtml += `<div class="text-rose-400 whitespace-pre-wrap font-semibold">${escapeHtml(res.error)}</div>`;
+  }
+  if (!res.output && !res.error) {
+    termHtml += `<div class="text-slate-500 italic">Code exécuté sans erreur (aucune sortie console).</div>`;
+  }
+  terminal.innerHTML = termHtml;
+}
+
+async function checkDatacampSolution(chId) {
+  const ch = DETAILED_COURSES.find(c => c.id === chId);
+  if (!ch || !ch.datacamp) return;
+
+  const editor = document.getElementById(`dc-editor-${chId}`);
+  const terminal = document.getElementById(`dc-terminal-${chId}`);
+  const feedback = document.getElementById(`dc-feedback-${chId}`);
+  if (!editor || !terminal || !feedback) return;
+
+  const code = editor.value;
+  feedback.innerHTML = `<span class="text-xs text-slate-400 flex items-center gap-1.5"><i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Vérification des résultats...</span>`;
+  lucide.createIcons();
+
+  const res = await executePythonApiOrFallback(code);
+  
+  let termHtml = "";
+  if (res.output) termHtml += `<div class="text-emerald-400 whitespace-pre-wrap">${escapeHtml(res.output)}</div>`;
+  if (res.error) termHtml += `<div class="text-rose-400 whitespace-pre-wrap">${escapeHtml(res.error)}</div>`;
+  terminal.innerHTML = termHtml;
+
+  const out = (res.output || "").trim();
+  const keyword = ch.datacamp.expectedOutputKeyword;
+  const isMatch = out.includes(keyword);
+
+  if (isMatch && !res.error) {
+    if (!userProgress.completedLabs.includes(chId)) {
+      userProgress.completedLabs.push(chId);
+      saveProgress();
+    }
+    feedback.innerHTML = `
+      <div class="w-full p-3 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center justify-between shadow-lg shadow-emerald-500/10 animate-fade">
+        <span class="flex items-center gap-2">
+          <i data-lucide="award" class="w-4 h-4 text-emerald-400"></i>
+          <span>🎉 <strong>Bravo !</strong> Défi validé avec succès. Sortie attendue [<code>${escapeHtml(keyword)}</code>] confirmée ! (+50 XP)</span>
+        </span>
+        <span class="badge-tech bg-emerald-500/20 text-emerald-300 border-emerald-500/30">Succès 100%</span>
+      </div>
+    `;
+    lucide.createIcons();
+    updateProgressBar();
+  } else {
+    feedback.innerHTML = `
+      <div class="w-full p-3 rounded-xl bg-rose-950/60 border border-rose-500/30 text-rose-300 text-xs font-medium flex items-center justify-between shadow-lg animate-fade">
+        <span class="flex items-center gap-2">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400 shrink-0"></i>
+          <span>La sortie obtenue ne contient pas le résultat attendu (<code>${escapeHtml(keyword)}</code>). Vérifiez votre logique ou cliquez sur <strong>Indice</strong> !</span>
+        </span>
+      </div>
+    `;
+    lucide.createIcons();
+  }
+}
+
 // ----------------- 2. EXERCICES PAR CHAPITRE AVEC ÉDITEUR & CORRECTION -----------------
 function renderExercisesView(chapterId) {
   const exos = CHAPTER_EXERCISES[chapterId] || [];
@@ -200,7 +617,7 @@ function renderExercisesView(chapterId) {
           <i data-lucide="pen-tool" class="w-4 h-4"></i> Entraînement & Pratique Intensive
         </div>
         <h1 class="text-2xl md:text-3xl font-black text-white">Exercices Corrigés par Chapitre</h1>
-        <p class="text-xs text-slate-400 mt-1">Espace dédié pour résoudre chaque exercice avec zone de code et corrigé détaillé pas à pas.</p>
+        <p class="text-xs text-slate-400 mt-1">Espace dédié pour résoudre chaque exercice avec zone de code, test en direct et corrigé pas à pas.</p>
       </div>
 
       <!-- Chapter Tabs -->
@@ -238,11 +655,17 @@ function renderExercisesView(chapterId) {
                 </div>
               </div>
 
-              <!-- Zone de Résolution / Brouillon Étudiant -->
+              <!-- Zone de Résolution / Brouillon Étudiant avec Test -->
               <div class="space-y-2">
-                <span class="text-[11px] font-mono text-slate-500 uppercase tracking-wider block font-bold">Votre Espace de Résolution (Brouillon & Code) :</span>
-                <textarea rows="4" placeholder="Écrivez votre raisonnement ou votre code Python ici avant de vérifier..." 
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-mono text-slate-500 uppercase tracking-wider block font-bold">Votre Espace de Résolution (Brouillon & Code) :</span>
+                  <button onclick="runExerciseCode('${exo.id}')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-bold text-emerald-400 border border-slate-700 flex items-center gap-1.5 transition">
+                    <i data-lucide="play" class="w-3 h-3 fill-emerald-400"></i> Tester ce code
+                  </button>
+                </div>
+                <textarea id="exo-code-${exo.id}" rows="4" placeholder="Écrivez votre raisonnement ou votre code Python ici avant de vérifier..." 
                           class="w-full bg-[#0a0f1d] border border-slate-800 rounded-2xl p-4 text-xs font-mono text-emerald-300 focus:outline-none focus:border-indigo-500"></textarea>
+                <div id="exo-term-${exo.id}" class="hidden p-3 rounded-xl bg-[#05070e] border border-slate-800 font-mono text-xs text-slate-300 whitespace-pre-wrap"></div>
               </div>
 
               <!-- Bouton Corrigé & Affichage -->
@@ -267,6 +690,22 @@ function renderExercisesView(chapterId) {
   `;
 }
 
+async function runExerciseCode(exoId) {
+  const textarea = document.getElementById(`exo-code-${exoId}`);
+  const term = document.getElementById(`exo-term-${exoId}`);
+  if (!textarea || !term) return;
+  const code = textarea.value;
+  if (!code.trim()) return;
+  term.classList.remove('hidden');
+  term.innerHTML = `<span class="text-cyan-400">Exécution en cours...</span>`;
+  const res = await executePythonApiOrFallback(code);
+  let out = "";
+  if (res.output) out += `<span class="text-emerald-400">${escapeHtml(res.output)}</span>`;
+  if (res.error) out += `<span class="text-rose-400">${escapeHtml(res.error)}</span>`;
+  if (!out) out = `<span class="text-slate-500">Exécuté avec succès (aucun print).</span>`;
+  term.innerHTML = out;
+}
+
 function toggleExerciseDone(exoId) {
   if (userProgress.doneExercises.includes(exoId)) {
     userProgress.doneExercises = userProgress.doneExercises.filter(id => id !== exoId);
@@ -277,7 +716,7 @@ function toggleExerciseDone(exoId) {
   showView("exercises", currentExerciseChapter);
 }
 
-// ----------------- 3. EXAMENS COMPLETS & CONTRÔLES -----------------
+// ----------------- 3. EXAMENS COMPLETS & NOTÉS (/20) -----------------
 function renderExamsView() {
   if (activeExam) {
     return renderActiveExamView();
@@ -287,57 +726,81 @@ function renderExamsView() {
     <div class="space-y-8 animate-fade max-w-5xl mx-auto">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold mb-2 border border-amber-500/20">
-          <i data-lucide="award" class="w-4 h-4"></i> Épreuves Universitaires Officielles
+          <i data-lucide="award" class="w-4 h-4"></i> Conditions Réelles d'Évaluation
         </div>
-        <h1 class="text-2xl md:text-3xl font-black text-white">Centre des Examens & Contrôles</h1>
-        <p class="text-xs text-slate-400 mt-1">Épreuves complètes chronométrées avec calcul automatique de la note sur 20 et corrigé exhaustif.</p>
+        <h1 class="text-2xl md:text-3xl font-black text-white">Examens & Contrôles Sommatifs</h1>
+        <p class="text-xs text-slate-400 mt-1">Épreuves complètes sur 20 points, chronométrées avec calcul automatique de la note finale et corrigé.</p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        ${EXAM_SUBJECTS.map(subj => {
-          const pastScore = userProgress.passedExams[subj.id];
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        ${EXAM_SUBJECTS.map(exam => {
+          const score = userProgress.passedExams[exam.id];
           return `
-            <div class="figma-card p-6 md:p-8 rounded-3xl space-y-4 border-slate-800 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-3">
-                  <span class="badge-tech text-amber-400 bg-amber-500/10 border-amber-500/30">${subj.duration} Minutes</span>
-                  <span class="text-xs font-mono text-slate-500">${subj.questions.length} Questions (Note /20)</span>
+            <div class="figma-card p-6 md:p-8 rounded-3xl border-slate-800 space-y-5 flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="badge-tech text-amber-400 bg-amber-500/10 border-amber-500/30">${exam.id.toUpperCase()}</span>
+                  <span class="text-xs text-slate-500 font-mono flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${exam.duration}</span>
                 </div>
-                <h3 class="text-lg font-bold text-white mb-2">${subj.title}</h3>
-                <p class="text-xs text-slate-400 leading-relaxed mb-4">Épreuve complète couvrant les concepts fondamentaux, les règles PEP 8, le cycle processeur et l'analyse de code.</p>
-                
-                ${pastScore !== undefined ? `
-                  <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs flex items-center justify-between font-mono">
-                    <span class="text-slate-400">Dernière Note :</span>
-                    <span class="font-bold text-amber-400 text-sm">${pastScore} / 20</span>
-                  </div>
-                ` : ''}
+                <h3 class="text-lg font-bold text-white">${exam.title}</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">${exam.desc}</p>
+                <div class="pt-2 text-xs font-mono text-slate-400">
+                  Total : <span class="text-white font-bold">${exam.totalPoints} Points</span> • ${exam.questions.length} Questions
+                </div>
               </div>
 
-              <button onclick="startExam('${subj.id}')" 
-                      class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-600 to-indigo-600 hover:from-amber-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-amber-600/20 transition">
-                <i data-lucide="play" class="w-4 h-4"></i> Démarrer l'Épreuve Maintenant
-              </button>
+              <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                <div>
+                  ${score !== undefined ? `
+                    <div class="text-xs">
+                      <span class="text-slate-400">Dernière Note :</span>
+                      <span class="font-bold ${score >= 10 ? 'text-emerald-400' : 'text-rose-400'}">${score} / 20</span>
+                    </div>
+                  ` : '<span class="text-xs text-slate-500 italic">Non encore passé</span>'}
+                </div>
+                <button onclick="startExam('${exam.id}')" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition">
+                  <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i> Commencer l'Épreuve
+                </button>
+              </div>
             </div>
           `;
         }).join("")}
+      </div>
+
+      <!-- Exam Traps Warning Board -->
+      <div class="figma-card p-6 md:p-8 rounded-3xl border-rose-500/30 bg-gradient-to-br from-rose-950/20 to-slate-900/60 space-y-4">
+        <h3 class="text-base font-bold text-rose-300 flex items-center gap-2">
+          <i data-lucide="alert-triangle" class="w-5 h-5 text-rose-400"></i> Les 10 Pièges Classiques de l'Examen UIT Kénitra
+        </h3>
+        <p class="text-xs text-slate-400">Ces erreurs récurrentes font perdre la majorité des points chaque année au rattrapage :</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+          ${EXAM_TRAPS.map(trap => `
+            <div class="p-3.5 rounded-2xl bg-slate-950 border border-rose-500/20 text-xs space-y-1">
+              <div class="font-bold text-white flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                <span>${trap.trap}</span>
+              </div>
+              <div class="text-slate-400 text-[11px] leading-relaxed pl-3.5">${trap.explanation}</div>
+            </div>
+          `).join("")}
+        </div>
       </div>
     </div>
   `;
 }
 
 function startExam(examId) {
-  activeExam = EXAM_SUBJECTS.find(s => s.id === examId);
+  activeExam = EXAM_SUBJECTS.find(e => e.id === examId);
   examAnswers = {};
-  examSeconds = activeExam.duration * 60;
-
-  clearInterval(examTimer);
+  examSeconds = 30 * 60; // 30 minutes
+  
+  if (examTimer) clearInterval(examTimer);
   examTimer = setInterval(() => {
     examSeconds--;
     const m = Math.floor(examSeconds / 60);
     const s = examSeconds % 60;
-    const disp = document.getElementById("examTimerBox");
-    if (disp) disp.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+    const el = document.getElementById("examTimerDisplay");
+    if (el) el.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     if (examSeconds <= 0) {
       clearInterval(examTimer);
       finishExam();
@@ -348,37 +811,44 @@ function startExam(examId) {
 }
 
 function renderActiveExamView() {
-  const subj = activeExam;
+  const m = Math.floor(examSeconds / 60);
+  const s = examSeconds % 60;
+  const timeStr = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
   return `
-    <div class="space-y-8 animate-fade max-w-4xl mx-auto" id="activeExamWrapper">
-      <!-- Exam Control Bar -->
-      <div class="figma-card p-6 rounded-3xl border-amber-500/30 flex flex-wrap items-center justify-between gap-4 sticky top-20 z-30 backdrop-blur-xl">
+    <div class="space-y-8 animate-fade max-w-4xl mx-auto">
+      <div class="figma-card p-6 rounded-3xl border-amber-500/30 flex flex-wrap items-center justify-between gap-4 sticky top-20 z-40 bg-[#0d1424]/95 backdrop-blur-xl">
         <div>
-          <span class="badge-tech text-amber-400 mb-1 inline-block">Épreuve en Cours</span>
-          <h2 class="text-xl font-bold text-white">${subj.title}</h2>
+          <span class="badge-tech text-amber-400 bg-amber-500/10">${activeExam.id.toUpperCase()}</span>
+          <h2 class="text-lg font-black text-white mt-1">${activeExam.title}</h2>
         </div>
-        <div class="text-center bg-slate-900 px-6 py-2.5 rounded-2xl border border-slate-800">
-          <div class="text-[10px] font-mono text-slate-500 uppercase">Temps Restant</div>
-          <div id="examTimerBox" class="text-2xl font-mono font-black text-amber-400">30:00</div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2 bg-slate-950 px-4 py-2 rounded-2xl border border-slate-800 text-amber-400 font-mono font-bold text-sm">
+            <i data-lucide="timer" class="w-4 h-4 animate-spin"></i>
+            <span id="examTimerDisplay">${timeStr}</span>
+          </div>
+          <button onclick="finishExam()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition">
+            <i data-lucide="check" class="w-4 h-4"></i> Soumettre & Obtenir la Note
+          </button>
         </div>
       </div>
 
-      <!-- Question List -->
       <div class="space-y-6">
-        ${subj.questions.map((q, idx) => `
-          <div class="figma-card p-6 rounded-2xl space-y-4">
+        ${activeExam.questions.map((q, idx) => `
+          <div class="figma-card p-6 md:p-8 rounded-3xl space-y-4 border-slate-800">
             <div class="flex items-center justify-between">
-              <span class="badge-tech">Question ${idx + 1} / ${subj.questions.length}</span>
-              <span class="text-xs font-mono text-slate-500">1.00 pt</span>
+              <span class="text-xs font-mono font-bold text-indigo-400">Question ${idx + 1} / ${activeExam.questions.length}</span>
+              <span class="text-xs font-mono text-slate-500 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">${q.pts} Points</span>
             </div>
-            <p class="text-sm font-semibold text-white whitespace-pre-line leading-relaxed">${q.q}</p>
-            <div class="space-y-2">
+            <div class="text-xs md:text-sm text-slate-100 font-medium whitespace-pre-line">${q.text}</div>
+
+            <div class="space-y-2 pt-2">
               ${q.options.map((opt, oIdx) => `
-                <label class="flex items-center justify-between p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 cursor-pointer transition text-xs text-slate-300">
-                  <div class="flex items-center gap-3">
-                    <input type="radio" name="exam_ans_${q.id}" value="${oIdx}" onchange="recordExamAnswer(${q.id}, ${oIdx})" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                    <span>${opt}</span>
-                  </div>
+                <label class="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-950/80 hover:bg-slate-900 border border-slate-800/80 cursor-pointer transition">
+                  <input type="radio" name="exam_q_${q.id}" value="${oIdx}" onchange="recordExamAnswer('${q.id}', ${oIdx})" 
+                         ${examAnswers[q.id] === oIdx ? 'checked' : ''}
+                         class="w-4 h-4 text-indigo-600 focus:ring-0 focus:ring-offset-0 bg-slate-900 border-slate-700">
+                  <span class="text-xs text-slate-300">${opt}</span>
                 </label>
               `).join("")}
             </div>
@@ -386,9 +856,9 @@ function renderActiveExamView() {
         `).join("")}
       </div>
 
-      <div class="text-center pt-6 pb-12">
-        <button onclick="finishExam()" class="px-8 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/30 transition flex items-center gap-2 mx-auto">
-          <i data-lucide="check-circle" class="w-5 h-5"></i> Rendre la Copie & Voir la Note (/20)
+      <div class="text-center pt-4 pb-12">
+        <button onclick="finishExam()" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm shadow-xl shadow-emerald-600/25 transition">
+          Valider et Terminer l'Épreuve
         </button>
       </div>
     </div>
@@ -400,97 +870,114 @@ function recordExamAnswer(qId, oIdx) {
 }
 
 function finishExam() {
-  clearInterval(examTimer);
-  const subj = activeExam;
-  let score = 0;
-  subj.questions.forEach(q => {
-    if (examAnswers[q.id] === q.correct) score += 1;
+  if (examTimer) clearInterval(examTimer);
+
+  let earnedPoints = 0;
+  let totalPossible = activeExam.totalPoints;
+
+  activeExam.questions.forEach(q => {
+    if (examAnswers[q.id] === q.correct) {
+      earnedPoints += q.pts;
+    }
   });
 
-  userProgress.passedExams[subj.id] = score;
+  const finalScore = Math.round((earnedPoints / totalPossible) * 20 * 10) / 10;
+  userProgress.passedExams[activeExam.id] = finalScore;
   saveProgress();
 
-  const wrap = document.getElementById("activeExamWrapper");
-  if (!wrap) return;
+  const finishedExam = activeExam;
+  const userAnswersCopy = { ...examAnswers };
+  activeExam = null;
 
-  let mention = score >= 16 ? "Mention Très Bien 🌟" : score >= 14 ? "Mention Bien ✅" : score >= 10 ? "Mention Passable (Validé) 👍" : "Ajourné (Rattrapage) ⚠️";
-  let color = score >= 14 ? "text-emerald-400" : score >= 10 ? "text-amber-400" : "text-rose-400";
-
-  wrap.innerHTML = `
-    <div class="space-y-8 animate-fade">
-      <div class="figma-card p-8 rounded-3xl text-center max-w-xl mx-auto border-indigo-500/40 shadow-2xl">
-        <div class="w-16 h-16 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto mb-3">
-          <i data-lucide="trophy" class="w-8 h-8"></i>
+  const main = document.getElementById("mainContent");
+  main.innerHTML = `
+    <div class="space-y-8 animate-fade max-w-4xl mx-auto">
+      <div class="figma-card p-8 rounded-3xl text-center space-y-4 border-indigo-500/40 bg-gradient-to-b from-indigo-950/40 to-slate-950 shadow-2xl">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-3xl ${finalScore >= 10 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'} font-black text-2xl mb-2">
+          ${finalScore >= 10 ? '🎓' : '⚠️'}
         </div>
-        <h2 class="text-xl font-bold text-white mb-1">Relevé de Note Officiel</h2>
-        <div class="text-5xl font-black font-mono my-3 ${color}">${score} <span class="text-2xl text-slate-600">/ 20</span></div>
-        <div class="text-base font-bold ${color} mb-6">${mention}</div>
-        <div class="flex items-center justify-center gap-3">
-          <button onclick="activeExam=null; showView('exams')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition">
-            Retour aux Examens
-          </button>
-          <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold border border-slate-800 transition">
-            Imprimer la Copie (PDF)
+        <h2 class="text-2xl font-black text-white">Résultat Officiel de l'Épreuve</h2>
+        <div class="text-4xl md:text-5xl font-black font-mono ${finalScore >= 10 ? 'text-emerald-400' : 'text-rose-400'}">
+          ${finalScore} <span class="text-xl text-slate-500">/ 20</span>
+        </div>
+        <p class="text-xs text-slate-300 max-w-md mx-auto">
+          ${finalScore >= 16 ? "Excellent travail ! Mention Très Bien. Vous maîtrisez le programme de Pr. El Alaoui." : 
+            finalScore >= 10 ? "Examen validé avec succès ! Revoyez les pièges ci-dessous pour viser la mention." : 
+            "Non validé pour le moment. Révisez attentivement la correction pas à pas ci-dessous et recommencez."}
+        </p>
+        <div class="pt-2">
+          <button onclick="showView('exams')" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition">
+            Retourner à la Liste des Examens
           </button>
         </div>
       </div>
 
-      <div class="space-y-4">
-        <h3 class="text-lg font-bold text-white">Correction Intégrale :</h3>
-        ${subj.questions.map((q, idx) => {
-          const userAns = examAnswers[q.id];
+      <!-- Correction Détaillée Pas à Pas -->
+      <div class="space-y-5">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-lucide="check-check" class="w-5 h-5 text-emerald-400"></i> Corrigé Officiel et Justifications Détaillées
+        </h3>
+
+        ${finishedExam.questions.map((q, idx) => {
+          const userAns = userAnswersCopy[q.id];
           const isCorrect = userAns === q.correct;
           return `
-            <div class="p-5 rounded-2xl border ${isCorrect ? 'border-emerald-500/40 bg-emerald-950/20' : 'border-rose-500/40 bg-rose-950/20'} space-y-2">
-              <div class="flex items-center justify-between text-xs font-mono">
-                <span class="text-slate-400">Question ${idx + 1}</span>
-                <span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold">${isCorrect ? 'Exact (+1 pt)' : 'Faux (0 pt)'}</span>
+            <div class="figma-card p-6 rounded-3xl space-y-3 border ${isCorrect ? 'border-emerald-500/30 bg-emerald-950/10' : 'border-rose-500/30 bg-rose-950/10'}">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono font-bold ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">
+                  Question ${idx + 1} • ${isCorrect ? 'Correct (+ ' + q.pts + ' pts)' : 'Erreur (0 / ' + q.pts + ' pts)'}
+                </span>
+                <span class="text-xs text-slate-400 font-mono">Réponse choisie : ${userAns !== undefined ? q.options[userAns] : 'Aucune'}</span>
               </div>
-              <p class="text-sm font-semibold text-white">${q.q}</p>
-              <div class="text-xs text-slate-300 bg-slate-900/60 p-3 rounded-xl space-y-1">
-                <p>Votre choix : <span class="font-mono ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">${userAns !== undefined ? q.options[userAns] : 'Non répondu'}</span></p>
-                ${!isCorrect ? `<p class="text-emerald-400">Bonne réponse : <span class="font-mono font-bold">${q.options[q.correct]}</span></p>` : ''}
+              <div class="text-xs md:text-sm text-white font-medium whitespace-pre-line">${q.text}</div>
+              <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1">
+                <div class="font-bold text-emerald-400">Bonne Réponse : ${q.options[q.correct]}</div>
+                <div class="text-slate-300 text-[11px] leading-relaxed pt-1">${q.justification}</div>
               </div>
-              <p class="text-xs text-indigo-300">💡 <b>Explication :</b> ${q.explain}</p>
             </div>
           `;
         }).join("")}
       </div>
     </div>
   `;
+
   lucide.createIcons();
 }
 
-// ----------------- 4. QUIZ RAPIDE D'AUTO-ÉVALUATION -----------------
+// ----------------- 4. BANQUE DE QCM & QUIZ D'EXAMEN -----------------
 function renderQuizView() {
-  const allQs = EXAM_SUBJECTS[0].questions;
   return `
     <div class="space-y-8 animate-fade max-w-4xl mx-auto">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold mb-2 border border-cyan-500/20">
-          <i data-lucide="help-circle" class="w-4 h-4"></i> Auto-évaluation Directe
+          <i data-lucide="help-circle" class="w-4 h-4"></i> Auto-Évaluation Rapide
         </div>
-        <h1 class="text-2xl md:text-3xl font-black text-white">Quiz d'Auto-Évaluation Immédiate</h1>
-        <p class="text-xs text-slate-400 mt-1">Testez vos connaissances question par question avec validation instantanée.</p>
+        <h1 class="text-2xl md:text-3xl font-black text-white">Quiz & QCM d'Entraînement</h1>
+        <p class="text-xs text-slate-400 mt-1">Questions pièges ciblées avec retour immédiat et explications détaillées.</p>
       </div>
 
-      <div class="space-y-5">
-        ${allQs.map((q, qIdx) => `
-          <div class="figma-card p-6 rounded-2xl space-y-3" id="quiz-box-${q.id}">
+      <div class="space-y-6">
+        ${QUIZ_BANK.map((item, idx) => `
+          <div class="figma-card p-6 md:p-8 rounded-3xl space-y-4 border-slate-800" id="quiz-card-${item.id}">
             <div class="flex items-center justify-between">
-              <span class="badge-tech">QCM ${qIdx + 1}</span>
+              <span class="badge-tag bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">${item.tag}</span>
+              <span class="text-xs font-mono text-slate-500">Question ${idx + 1} / ${QUIZ_BANK.length}</span>
             </div>
-            <p class="text-sm font-semibold text-white">${q.q}</p>
-            <div class="space-y-2">
-              ${q.options.map((opt, oIdx) => `
-                <button onclick="checkQuizItem(${q.id}, ${oIdx}, ${q.correct})" 
-                        class="quiz-btn-${q.id} w-full text-left p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-800 text-xs text-slate-300 transition">
-                  ${opt}
+            <div class="text-xs md:text-sm text-slate-100 font-medium whitespace-pre-line">${item.question}</div>
+
+            <div class="space-y-2 pt-2">
+              ${item.options.map((opt, oIdx) => `
+                <button onclick="checkQuizItem('${item.id}', ${oIdx}, ${item.correct})" 
+                        class="quiz-btn-${item.id} w-full text-left p-3.5 rounded-2xl bg-slate-950/80 hover:bg-slate-900 border border-slate-800/80 text-xs text-slate-300 transition flex items-center justify-between">
+                  <span>${opt}</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
                 </button>
               `).join("")}
             </div>
-            <div id="quiz-exp-${q.id}" class="hidden p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30 text-xs text-indigo-300">
-              💡 <b>Explication :</b> ${q.explain}
+
+            <div id="quiz-exp-${item.id}" class="hidden p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-xs text-slate-200 leading-relaxed">
+              <strong class="font-bold text-indigo-400 block mb-1">Explication :</strong>
+              ${item.explanation}
             </div>
           </div>
         `).join("")}

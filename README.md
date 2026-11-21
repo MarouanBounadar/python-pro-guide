@@ -1,81 +1,78 @@
 # 🐍 Python Pro Guide | Programmation Python 1 (SMI / IA - S1)
 
-منصة تعليمية تفاعلية شاملة مخصصة لطلبة **جامعة ابن طفيل (UIT) - كلية العلوم بالقنيطرة (Faculté des Sciences Kénitra)**، لمسلكي **SMI / IA - السداسي الأول (Semestre 1)** لمادة **Programmation Python 1** تحت إشراف **الأستاذة إيمان العلوي (Pr. Imane EL ALAOUI)**.
+منصة وتطبيق تفاعلي متكامل مخصص لطلبة **جامعة ابن طفيل (UIT) - كلية العلوم بالقنيطرة (Faculté des Sciences Kénitra)**، لمسلكي **SMI / IA - السداسي الأول (Semestre 1)** لمادة **Programmation Python 1** تحت إشراف **الأستاذة إيمان العلوي (Pr. Imane EL ALAOUI)**.
 
 ---
 
-## 🌟 مميزات المنصة (Features)
+## 🌟 مميزات المنصة (Core Features)
 
-1. **شرح مبسط بالدارجة المغربية والمصطلحات الأكاديمية**:
-   - تبسيط المفاهيم الصعبة (Architecture de Von Neumann, PVM, Bytecode, Typage dynamique, Slicing, Aliasing...).
-2. **برنامج دراسي متكامل (6 فصول شاملة)**:
+1. **أوراش برمجية تفاعلية على طريقة DataCamp (Ateliers Pratiques DataCamp)**:
+   - كل فصل دراسي يحتوي في نهايته على مختبر تطبيقي مباشر (Instructions + Éditeur de Code + Console interactive Stdout).
+   - زر **Exécuter le code** لتشغيل الكود ورؤية النتيجة فوراً في التيرمينال.
+   - زر **Vérifier ma solution** للتحقق التلقائي من صحة الحل ومنح نقاط الخبرة (+50 XP).
+   - زر **Indice** لتلميحات التفكير وزر **Solution** للحصول على الحل النموذجي الموثق.
+
+2. **دروس مفصلة ومركزة (6 Chapitres Complets)**:
    - **Chapitre 01** : Introduction & Architecture des Ordinateurs (Von Neumann, CPU, RAM, Bus, Fetch-Decode-Execute, Compilateur vs Interpréteur vs PVM).
-   - **Chapitre 02** : Variables, Types de base & Transtypage (int, float, complex, bool, str, PEP 8, Typage dynamique).
-   - **Chapitre 03** : Opérateurs, Expressions & Priorités (Arithmétique, Logique, Comparaison, Short-circuit evaluation).
-   - **Chapitre 04** : Structures Conditionnelles (if, elif, else, Facture d'eau par tranches, Année bissextile, Code 4 chiffres).
-   - **Chapitre 05** : Boucles & Itérations (for, while, range, break, continue, boucle-else, Factorielle n!, Nombre premier).
-   - **Chapitre 06** : Séquences & Structures Fondamentales (Listes dynamiques vs C, Slicing, Mutabilité vs Immuabilité, Tuples, Sets, Dictionnaires).
-3. **محاكي امتحانات حقيقي (Exam Simulator Note /20)**:
-   - 20 سؤال QCM وأسئلة تتبع الكود من امتحانات وفروض الكلية.
-   - مؤقت زمني وتصحيح فوري مع احتساب النتيجة على 20 وتقديم تقييم وملاحظات الأستاذ.
-4. **حلول سلاسل التمارين الرسمية (TD Corrigés)**:
-   - حل السلسلة الأولى (Série 1) بالتفصيل خطوة بخطوة.
-   - حل السلسلة الثانية (Série 2) الخاصة بالشروط والتمارين الكلاسيكية.
-5. **أشهر 10 فخاخ في الامتحانات (Les 10 Pièges d'Examen)**:
-   - فخ `int("3.14")`، فخ `0.1 + 0.2 == 0.3`، فخ `bool("False")`، فخ `2 ** 3 ** 2`، فخ `L2 = L1` (Aliasing)...
-6. **محاكي أكواد تفاعلي (Playground)**:
-   - بيئة لتجربة الأكواد ومعرفة النتيجة فوراً بدون الحاجة لتثبيت برامج.
-7. **بطاقة مراجعة مركزة (Fiche de Révision Express)**:
-   - قابلة للطباعة PDF للمراجعة السريعة قبل الدخول لقاعة الامتحان.
+   - **Chapitre 02** : Variables, Types de base & Transtypage (int, float, complex, bool, str, PEP 8, Typage dynamique, Pièges de conversion).
+   - **Chapitre 03** : Opérateurs, Expressions & Priorités (Arithmétique, Logique, Comparaison, Priorités, Évaluation court-circuit).
+   - **Chapitre 04** : Structures Conditionnelles (if, elif, else, Facture d'eau progressive, Année bissextile, Code PIN 4 chiffres).
+   - **Chapitre 05** : Boucles & Itérations (for, while, range, break, continue, boucle-else, Factorielle n!, Test de primalité).
+   - **Chapitre 06** : Séquences & Structures Fondamentales (Listes dynamiques vs C, Slicing, Mutabilité vs Immuabilité, Aliasing L2=L1, Tuples, Sets, Dictionnaires).
+
+3. **بنك تمارين ضخم محلول مع ميزة التجربة المباشرة (24 Exercices Corrigés)**:
+   - 4 تمارين متدرجة لكل فصل من الفصول الستة.
+   - مساحة مخصصة للطالب لكتابة الكود مع زر **Tester ce code** لتشغيل الكود والتأكد منه قبل الاطلاع على التصحيح النموذجي المفصل.
+
+4. **محاكي امتحانات وفروض الكلية مع التوقيت والتنقيط (/20 Points)**:
+   - مواضيع امتحانات كاملة مصممة وفق نمط امتحانات كلية العلوم بالقنيطرة.
+   - مؤقت زمني (30 دقيقة)، حساب فوري للنقطة مع ميزة تصحيح الأخطاء وتقديم التبرير العلمي لكل سؤال.
+
+5. **فلاش كارد ثلاثية الأبعاد (Flashcards 3D) وبنك QCM**:
+   - بطاقات تفاعلية بتقنية 3D Flip للمراجعة السريعة وحفظ التعاريف الأساسية.
+   - بنك أسئلة QCM سريعة للتدريب الذاتي مع تفسير فوري لكل خيار.
+
+6. **نظام تتبع التقدم التلقائي (Persistent Progress Tracking)**:
+   - حفظ تلقائي للتقدم عبر `localStorage` مع شريط تقدم شامل يعكس الفصول المقروءة، التمارين المنجزة، والامتحانات المجتازة.
 
 ---
 
-## 🚀 طريقة التشغيل المباشر (Quick Start)
+## 🚀 طرق التشغيل (How to Run)
 
-التطبيق عبارة عن **Single Page Application (SPA)** جاهز وخفيف، لا يحتاج أي تثبيت!
+### 1. عبر التطبيق التنفيذي المباشر (Fichier Exécutable .exe):
+التطبيق متوفر كملف تنفيذي جاهز لا يحتاج تثبيت بايثون:
+- ستجده في المجلد: `dist/PythonProGuide.exe`
+- فقط اضغط عليه نقرتين وسيفتح التطبيق كنافذة سطح مكتب احترافية (Native Desktop App) مع سيرفر بايثون حقيقي مدمج لتنفيذ الأكواد!
 
-- **الطريقة 1 (الأسهل)**:
-  فقط اضغط نقرتين (Double-Click) على ملف `index.html` وسيفتح مباشرة في أي متصفح (Chrome, Edge, Firefox, Safari).
+### 2. عبر المتصفح مباشرة (Navigateur Web):
+- اضغط نقرتين على ملف `index.html` وسيفتح مباشرة في أي متصفح ويب، مع محاكي بايثون مدمج بدون إنترنت.
 
-- **الطريقة 2 (عبر خادم محلي)**:
-  إذا أردت تشغيله عبر سيرفر محلي:
-  ```bash
-  # بواسطة بايثون:
-  python -m http.server 8000
-  ```
-  ثم افتح في المتصفح: `http://localhost:8000`
+### 3. عبر سطر الأوامر (Python Local Server):
+```bash
+python main.py
+```
 
 ---
 
-## 📤 طريقة رفع المشروع إلى GitHub الخاص بك ومشاركته مع زملائك
+## 📤 طريقة رفع المشروع إلى GitHub لمشاركته مع أصدقائك
 
-لكي يتمكن أصدقاؤك من تحميل المشروع أو فتحه عبر الإنترنت من حسابك على GitHub، اتبع الخطوات التالية في موجه الأوامر (Terminal):
-
-1. أنشئ مستودعاً جديداً (New Repository) فارغاً على موقع GitHub وسمّه مثلاً: `python-pro-guide`
-2. في مجلد المشروع، نفذ الأوامر التالية (استبدل الرابط برابط مستودعك):
+لكي يتمكن أصدقاؤك من تحميل الملف التنفيذي `.exe` أو تصفح المشروع:
 
 ```bash
-# 1. إضافة جميع الملفات
+# 1. إضافة الملفات المعدلة
 git add .
 
 # 2. تسجيل التغييرات (Commit)
-git commit -m "Initial release: Complete Python course & exam simulator"
+git commit -m "Add DataCamp interactive labs, real Python executor and complete exams"
 
-# 3. تغيير اسم الفرع للرئيسي
+# 3. التأكد من اسم الفرع الرئيسي
 git branch -M main
 
-# 4. ربطه بمستودعك على GitHub
+# 4. ربط المستودع بحسابك على GitHub (استبدل الرابط برابط مستودعك الخاص)
 git remote add origin https://github.com/YOUR_USERNAME/python-pro-guide.git
 
-# 5. رفع الملفات
+# 5. رفع الكود
 git push -u origin main
 ```
 
-### 🌐 تفعيل GitHub Pages ليعمل التطبيق كموقع مباشر على الإنترنت مجاناً:
-1. ادخل إلى مستودعك على GitHub.
-2. اذهب إلى **Settings** -> **Pages**.
-3. في قسم **Branch**، اختر `main` واضغط **Save**.
-4. خلال دقيقة سيعطيك GitHub رابطاً مباشراً يمكنك إرساله لأصدقائك في الواتساب أو تيليجرام ليتصفحوه من هواتفهم وحواسيبهم مباشرة!
-
----
-> أعد هذا التطبيق لدعم طلبة الإعلاميات والذكاء الاصطناعي (SMI / IA S1) بكلية العلوم القنيطرة. بالتوفيق والنجاح للجميع! 🎓
+> **ملاحظة:** تم تضمين ملف `release.yml` في `.github/workflows/`، مما يعني أن GitHub سيقوم تلقائياً ببناء ونشر ملف `PythonProGuide.exe` كـ Release جاهز للتحميل بمجرد رفعك للمشروع!

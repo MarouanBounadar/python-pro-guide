@@ -1,4 +1,4 @@
-// Base de Données Universitaire Exhaustive - Programmation Python 1
+// Base de Données Universitaire & Défis Pratiques DataCamp
 // SMI / IA - Semestre 1 • Faculté des Sciences Kénitra (UIT) • Pr. Imane EL ALAOUI
 
 const APP_CONFIG = {
@@ -43,22 +43,22 @@ const DETAILED_COURSES = [
             <li><b>Espace mémoire unifié :</b> Les instructions du programme et les données (variables) partagent le même espace physique dans la mémoire RAM.</li>
             <li><b>Le Processeur (CPU) :</b> Composé de :
               <ul class="pl-6 list-circle space-y-1 mt-1 text-slate-400">
-                <li><b>Unité de Contrôle (UC) :</b> Chef d'orchestre chargé de l'extraction (Fetch) et du décodage (Decode).</li>
+                <li><b>Unité de Contrôle (UC) :</b> Chef d'orchestre matériel chargé de l'extraction (Fetch) et du décodage (Decode).</li>
                 <li><b>Unité Arithmétique et Logique (UAL) :</b> Moteur de calcul (+, -, *, /, comparaisons et algèbre booléenne).</li>
                 <li><b>Registres internes :</b> Mémoires ultra-rapides stockant les opérandes et résultats intermédiaires.</li>
               </ul>
             </li>
-            <li><b>Mémoire Centrale (RAM) :</b> Volatile, découpée en Zone Instructions (code compilé) et Zone Données (variables).</li>
+            <li><b>Mémoire Centrale (RAM) :</b> Volatile, découpée en Zone Instructions (code binaire compilé) et Zone Données (valeurs des variables).</li>
             <li><b>Système de Bus :</b>
               <ul class="pl-6 list-circle space-y-1 mt-1 text-slate-400">
-                <li><b>Bus de Données :</b> Bidirectionnel, transporte les valeurs effectives.</li>
-                <li><b>Bus d'Adresses :</b> Unidirectionnel, indique l'emplacement mémoire ciblé.</li>
-                <li><b>Bus de Contrôle :</b> Transmet les signaux de synchronisation (horloge) et interruptions.</li>
+                <li><b>Bus de Données :</b> Bidirectionnel, transfère les valeurs numériques effectives entre CPU, RAM et périphériques.</li>
+                <li><b>Bus d'Adresses :</b> Unidirectionnel, définit l'emplacement exact en mémoire cible pour l'opération.</li>
+                <li><b>Bus de Contrôle :</b> Transmet les impulsions d'horloge, signaux de commande et interruptions matérielles.</li>
               </ul>
             </li>
           </ul>
           <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-cyan-300">
-            Cycle d'une instruction : Étape 1 : Chargement (Fetch) ➔ Étape 2 : Décodage (Decode) ➔ Étape 3 : Exécution (Execute).
+            Cycle d'une instruction séquentielle : Étape 1 : Chargement (Fetch) ➔ Étape 2 : Décodage (Decode) ➔ Étape 3 : Exécution (Execute).
           </div>
         `
       },
@@ -76,6 +76,14 @@ const DETAILED_COURSES = [
         `
       }
     ],
+    datacamp: {
+      title: "Atelier Pratique DataCamp : Découverte du Moteur Python",
+      consigne: "Dans cet atelier pratique, vous allez vérifier les versions et afficher les 3 composants clés du processeur.\\n1. Créez une variable <code>processeur</code> contenant la chaîne 'CPU'.\\n2. Créez une variable <code>annee_creation</code> égale à 1989.\\n3. Affichez ces deux variables à l'aide de <code>print()</code>.",
+      initialCode: "# Atelier Chapitre 1 - Écrivez votre code ici :\nprocesseur = 'CPU'\nannee_creation = 1989\n\n# Affichez les variables :\nprint(processeur, annee_creation)\n",
+      hint: "Utilisez la fonction print(processeur, annee_creation).",
+      solution: "processeur = 'CPU'\nannee_creation = 1989\nprint(processeur, annee_creation)",
+      expectedOutputKeyword: "1989"
+    },
     memo: [
       "Système informatique = programmable arbitrairement ; Système numérique = signaux discrets.",
       "Von Neumann (1945) : données et instructions partagent la même mémoire RAM physique.",
@@ -143,6 +151,14 @@ const DETAILED_COURSES = [
         `
       }
     ],
+    datacamp: {
+      title: "Atelier Pratique DataCamp : Maîtrise du Transtypage & Pièges",
+      consigne: "Vous recevez la chaîne de caractères <code>s = '14.89'</code>.\\n1. Convertissez-la en float dans une variable <code>prix_float</code>.\\n2. Convertissez ce float en entier dans <code>prix_int</code> pour obtenir la troncature pure.\\n3. Affichez la valeur de <code>prix_int</code>.",
+      initialCode: "# Atelier Chapitre 2 - Écrivez votre code ici :\ns = '14.89'\n\n# 1. Convertir en float :\nprix_float = float(s)\n\n# 2. Tronquer en int :\nprix_int = int(prix_float)\n\n# 3. Afficher :\nprint(prix_int)\n",
+      hint: "Utilisez int(float(s)) pour éviter l'erreur ValueError.",
+      solution: "s = '14.89'\nprix_float = float(s)\nprix_int = int(prix_float)\nprint(prix_int)",
+      expectedOutputKeyword: "14"
+    },
     memo: [
       "Identificateurs : lettres, chiffres, underscore ; jamais de chiffre au début ; sensible à la casse.",
       "Affectation en chaîne : a = b = c = 0 ; Affectation parallèle : a, b, c = 10, 15.5, 'Test'.",
@@ -199,6 +215,14 @@ const DETAILED_COURSES = [
         `
       }
     ],
+    datacamp: {
+      title: "Atelier Pratique DataCamp : Hiérarchie & Court-Circuit",
+      consigne: "Dans cet atelier, calculez l'expression mathématique exacte :\\n1. Calculez <code>x = 2 + 3 * 4 ** 2</code>.\\n2. Calculez le résultat du court-circuit : <code>test = True or False and False</code>.\\n3. Affichez x et test.",
+      initialCode: "# Atelier Chapitre 3 - Écrivez votre code ici :\nx = 2 + 3 * 4 ** 2\ntest = True or False and False\n\nprint('x =', x)\nprint('test =', test)\n",
+      hint: "La puissance s'évalue avant la multiplication. and est prioritaire sur or.",
+      solution: "x = 2 + 3 * 4 ** 2\ntest = True or False and False\nprint('x =', x)\nprint('test =', test)",
+      expectedOutputKeyword: "50"
+    },
     memo: [
       "/ donne toujours un float ; // arrondit vers le bas (-7 // 2 = -4).",
       "Puissance ** s'évalue de droite à gauche (2 ** 3 ** 2 = 512).",
@@ -224,16 +248,17 @@ const DETAILED_COURSES = [
         heading: "2. Structure if / elif / else",
         content: `
           <p class="text-xs text-slate-300 mb-2">Dès qu'une condition renvoie <code>True</code>, Python exécute son bloc et <b>quitte immédiatement</b> toute la structure. L'ordre des tests (du plus restrictif au plus général) est donc capital.</p>
-          <div class="p-3 bg-slate-900 rounded-xl font-mono text-xs text-emerald-300">
-            if moyenne >= 16: mention = "Très Bien"<br/>
-            elif moyenne >= 14: mention = "Bien"<br/>
-            elif moyenne >= 12: mention = "Assez Bien"<br/>
-            elif moyenne >= 10: mention = "Passable"<br/>
-            else: mention = "Ajourné"
-          </div>
         `
       }
     ],
+    datacamp: {
+      title: "Atelier Pratique DataCamp : Tarif Cinéma Conditionnel",
+      consigne: "Écrivez un programme qui détermine le prix d'un ticket selon la variable <code>age = 15</code> :\\n• Moins de 10 ans : 20 DH\\n• Moins de 18 ans : 35 DH\\n• Autres âges : 50 DH\\nStockez le résultat dans la variable <code>prix</code> et affichez-la.",
+      initialCode: "# Atelier Chapitre 4 - Écrivez votre code ici :\nage = 15\n\nif age < 10:\n    prix = 20\nelif age < 18:\n    prix = 35\nelse:\n    prix = 50\n\nprint('Prix :', prix)\n",
+      hint: "Utilisez if age < 10 suivi de elif age < 18.",
+      solution: "age = 15\nif age < 10:\n    prix = 20\nelif age < 18:\n    prix = 35\nelse:\n    prix = 50\nprint('Prix :', prix)",
+      expectedOutputKeyword: "35"
+    },
     memo: [
       "4 espaces standard pour l'indentation de bloc.",
       "Sortie immédiate de la structure dès le premier elif vérifié.",
@@ -277,6 +302,14 @@ const DETAILED_COURSES = [
         `
       }
     ],
+    datacamp: {
+      title: "Atelier Pratique DataCamp : Calcul de Factorielle (n!)",
+      consigne: "Calculez la factorielle de <code>n = 5</code> (5! = 1 × 2 × 3 × 4 × 5 = 120) à l'aide d'une boucle <code>for</code> et de <code>range()</code>.\\nStockez le résultat dans la variable <code>fact</code> et affichez-la.",
+      initialCode: "# Atelier Chapitre 5 - Écrivez votre code ici :\nn = 5\nfact = 1\n\nfor i in range(1, n + 1):\n    fact *= i\n\nprint('Factorielle =', fact)\n",
+      hint: "Faites itérer i de 1 à n + 1 pour inclure n.",
+      solution: "n = 5\nfact = 1\nfor i in range(1, n + 1):\n    fact *= i\nprint('Factorielle =', fact)",
+      expectedOutputKeyword: "120"
+    },
     memo: [
       "for = nombre de tours connu d'avance ; while = condition dynamique.",
       "La borne de fin de range() est toujours exclue.",
@@ -312,6 +345,14 @@ const DETAILED_COURSES = [
         `
       }
     ],
+    datacamp: {
+      title: "Atelier Pratique DataCamp : Slicing & Copie Sécurisée",
+      consigne: "Soit la liste <code>animaux = ['girafe', 'tigre', 'singe', 'souris']</code>.\\n1. Extrayez les éléments d'indice 1 à 2 inclus dans <code>sous_liste</code> à l'aide du slicing.\\n2. Inversez complètement la liste dans <code>inverse</code>.\\n3. Affichez sous_liste et inverse.",
+      initialCode: "# Atelier Chapitre 6 - Écrivez votre code ici :\nanimaux = ['girafe', 'tigre', 'singe', 'souris']\n\nsous_liste = animaux[1:3]\ninverse = animaux[::-1]\n\nprint('Sous-liste :', sous_liste)\nprint('Inversé :', inverse)\n",
+      hint: "Pour inverser, utilisez le pas négatif animaux[::-1].",
+      solution: "animaux = ['girafe', 'tigre', 'singe', 'souris']\nsous_liste = animaux[1:3]\ninverse = animaux[::-1]\nprint('Sous-liste :', sous_liste)\nprint('Inversé :', inverse)",
+      expectedOutputKeyword: "souris"
+    },
     memo: [
       "str et tuple sont immuables ; list, set et dict sont mutables.",
       "L2 = L1 crée un alias ; utiliser L2 = L1[:] pour une copie indépendante.",
@@ -587,7 +628,6 @@ else:
             print(f"{n} n'est pas premier (divisible par {d})")
             break
     else:
-        # Exécuté uniquement si AUCUN break n'a eu lieu
         print(f"{n} est un NOMBRE PREMIER !")
 </pre>
       `
@@ -614,7 +654,7 @@ else:
 for i in range(1, 6):
     for j in range(1, 6):
         print(f"{i * j:3d}", end=" ")
-    print() # saut de ligne à la fin de chaque rangée
+    print()
 </pre>
       `
     }
@@ -666,7 +706,7 @@ print(f"Moyenne générale : {moyenne:.2f}/20")
   ]
 };
 
-// 3 SUJETS D'EXAMENS COMPLETS & CONTRÔLES (Chaque examen noté /20)
+// SUJETS D'EXAMENS COMPLETS
 const EXAM_SUBJECTS = [
   {
     id: "exam-final",
@@ -714,7 +754,7 @@ const EXAM_SUBJECTS = [
   }
 ];
 
-// DECK DE 20 FLASHCARDS D'ÉVALUATION RAPIDE
+// DECK FLASHCARDS 3D
 const FLASHCARDS = [
   { id: 1, tag: "Architecture", front: "Quel est le principe fondamental de l'Architecture de Von Neumann (1945) ?", back: "Le Programme Enregistré : les instructions (code) et les données (variables) partagent le même espace physique en mémoire RAM." },
   { id: 2, tag: "Transtypage", front: "Pourquoi int('3.14') déclenche-t-il une exception ValueError ?", back: "int() refuse tout séparateur décimal dans une chaîne littérale. Solution obligatoire : int(float('3.14')) qui donne 3." },
