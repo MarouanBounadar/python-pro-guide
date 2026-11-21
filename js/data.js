@@ -1,689 +1,729 @@
-// Source de données officielle - Programmation Python 1 (SMI / IA - S1)
-// Université Ibn Tofail (UIT) - Faculté des Sciences Kénitra
-// Pr. Imane EL ALAOUI
+// Base de Données Universitaire Exhaustive - Programmation Python 1
+// SMI / IA - Semestre 1 • Faculté des Sciences Kénitra (UIT) • Pr. Imane EL ALAOUI
 
-const COURSE_METADATA = {
-  title: "Programmation Python 1",
-  filiere: "SMI / IA - Semestre 1",
+const APP_CONFIG = {
+  title: "Python University S1",
+  filiere: "SMI / IA - S1",
   university: "Université Ibn Tofail (UIT) - Faculté des Sciences Kénitra",
-  prof: "Pr. Imane EL ALAOUI",
-  contact: "elalaoui.imane@uit.ac.ma",
-  description: "Plateforme académique interactive pour la préparation complète au contrôle et à l'examen de Programmation Python 1."
+  prof: "Pr. Imane EL ALAOUI"
 };
 
-const CHAPTERS = [
+const DETAILED_COURSES = [
   {
     id: "ch1",
     num: "01",
     title: "Architecture des Ordinateurs & Fondements de Python",
-    subtitle: "Du matériel à l'exécution : Von Neumann, CPU, PVM et Bytecode",
     duration: "45 min",
-    icon: "cpu",
-    summary: `
-      1. <b>Système numérique vs Système informatique</b> : Tout système informatique est numérique, mais tout système numérique n'est pas informatique. L'ordinateur est <i>universellement programmable</i>.
-      2. <b>Architecture de Von Neumann (1945)</b> : Les instructions du programme et les données partagent le même espace physique en mémoire RAM (Concept de <i>Programme Enregistré</i>).
-      3. <b>Composants du CPU</b> :
-         - <b>UC (Unité de Contrôle)</b> : Orchestre l'extraction (Fetch) et le décodage (Decode).
-         - <b>UAL (Unité Arithmétique & Logique)</b> : Exécute les opérations mathématiques (+, -, *, /) et logiques (ET, OU, NON).
-         - <b>Registres internes</b> : Mémoire ultra-rapide temporaire.
-      4. <b>Cycle d'exécution</b> : <code>Fetch (Chargement) ➔ Decode (Décodage) ➔ Execute (Exécution)</code>.
-      5. <b>Approche Hybride de Python</b> : Code source <code>.py</code> ➔ Précompilation en <b>Bytecode</b> indépendant du matériel ➔ Exécution par la <b>PVM (Python Virtual Machine)</b>.
-      6. <b>Modes d'exécution</b> : Mode Interactif (REPL <code>>>></code>, éphémère) vs Mode Script (fichier persistant <code>.py</code>).
-    `,
-    content: `
-      <div class="space-y-6">
-        <div class="figma-card p-6 rounded-2xl">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="badge-tag bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Concept Fondamental</span>
-            <h3 class="text-xl font-bold text-white">1. Système Numérique vs Système Informatique</h3>
-          </div>
-          <p class="text-slate-300 leading-relaxed text-sm mb-4">
-            Bien que souvent confondus dans le langage courant, le système numérique et le système informatique ne désignent pas la même échelle.
-          </p>
-          <div class="grid md:grid-cols-2 gap-4">
-            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-              <span class="badge-tech mb-2 inline-block">Système Numérique</span>
-              <p class="text-xs text-slate-300 leading-relaxed mt-2">
-                Tout dispositif électronique traitant des signaux discrets (0 et 1). Souvent <b>figé</b> dans un circuit logique dédié (ex: montre à quartz, feu de signalisation, boîtier ABS automobile).
-              </p>
+    readTime: "15 min de lecture",
+    sections: [
+      {
+        heading: "1. Système Numérique vs Système Informatique",
+        content: `
+          <p class="mb-3">En informatique fondamentale, il est primordial de distinguer l'échelle d'un système numérique de celle d'un système informatique :</p>
+          <div class="grid md:grid-cols-2 gap-4 my-3 text-xs">
+            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-cyan-400 font-bold text-sm block mb-1">Système Numérique</span>
+              <p class="text-slate-300">Tout dispositif traitant des signaux discrets (0 et 1). Le comportement est généralement <b>figé</b> dans un circuit matériel dédié (ex. montre à quartz, feux de signalisation basiques, microcontrôleur d'ABS automobile non reprogrammable).</p>
             </div>
-            <div class="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/30">
-              <span class="badge-tech mb-2 inline-block text-cyan-400 border-cyan-500/40">Système Informatique</span>
-              <p class="text-xs text-slate-300 leading-relaxed mt-2">
-                Sous-ensemble des systèmes numériques, <b>universellement programmable</b>. Capable d'exécuter des algorithmes arbitraires (scripts, logiciels, calculs scientifiques).
-              </p>
+            <div class="p-4 rounded-xl bg-slate-900 border border-indigo-500/30">
+              <span class="text-indigo-400 font-bold text-sm block mb-1">Système Informatique</span>
+              <p class="text-slate-300">Sous-ensemble des systèmes numériques, caractérisé par sa nature <b>universellement programmable</b>. Il est capable d'exécuter des algorithmes arbitraires (scripts, logiciels, simulations complexes).</p>
             </div>
           </div>
-          <div class="callout-prof text-sm text-slate-200">
-            <b>Règle d'or de l'examen :</b> "Tout système informatique est numérique, mais tout système numérique n'est pas informatique." (Koulchi système informatique rah numérique, walakine machi ay appareil numérique rah pc programmable).
+          <div class="p-3 bg-indigo-950/40 border-l-4 border-indigo-500 rounded-r-xl text-xs text-indigo-200 my-2">
+            <b>Règle d'or de l'examen :</b> Tout système informatique est numérique, mais tout système numérique n'est pas informatique.
           </div>
-        </div>
-
-        <div class="figma-card p-6 rounded-2xl">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="badge-tag bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Modèle de 1945</span>
-            <h3 class="text-xl font-bold text-white">2. L'Architecture de Von Neumann</h3>
+        `
+      },
+      {
+        heading: "2. L'Architecture de Von Neumann (1945)",
+        content: `
+          <p class="mb-3">Avant 1945, reprogrammer une machine (comme l'ENIAC) imposait de modifier manuellement le câblage physique. John von Neumann a introduit le concept révolutionnaire de <b>Programme Enregistré</b> :</p>
+          <ul class="list-disc list-inside space-y-2 text-xs text-slate-300 mb-3">
+            <li><b>Espace mémoire unifié :</b> Les instructions du programme et les données (variables) partagent le même espace physique dans la mémoire RAM.</li>
+            <li><b>Le Processeur (CPU) :</b> Composé de :
+              <ul class="pl-6 list-circle space-y-1 mt-1 text-slate-400">
+                <li><b>Unité de Contrôle (UC) :</b> Chef d'orchestre chargé de l'extraction (Fetch) et du décodage (Decode).</li>
+                <li><b>Unité Arithmétique et Logique (UAL) :</b> Moteur de calcul (+, -, *, /, comparaisons et algèbre booléenne).</li>
+                <li><b>Registres internes :</b> Mémoires ultra-rapides stockant les opérandes et résultats intermédiaires.</li>
+              </ul>
+            </li>
+            <li><b>Mémoire Centrale (RAM) :</b> Volatile, découpée en Zone Instructions (code compilé) et Zone Données (variables).</li>
+            <li><b>Système de Bus :</b>
+              <ul class="pl-6 list-circle space-y-1 mt-1 text-slate-400">
+                <li><b>Bus de Données :</b> Bidirectionnel, transporte les valeurs effectives.</li>
+                <li><b>Bus d'Adresses :</b> Unidirectionnel, indique l'emplacement mémoire ciblé.</li>
+                <li><b>Bus de Contrôle :</b> Transmet les signaux de synchronisation (horloge) et interruptions.</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-cyan-300">
+            Cycle d'une instruction : Étape 1 : Chargement (Fetch) ➔ Étape 2 : Décodage (Decode) ➔ Étape 3 : Exécution (Execute).
           </div>
-          <p class="text-slate-300 text-sm leading-relaxed mb-4">
-            Proposée par John von Neumann, cette architecture régit tous les ordinateurs modernes. Elle repose sur 4 blocs élémentaires interconnectés par un système de bus :
-          </p>
-          
-          <div class="grid md:grid-cols-4 gap-3 text-center text-xs">
-            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div class="font-bold text-indigo-400 mb-1">1. Processeur (CPU)</div>
-              <div class="text-slate-400 text-[11px]">UC (Chef d'orchestre) + UAL (Calculs) + Registres internes</div>
-            </div>
-            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div class="font-bold text-emerald-400 mb-1">2. Mémoire Centrale (RAM)</div>
-              <div class="text-slate-400 text-[11px]">Mémoire volatile adressable octet par octet (Zone Instructions & Zone Données)</div>
-            </div>
-            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div class="font-bold text-amber-400 mb-1">3. Unités d'E/S</div>
-              <div class="text-slate-400 text-[11px]">Échange externe (clavier, écran) et stockage secondaire (SSD/HDD)</div>
-            </div>
-            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div class="font-bold text-cyan-400 mb-1">4. Système de Bus</div>
-              <div class="text-slate-400 text-[11px]">Bus de Données (bidirectionnel), d'Adresses (unidirectionnel), de Contrôle</div>
-            </div>
+        `
+      },
+      {
+        heading: "3. Technique d'Exécution Hybride de Python",
+        content: `
+          <p class="mb-2 text-xs text-slate-300">Contrairement aux langages purement compilés (C, C++) ou purement interprétés (Bash), Python adopte une approche mixte à deux niveaux :</p>
+          <ol class="list-decimal list-inside space-y-2 text-xs text-slate-300">
+            <li><b>Précompilation transparente :</b> Le fichier source <code>.py</code> est transformé en un code intermédiaire appelé <b>Bytecode</b> (enregistré dans <code>__pycache__</code> sous extension <code>.pyc</code>). Ce Bytecode est indépendant du matériel.</li>
+            <li><b>Interprétation par la PVM :</b> La <b>Python Virtual Machine</b> lit les instructions de ce Bytecode et les traduit pour le processeur de la machine hôte.</li>
+          </ol>
+          <div class="p-3 bg-rose-950/30 border-l-4 border-rose-500 rounded-r-xl text-xs text-rose-200 mt-3">
+            <b>Repères historiques officiels :</b> Langage créé en 1989 par Guido van Rossum aux Pays-Bas. Première version publique publiée en 1991. Python 3 a cassé la compatibilité ascendante avec Python 2 (qui a cessé d'être maintenu en 2020).
           </div>
-
-          <div class="callout-trap text-sm text-slate-200">
-            <b>Goulot d'étranglement de Von Neumann :</b> Le fait que les données et les instructions partagent les mêmes bus physiques limite la vitesse globale du transfert.
-          </div>
-        </div>
-
-        <div class="figma-card p-6 rounded-2xl">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="badge-tag bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Compilation & Interprétation</span>
-            <h3 class="text-xl font-bold text-white">3. Comment Python exécute-t-il le code ?</h3>
-          </div>
-          <div class="space-y-3 text-sm text-slate-300">
-            <p>• <b>Compilation pure (ex. C/C++) :</b> Traduction directe en langage machine binaire spécifique au processeur. Ultra-rapide mais dépend de l'OS/CPU.</p>
-            <p>• <b>Interprétation pure (ex. Bash, Basic) :</b> Le moteur lit ligne par ligne et exécute. Souple mais lent lors des boucles.</p>
-            <div class="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
-              <span class="font-bold text-indigo-300 block mb-1">⚡ Approche Hybride / Mixte de Python :</span>
-              <p class="text-xs text-slate-300">
-                1. <b>Phase de précompilation :</b> Python compile le code source <code>.py</code> en un langage intermédiaire indépendant du processeur : le <b>Bytecode</b>.<br/>
-                2. <b>Phase d'interprétation :</b> La machine virtuelle <b>PVM (Python Virtual Machine)</b> lit ce Bytecode et l'exécute sur le processeur physique.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
+        `
+      }
+    ],
+    memo: [
+      "Système informatique = programmable arbitrairement ; Système numérique = signaux discrets.",
+      "Von Neumann (1945) : données et instructions partagent la même mémoire RAM physique.",
+      "CPU = Unité de Contrôle (Fetch/Decode) + UAL (Calculs/Execute) + Registres.",
+      "Cycle d'instruction séquentiel : Fetch ➔ Decode ➔ Execute.",
+      "Exécution Python = Code source .py ➔ Bytecode (.pyc) ➔ PVM (Machine Virtuelle).",
+      "Mode REPL (interactif, invite >>>, éphémère) vs Mode Script (.py, persistant)."
+    ]
   },
   {
     id: "ch2",
     num: "02",
-    title: "Variables, Types de Données & Transtypage",
-    subtitle: "Règles PEP 8, types primitifs et conversions explicites",
+    title: "Variables, Types Primitifs & Transtypage",
     duration: "55 min",
-    icon: "database",
-    summary: `
-      1. <b>Identificateurs valides</b> : Lettres, chiffres, underscore (_). <i>Jamais de chiffre au début</i>, sensible à la casse, pas de mots-clés réservés (Keywords).
-      2. <b>Typage Dynamique</b> : La variable n'a pas de type fixe prédéclaré ; c'est la valeur assignée qui détermine le type à l'exécution.
-      3. <b>Types primitifs</b> : <code>int</code> (entiers relatifs illimités), <code>float</code> (décimaux IEEE 754), <code>complex</code> (partie imaginaire avec j), <code>bool</code> (True / False), <code>str</code> (texte immuable).
-      4. <b>Transtypage (Casting)</b> :
-         - <code>int(14.89) ➔ 14</code> (Troncature pure sans arrondi).
-         - <code>int("3.14") ➔ ValueError</code> (Obligation de passer par <code>int(float("3.14"))</code>).
-         - <code>bool("False") ➔ True</code> (Toute chaîne non vide vaut True).
-         - <code>0.1 + 0.2 == 0.3 ➔ False</code> (Imprécision inhérente à la norme IEEE 754).
-    `,
-    content: `
-      <div class="space-y-6">
-        <div class="figma-card p-6 rounded-2xl">
-          <h3 class="text-xl font-bold text-white mb-3">1. Règles de Nommage (PEP 8) & Identificateurs</h3>
-          <p class="text-sm text-slate-300 mb-4">Un identificateur est le nom symbolique lié à une adresse mémoire. Il obéit à des règles strictes :</p>
-          <div class="overflow-x-auto">
-            <table class="w-full text-xs text-left border border-slate-800">
-              <thead class="bg-slate-900 text-indigo-400">
-                <tr><th class="p-3">Identificateur</th><th class="p-3">Statut</th><th class="p-3">Justification Examen</th></tr>
-              </thead>
-              <tbody class="divide-y divide-slate-800 font-mono">
-                <tr><td class="p-3 text-emerald-400">age_etudiant</td><td class="p-3 text-emerald-400 font-bold">Valide</td><td class="p-3 text-slate-300 font-sans">Lettres minuscules et tiret-bas (_)</td></tr>
-                <tr><td class="p-3 text-emerald-400">_total2</td><td class="p-3 text-emerald-400 font-bold">Valide</td><td class="p-3 text-slate-300 font-sans">Peut commencer par un underscore</td></tr>
-                <tr><td class="p-3 text-rose-400">2eme_note</td><td class="p-3 text-rose-400 font-bold">Invalide</td><td class="p-3 text-slate-300 font-sans"><b>Commence par un chiffre (interdit)</b></td></tr>
-                <tr><td class="p-3 text-rose-400">prix-total</td><td class="p-3 text-rose-400 font-bold">Invalide</td><td class="p-3 text-slate-300 font-sans">Le tiret haut (-) est interprété comme une soustraction</td></tr>
-                <tr><td class="p-3 text-rose-400">for</td><td class="p-3 text-rose-400 font-bold">Invalide</td><td class="p-3 text-slate-300 font-sans">Mot-clé réservé (Keyword) du langage</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="figma-card p-6 rounded-2xl">
-          <h3 class="text-xl font-bold text-white mb-3">2. Les 4 Fonctions Clés de Transtypage & Pièges</h3>
-          <div class="grid md:grid-cols-4 gap-3 text-xs font-mono">
+    readTime: "20 min de lecture",
+    sections: [
+      {
+        heading: "1. Variables & Conventions PEP 8",
+        content: `
+          <p class="mb-2 text-xs text-slate-300">Une variable est une zone nommée en mémoire RAM. Pour le programmeur, c'est un nom symbolique ; pour la machine, c'est une adresse mémoire.</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 mb-3">
+            <li><b>Caractères autorisés :</b> Lettres [a-zA-Z], chiffres [0-9] et tiret-bas (_).</li>
+            <li><b>Premier caractère :</b> Obligatoirement une lettre ou un tiret-bas. <b>JAMAIS de chiffre au début !</b></li>
+            <li><b>Sensibilité à la casse :</b> <code>age</code>, <code>Age</code> et <code>AGE</code> sont 3 variables distinctes.</li>
+            <li><b>Mots réservés interdits :</b> <code>for, while, if, def, class, True, False, None, and, or, in, is...</code></li>
+          </ul>
+        `
+      },
+      {
+        heading: "2. Typage Dynamique & Types Scalaires",
+        content: `
+          <p class="mb-2 text-xs text-slate-300">En Python, la déclaration et l'initialisation sont simultanées. Le type est déterminé automatiquement à l'exécution :</p>
+          <div class="grid md:grid-cols-2 gap-3 text-xs font-mono my-2">
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-              <span class="text-indigo-400 font-bold block mb-1">int()</span>
-              int(14.89) ➔ 14<br/>int("42") ➔ 42<br/><span class="text-slate-500 font-sans text-[11px]">Troncature stricte</span>
+              <span class="text-indigo-400 font-bold block mb-1">int (Entiers)</span>
+              age = 20<br/>val = 10**40 (précision illimitée)
             </div>
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-              <span class="text-cyan-400 font-bold block mb-1">float()</span>
-              float(7) ➔ 7.0<br/>float("3.14") ➔ 3.14<br/><span class="text-slate-500 font-sans text-[11px]">Point décimal</span>
+              <span class="text-cyan-400 font-bold block mb-1">float (Flottants IEEE 754)</span>
+              pi = 3.14<br/>vitesse = 3e8 (3 × 10⁸)
             </div>
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-              <span class="text-emerald-400 font-bold block mb-1">str()</span>
-              str(25) ➔ '25'<br/>str(3.14) ➔ '3.14'<br/><span class="text-slate-500 font-sans text-[11px]">Représentation texte</span>
+              <span class="text-emerald-400 font-bold block mb-1">complex (Complexes)</span>
+              z = 3 + 4j<br/>z.real -> 3.0, z.imag -> 4.0
             </div>
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-              <span class="text-amber-400 font-bold block mb-1">bool()</span>
-              bool(0) ➔ False<br/>bool("") ➔ False<br/>bool("False") ➔ True
+              <span class="text-amber-400 font-bold block mb-1">bool (Booléens)</span>
+              est_admis = True<br/>valide = False (Majuscule obligatoire)
             </div>
           </div>
-          <div class="callout-trap text-sm text-slate-200 mt-4">
-            <b>Attention :</b> <code>int("3.14")</code> déclenche un crash <code>ValueError: invalid literal for int()</code> ! Pour convertir une chaîne décimale en entier, il faut impérativement faire : <code>int(float("3.14"))</code>.
+        `
+      },
+      {
+        heading: "3. Le Transtypage (Type Casting) & Ses Pièges",
+        content: `
+          <p class="mb-2 text-xs text-slate-300">Conversion explicite d'un type vers un autre : <code>variable_cible = type_voulu(variable_source)</code>.</p>
+          <div class="space-y-2 text-xs">
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <p>• <b>int(14.89) ➔ 14 :</b> Troncature pure de la partie décimale, sans aucun arrondi.</p>
+              <p>• <b>int("3.14") ➔ ValueError :</b> Échec immédiat ! Python refuse un point décimal dans une chaîne passée à int(). La correction obligatoire est : <code>int(float("3.14"))</code> qui donne 3.</p>
+              <p>• <b>bool("False") ➔ True :</b> Toute chaîne non vide est évaluée à True. Seules <code>bool("")</code> et <code>bool(0)</code> donnent False.</p>
+              <p>• <b>0.1 + 0.2 == 0.3 ➔ False :</b> En binaire IEEE 754, 0.1 et 0.2 n'ont pas de représentation exacte finie. Leur somme vaut 0.30000000000000004.</p>
+            </div>
           </div>
-        </div>
-      </div>
-    `
+        `
+      }
+    ],
+    memo: [
+      "Identificateurs : lettres, chiffres, underscore ; jamais de chiffre au début ; sensible à la casse.",
+      "Affectation en chaîne : a = b = c = 0 ; Affectation parallèle : a, b, c = 10, 15.5, 'Test'.",
+      "int() effectue une troncature pure (int(9.99) = 9).",
+      "int('3.14') déclenche ValueError ➔ utiliser int(float('3.14')).",
+      "bool() renvoie True pour toute chaîne non vide, y compris bool('False') !",
+      "input() renvoie TOUJOURS une chaîne de caractères str."
+    ]
   },
   {
     id: "ch3",
     num: "03",
     title: "Opérateurs, Expressions & Ordre de Priorité",
-    subtitle: "Arithmétique, logique en court-circuit et hiérarchie",
     duration: "50 min",
-    icon: "calculator",
-    summary: `
-      1. <b>Priorité absolue</b> : Parenthèses <code>( )</code> ➔ Puissance <code>**</code> (évaluée de droite à gauche !) ➔ Multiplications/Divisions (<code>*, /, //, %</code>) ➔ Additions/Soustractions (<code>+, -</code>) ➔ Comparaisons (<code>==, <, ></code>) & Appartenance (<code>in</code>) ➔ <code>not</code> ➔ <code>and</code> ➔ <code>or</code> ➔ Affectations (<code>=, +=</code>).
-      2. <b>Évaluation en court-circuit (Short-circuit)</b> : Dans <code>A and B</code>, si A est False, B n'est jamais évalué. Dans <code>A or B</code>, si A est True, B n'est jamais évalué.
-      3. <b>Affectation augmentée</b> : <code>A *= B + 2</code> équivaut strictement à <code>A = A * (B + 2)</code> et non <code>(A * B) + 2</code>.
-    `,
-    content: `
-      <div class="figma-card p-6 rounded-2xl space-y-4">
-        <h3 class="text-xl font-bold text-white">Hiérarchie Officielle des Opérateurs</h3>
-        <ol class="list-decimal list-inside text-xs text-slate-200 space-y-2 font-mono bg-slate-900/90 p-4 rounded-xl border border-slate-800">
-          <li><b>( )</b> : Parenthèses (Force l'ordre d'évaluation)</li>
-          <li><b>**</b> : Puissance (Évaluée de droite à gauche : 2**3**2 = 2**9 = 512)</li>
-          <li><b>+x, -x</b> : Signes unaires arithmétiques</li>
-          <li><b>*, /, //, %</b> : Multiplication, division réelle, division entière, modulo</li>
-          <li><b>+, -</b> : Addition et soustraction</li>
-          <li><b>==, !=, &lt;, &lt;=, &gt;, &gt;=, in, not in, is</b> : Comparaisons et appartenance</li>
-          <li><b>not</b> : Négation booléenne</li>
-          <li><b>and</b> : Conjonction logique (prioritaire sur 'or')</li>
-          <li><b>or</b> : Disjonction logique</li>
-          <li><b>=, +=, -=, *=, /=...</b> : Opérateurs d'affectation</li>
-        </ol>
-      </div>
-    `
+    readTime: "18 min de lecture",
+    sections: [
+      {
+        heading: "1. Opérateurs Arithmétiques & Redéfinition",
+        content: `
+          <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-300 mb-3 font-mono">
+            <li><b>/ (Division réelle) :</b> Retourne TOUJOURS un float (ex. <code>15 / 3 ➔ 5.0</code>).</li>
+            <li><b>// (Division entière) :</b> Quotient euclidien arrondi vers moins l'infini (ex. <code>15 // 4 ➔ 3</code> et <code>-7 // 2 ➔ -4</code>).</li>
+            <li><b>% (Modulo) :</b> Reste de la division euclidienne (ex. <code>14 % 4 ➔ 2</code> car 14 = 4×3 + 2).</li>
+            <li><b>** (Puissance) :</b> Associatif de DROITE À GAUCHE (ex. <code>2**3**2 = 2**(9) = 512</code>).</li>
+            <li><b>Polymorphisme sur les chaînes :</b> <code>"2" + "2" = "22"</code> (Concaténation) et <code>"ab" * 3 = "ababab"</code> (Duplication).</li>
+          </ul>
+        `
+      },
+      {
+        heading: "2. Évaluation en Court-Circuit (Short-Circuit)",
+        content: `
+          <p class="text-xs text-slate-300 mb-2">Les opérateurs <code>and</code> et <code>or</code> évaluent de gauche à droite et s'arrêtent dès que le résultat final est certain :</p>
+          <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300 space-y-1">
+            <p>• <b>False and (10 / 0 == 0) :</b> Le 1er terme étant False, le 2ème terme n'est JAMAIS évalué. Aucun crash ZeroDivisionError !</p>
+            <p>• <b>True or (10 / 0 == 0) :</b> Le 1er terme étant True, le résultat est immédiatement True.</p>
+          </div>
+        `
+      },
+      {
+        heading: "3. Tableau Officiel des Priorités d'Évaluation",
+        content: `
+          <ol class="list-decimal list-inside space-y-1 text-xs font-mono bg-slate-900 p-4 rounded-xl border border-slate-800 text-slate-200">
+            <li>1. Parenthèses <code>( )</code> (Priorité absolue)</li>
+            <li>2. Puissance <code>**</code> (Évaluée de droite à gauche)</li>
+            <li>3. Signes unaires <code>+x, -x</code></li>
+            <li>4. Multiplication, division réelle, entière, modulo <code>*, /, //, %</code></li>
+            <li>5. Addition et soustraction <code>+, -</code></li>
+            <li>6. Comparaisons & Appartenance <code>==, !=, <, <=, >, >=, in, not in</code></li>
+            <li>7. Négation booléenne <code>not</code></li>
+            <li>8. Conjonction <code>and</code> (Prioritaire sur or)</li>
+            <li>9. Disjonction <code>or</code></li>
+            <li>10. Affectations <code>=, +=, -=, *=, //=...</code></li>
+          </ol>
+        `
+      }
+    ],
+    memo: [
+      "/ donne toujours un float ; // arrondit vers le bas (-7 // 2 = -4).",
+      "Puissance ** s'évalue de droite à gauche (2 ** 3 ** 2 = 512).",
+      "and est prioritaire sur or (True or False and False = True).",
+      "A *= B + 2 équivaut à A = A * (B + 2).",
+      "Short-circuit : False and (...) évite l'exécution du second membre."
+    ]
   },
   {
     id: "ch4",
     num: "04",
-    title: "Structures Conditionnelles & Décision",
-    subtitle: "L'art de la décision : if, elif, else et conditions composées",
+    title: "Structures Conditionnelles & Branchements",
     duration: "60 min",
-    icon: "git-branch",
-    summary: `
-      1. <b>Indentation</b> : En Python, 4 espaces et le deux-points (:) définissent les blocs. L'oubli provoque <code>IndentationError</code>.
-      2. <b>Ordre des tests</b> : Dès qu'une condition if ou elif renvoie <code>True</code>, Python exécute son bloc et quitte immédiatement la structure complète.
-      3. <b>Conditions composées</b> : Privilégier les opérateurs <code>and</code>, <code>or</code>, <code>not</code> au lieu d'imbriquer inutilement plusieurs if.
-    `,
-    content: `<div class="figma-card p-6 rounded-2xl text-slate-300 text-sm">Les structures conditionnelles permettent d'orienter l'algorithme selon les données fournies. Utilisez notre Laboratoire d'Algorithmes pour tester les exercices types de facturation et de vérification d'années bissextiles.</div>`
+    readTime: "20 min de lecture",
+    sections: [
+      {
+        heading: "1. Indentation & Syntaxe de Bloc",
+        content: `
+          <p class="text-xs text-slate-300 mb-2">En Python, il n'y a pas d'accolades <code>{ }</code>. Le décalage vers la droite (4 espaces) et les deux-points <code>:</code> délimitent le bloc d'instructions. Tout oubli déclenche une <code>IndentationError</code>.</p>
+        `
+      },
+      {
+        heading: "2. Structure if / elif / else",
+        content: `
+          <p class="text-xs text-slate-300 mb-2">Dès qu'une condition renvoie <code>True</code>, Python exécute son bloc et <b>quitte immédiatement</b> toute la structure. L'ordre des tests (du plus restrictif au plus général) est donc capital.</p>
+          <div class="p-3 bg-slate-900 rounded-xl font-mono text-xs text-emerald-300">
+            if moyenne >= 16: mention = "Très Bien"<br/>
+            elif moyenne >= 14: mention = "Bien"<br/>
+            elif moyenne >= 12: mention = "Assez Bien"<br/>
+            elif moyenne >= 10: mention = "Passable"<br/>
+            else: mention = "Ajourné"
+          </div>
+        `
+      }
+    ],
+    memo: [
+      "4 espaces standard pour l'indentation de bloc.",
+      "Sortie immédiate de la structure dès le premier elif vérifié.",
+      "else ne prend jamais de condition."
+    ]
   },
   {
     id: "ch5",
     num: "05",
     title: "Boucles & Structures Itératives",
-    subtitle: "Répétitions déterminées vs conditionnelles : for, while, break, continue et else",
     duration: "65 min",
-    icon: "repeat",
-    summary: `
-      1. <b>for vs while</b> :
-         - <code>for</code> est utilisé lorsque le nombre d'itérations est connu d'avance (avec <code>range(debut, fin_exclue, pas)</code>).
-         - <code>while</code> est utilisé lorsque l'arrêt dépend d'un événement externe ou d'une condition dynamique.
-      2. <b>break vs continue</b> :
-         - <code>break</code> quitte définitivement la boucle.
-         - <code>continue</code> interrompt le tour courant et saute au tour suivant.
-      3. <b>Clause 'else' sur une boucle</b> : Spécificité majeure de Python, le bloc <code>else</code> s'exécute uniquement si la boucle se termine normalement <b>sans avoir été interrompue par un break</b> !
-    `,
-    content: `<div class="figma-card p-6 rounded-2xl text-slate-300 text-sm">Les boucles permettent d'exécuter un traitement de manière compacte et efficace. Retrouvez les exercices types du calcul de factorielle (n!) et du test de primalité dans nos sections interactives.</div>`
+    readTime: "22 min de lecture",
+    sections: [
+      {
+        heading: "1. Boucle for & Fonction range()",
+        content: `
+          <p class="text-xs text-slate-300 mb-2">La boucle <code>for</code> est privilégiée lorsque le nombre d'itérations est connu d'avance :</p>
+          <ul class="list-disc list-inside space-y-1 text-xs font-mono text-slate-300 mb-3">
+            <li><code>range(n)</code> ➔ entiers de 0 à n-1.</li>
+            <li><code>range(debut, fin)</code> ➔ entiers de debut à fin-1 (fin exclue).</li>
+            <li><code>range(debut, fin, pas)</code> ➔ incrémentation selon le pas spécifié.</li>
+          </ul>
+        `
+      },
+      {
+        heading: "2. Contrôle de Flux : break, continue et boucle-else",
+        content: `
+          <div class="grid md:grid-cols-2 gap-3 text-xs mb-3">
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <span class="text-rose-400 font-bold block mb-1">break</span>
+              Interrompt définitivement la boucle et passe aux instructions suivantes en dehors de la boucle.
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+              <span class="text-amber-400 font-bold block mb-1">continue</span>
+              Interrompt l'itération en cours et saute directement au tour suivant de la boucle.
+            </div>
+          </div>
+          <div class="p-3 bg-indigo-950/40 border border-indigo-500/30 rounded-xl text-xs text-indigo-200">
+            <b>La clause else sur une boucle :</b> Le bloc <code>else</code> d'un for ou while ne s'exécute que si la boucle s'est terminée naturellement <b>sans avoir été interrompue par un break</b> ! Idéal pour la recherche d'éléments ou les tests de primalité.
+          </div>
+        `
+      }
+    ],
+    memo: [
+      "for = nombre de tours connu d'avance ; while = condition dynamique.",
+      "La borne de fin de range() est toujours exclue.",
+      "break quitte la boucle ; continue saute au tour suivant.",
+      "else sur une boucle s'exécute uniquement s'il n'y a eu aucun break."
+    ]
   },
   {
     id: "ch6",
     num: "06",
     title: "Séquences & Structures Fondamentales",
-    subtitle: "Chaînes (str), Listes dynamiques vs C, Slicing, Tuples, Sets et Dicts",
     duration: "70 min",
-    icon: "layers",
-    summary: `
-      1. <b>Mutabilité</b> :
-         - <b>Immuables (non modifiables en place)</b> : <code>int, float, bool, str, tuple</code>.
-         - <b>Mutables (modifiables en place)</b> : <code>list, set, dict</code>.
-      2. <b>Piège de l'Aliasing</b> :
-         - <code>L2 = L1</code> crée un alias pointant vers le même objet en RAM.
-         - Pour une copie indépendante : <code>L2 = L1[:]</code> ou <code>L2 = L1.copy()</code>.
-      3. <b>Slicing <code>L[debut:fin:pas]</code></b> : La borne de fin est toujours exclue. <code>L[::-1]</code> inverse la séquence.
-      4. <b>Comparaison lexicographique</b> : Évaluée de gauche à droite, s'arrête au premier écart indépendamment de la taille.
-    `,
-    content: `<div class="figma-card p-6 rounded-2xl text-slate-300 text-sm">Les structures de données fondamentales constituent le cœur de Python. Observez leur comportement dans le Simulateur de RAM pour maîtriser la gestion de la mémoire.</div>`
-  }
-];
-
-// Banque de 30 questions d'examen
-const QUESTION_BANK = [
-  {
-    id: 1,
-    q: "Dans l'architecture de Von Neumann, quel composant du processeur (CPU) est chargé de l'extraction (Fetch) et du décodage (Decode) des instructions ?",
-    options: [
-      "L'Unité Arithmétique et Logique (UAL)",
-      "L'Unité de Contrôle (UC)",
-      "Le Bus de données",
-      "Le Disque Dur (SSD)"
-    ],
-    correct: 1,
-    explain: "L'Unité de Contrôle (UC) est le chef d'orchestre matériel chargé du Fetch et du Decode."
-  },
-  {
-    id: 2,
-    q: "Que renvoie précisément l'instruction Python suivante : print(0.1 + 0.2 == 0.3) ?",
-    options: ["True", "False", "None", "SyntaxError"],
-    correct: 1,
-    explain: "False ! En raison de la représentation binaire flottante IEEE 754, 0.1 + 0.2 vaut 0.30000000000000004."
-  },
-  {
-    id: 3,
-    q: "Déterminez la valeur et le type exact de la variable suivante : a = 15 // 4",
-    options: [
-      "3.75 de type float",
-      "3 de type int",
-      "4 de type int",
-      "3.0 de type float"
-    ],
-    correct: 1,
-    explain: "L'opérateur // effectue la division entière euclidienne et retourne l'entier 3."
-  },
-  {
-    id: 4,
-    q: "Parmi ces identificateurs, lequel est strictement invalide en Python selon PEP 8 ?",
-    options: ["_valeur_1", "True_val", "2eme_choix", "MAX_SIZE"],
-    correct: 2,
-    explain: "2eme_choix commence par un chiffre, ce qui est strictement interdit en syntaxe Python."
-  },
-  {
-    id: 5,
-    q: "Que se passe-t-il si l'on exécute directement l'instruction : int('3.14') ?",
-    options: [
-      "Retourne l'entier 3",
-      "Retourne le flottant 3.14",
-      "Lève une exception ValueError",
-      "Lève une exception TypeError"
-    ],
-    correct: 2,
-    explain: "ValueError ! int() refuse le point décimal dans une chaîne. Il faut faire int(float('3.14'))."
-  },
-  {
-    id: 6,
-    q: "Quelle est la valeur retournée par : bool('False') ?",
-    options: ["False", "True", "None", "SyntaxError"],
-    correct: 1,
-    explain: "True ! Toute chaîne de caractères non vide est évaluée à True par bool()."
-  },
-  {
-    id: 7,
-    q: "Quelle est la valeur de l'expression : 2 ** 3 ** 2 ?",
-    options: ["64", "512", "36", "18"],
-    correct: 1,
-    explain: "L'opérateur puissance ** s'évalue de droite à gauche : 3² = 9, puis 2⁹ = 512."
-  },
-  {
-    id: 8,
-    q: "Que renvoie l'instruction suivante : print(False and (10 / 0 == 0)) ?",
-    options: ["ZeroDivisionError", "False", "True", "None"],
-    correct: 1,
-    explain: "False ! Grâce à l'évaluation en court-circuit (Short-circuit), le côté droit n'est jamais lu."
-  },
-  {
-    id: 9,
-    q: "Quelle est la valeur exacte de l'expression : -7 // 2 ?",
-    options: ["-3", "-3.5", "-4", "-3.0"],
-    correct: 2,
-    explain: "La division entière arrondit toujours vers le bas (vers moins l'infini), donc -3.5 devient -4."
-  },
-  {
-    id: 10,
-    q: "Que renvoie l'instruction : '1' in [1, 2, 3] ?",
-    options: ["True", "False", "TypeError", "SyntaxError"],
-    correct: 1,
-    explain: "False ! L'opérateur in teste l'égalité de valeur et de type sans erreur : la chaîne '1' != l'entier 1."
-  },
-  {
-    id: 11,
-    q: "Combien d'éléments génère l'intervalle : range(1, 6) ?",
-    options: ["6 éléments", "5 éléments", "7 éléments", "4 éléments"],
-    correct: 1,
-    explain: "5 éléments : 1, 2, 3, 4, 5 (la borne de fin 6 est toujours exclue)."
-  },
-  {
-    id: 12,
-    q: "Dans une boucle, quelle commande interrompt le tour courant et passe directement au suivant ?",
-    options: ["break", "continue", "pass", "exit()"],
-    correct: 1,
-    explain: "continue saute au tour d'itération suivant, tandis que break termine la boucle."
-  },
-  {
-    id: 13,
-    q: "Quand le bloc 'else' d'une boucle for ou while est-il exécuté ?",
-    options: [
-      "À chaque tour de boucle",
-      "Uniquement si la boucle se termine sans rencontrer de break",
-      "Uniquement en cas d'erreur",
-      "Dès qu'un break est exécuté"
-    ],
-    correct: 1,
-    explain: "Le bloc else de boucle ne s'exécute que si la boucle termine toutes ses itérations normalement."
-  },
-  {
-    id: 14,
-    q: "Considérant : L1 = [10, 20] ; L2 = L1 ; L2.append(30). Que vaut len(L1) ?",
-    options: ["2", "3", "Error", "1"],
-    correct: 1,
-    explain: "3 ! L2 = L1 crée un simple alias pointant vers le même objet liste en mémoire vive."
-  },
-  {
-    id: 15,
-    q: "Comment créer une copie réelle et indépendante d'une liste L1 dans L2 ?",
-    options: ["L2 = L1", "L2 = L1[:]", "L2 = copy(L1)", "L2 = &L1"],
-    correct: 1,
-    explain: "L2 = L1[:] (slicing complet) ou L1.copy() crée un nouvel objet distinct en mémoire."
-  },
-  {
-    id: 16,
-    q: "Que renvoie la comparaison lexicographique : [2, 5, 1] > [2, 3, 4, 5, 6] ?",
-    options: ["True", "False", "TypeError", "False car la 2ème est plus longue"],
-    correct: 0,
-    explain: "True ! À l'indice 1, 5 > 3. La comparaison s'arrête immédiatement et ignore la longueur."
-  },
-  {
-    id: 17,
-    q: "Quelle instruction crée un ensemble vide (Set vide) valide en Python ?",
-    options: ["s = {}", "s = set()", "s = []", "s = ()"],
-    correct: 1,
-    explain: "set() crée un ensemble vide. {} crée un dictionnaire vide (dict vide)."
-  },
-  {
-    id: 18,
-    q: "Quel est le type de l'objet : t = (42) ?",
-    options: ["tuple", "int", "list", "set"],
-    correct: 1,
-    explain: "int ! Pour définir un tuple à 1 élément, la virgule est obligatoire : (42,)."
-  },
-  {
-    id: 19,
-    q: "Que renvoie : True or False and False ?",
-    options: ["True", "False", "None", "SyntaxError"],
-    correct: 0,
-    explain: "True ! and est prioritaire sur or : (False and False) = False, puis True or False = True."
-  },
-  {
-    id: 20,
-    q: "Si A = 5 et B = 3, quelle est la nouvelle valeur de A après : A *= B + 2 ?",
-    options: ["17", "25", "30", "15"],
-    correct: 1,
-    explain: "A *= B + 2 équivaut à A = A * (B + 2) = 5 * 5 = 25."
-  }
-];
-
-// Flashcards 3D en Français
-const FLASHCARDS = [
-  {
-    id: 1,
-    tag: "Architecture",
-    front: "Quelle est l'innovation clé de l'Architecture de Von Neumann (1945) ?",
-    back: "Le concept de Programme Enregistré : les données (variables) et les instructions (code) partagent le même espace physique dans la mémoire RAM."
-  },
-  {
-    id: 2,
-    tag: "Transtypage",
-    front: "Pourquoi l'instruction int('3.14') déclenche-t-elle une exception ValueError ?",
-    back: "La fonction int() refuse formellement un point décimal dans une chaîne de caractères. Solution : passer d'abord par float, soit int(float('3.14')) qui donne 3."
-  },
-  {
-    id: 3,
-    tag: "Booléens",
-    front: "Pourquoi bool('False') renvoie-t-il True en Python ?",
-    back: "En Python, toute chaîne de caractères non vide est évaluée comme vraie (Truthy). Seules la chaîne vide '' et le nombre 0 renvoient False."
-  },
-  {
-    id: 4,
-    tag: "Listes",
-    front: "Quel est le danger de l'instruction L2 = L1 sur deux listes ?",
-    back: "Le phénomène d'Aliasing : L2 = L1 ne copie pas la liste, elle crée un second nom vers le même objet en RAM. Modifier L2 modifie aussi L1 ! Solution : L2 = L1[:]."
-  },
-  {
-    id: 5,
-    tag: "Flottants",
-    front: "Pourquoi l'expression 0.1 + 0.2 == 0.3 renvoie-t-elle False ?",
-    back: "En raison de la norme IEEE 754 de représentation des nombres flottants en binaire : 0.1 et 0.2 produisent une fraction binaire périodique infinie (0.30000000000000004)."
-  },
-  {
-    id: 6,
-    tag: "Logique",
-    front: "Qu'est-ce que l'évaluation en court-circuit (Short-circuit) ?",
-    back: "Pour 'and', dès que le premier terme est False, Python s'arrête et renvoie False. Pour 'or', dès que le premier est True, il s'arrête. Le second terme n'est même pas lu !"
-  },
-  {
-    id: 7,
-    tag: "Boucles",
-    front: "Quand la clause 'else' attachée à une boucle for ou while s'exécute-t-elle ?",
-    back: "Uniquement si la boucle a terminé toutes ses itérations normalement SANS avoir rencontré d'instruction break."
-  },
-  {
-    id: 8,
-    tag: "Tuples",
-    front: "Comment définit-on obligatoirement un tuple contenant un seul élément ?",
-    back: "Avec une virgule finale obligatoire : t = (42,). Sans virgule, (42) est considéré comme un simple entier int entre parenthèses."
-  }
-];
-
-// Glossaire Académique
-const GLOSSARY = [
-  {
-    fr: "Architecture de Von Neumann",
-    en: "Von Neumann Architecture",
-    dar: "Modèle informatique universel unifiant stockage du code et des données en RAM.",
-    code: "CPU + RAM + E/S + Bus"
-  },
-  {
-    fr: "Typage Dynamique",
-    en: "Dynamic Typing",
-    dar: "Attribution automatique du type selon la valeur sans déclaration explicite de type.",
-    code: "x = 42 # int automatique"
-  },
-  {
-    fr: "Transtypage (Casting)",
-    en: "Type Casting",
-    dar: "Conversion explicite d'une valeur d'un type vers un autre compatible.",
-    code: "n = int('20')"
-  },
-  {
-    fr: "Short-circuit (Court-circuit)",
-    en: "Short-circuit Evaluation",
-    dar: "Arrêt immédiat de l'évaluation logique dès que le résultat final est déterminé.",
-    code: "False and (1/0 == 0)"
-  },
-  {
-    fr: "Aliasing",
-    en: "Variable Aliasing",
-    dar: "Liaison de deux identificateurs distincts vers un même objet mutable en mémoire.",
-    code: "L2 = L1 # Danger"
-  },
-  {
-    fr: "Immuabilité",
-    en: "Immutability",
-    dar: "Propriété d'un objet dont l'état ne peut être altéré après sa création (str, tuple).",
-    code: "s = 'abc' ; s[0] = 'z' # Crash"
-  },
-  {
-    fr: "Slicing",
-    en: "Slicing",
-    dar: "Technique d'extraction d'une sous-séquence via la syntaxe [début : fin : pas].",
-    code: "L[1:4:2]"
-  },
-  {
-    fr: "Bytecode & PVM",
-    en: "Bytecode & Python VM",
-    dar: "Code intermédiaire compilé exécuté par la machine virtuelle logicielle de Python.",
-    code: ".py ➔ .pyc ➔ PVM"
-  }
-];
-
-// Les 10 Pièges d'Examen
-const EXAM_TRAPS = [
-  {
-    title: "1. Le piège de int() avec un point décimal",
-    code: "int('3.14') # 💥 ValueError!",
-    fix: "int(float('3.14')) # ✅ 3",
-    note: "La fonction int() refuse les chaînes décimales. Il faut d'abord passer par float()."
-  },
-  {
-    title: "2. Troncature et non arrondi",
-    code: "int(14.89) # Ne donne PAS 15 !",
-    fix: "int(14.89) ➔ 14",
-    note: "Python supprime brutalement la partie décimale (troncature pure sans arrondi)."
-  },
-  {
-    title: "3. La vérité de bool('False')",
-    code: "bool('False') # Ne donne PAS False !",
-    fix: "bool('False') ➔ True",
-    note: "Toute chaîne non vide est True, quel que soit le texte à l'intérieur."
-  },
-  {
-    title: "4. L'évaluation de droite à gauche de la puissance",
-    code: "2 ** 3 ** 2 # Ne donne PAS (2**3)**2 = 64 !",
-    fix: "2 ** (3 ** 2) = 2 ** 9 = 512",
-    note: "L'opérateur ** est le seul opérateur évalué de droite à gauche."
-  },
-  {
-    title: "5. L'Aliasing sur les listes",
-    code: "L2 = L1 # Ne crée PAS une nouvelle liste !",
-    fix: "L2 = L1[:] ou L2 = L1.copy()",
-    note: "L'opérateur = crée une liaison vers le même objet en RAM. Modifier L2 modifie L1."
-  },
-  {
-    title: "6. L'exclusion de la borne de fin",
-    code: "range(1, 5) et L[1:5]",
-    fix: "L'indice 5 est TOUJOURS exclu !",
-    note: "range(1, 5) s'arrête à 4 inclus."
-  },
-  {
-    title: "7. La division entière négative",
-    code: "-7 // 2 # Ne donne PAS -3 !",
-    fix: "-7 // 2 ➔ -4",
-    note: "La division entière arrondit toujours vers le bas (vers -infini)."
-  },
-  {
-    title: "8. Déclaration de l'ensemble vide",
-    code: "s = {} # Ce n'est PAS un ensemble !",
-    fix: "s = set() # ✅ Ensemble vide",
-    note: "Les accolades {} sont réservées aux dictionnaires vides (dict)."
-  },
-  {
-    title: "9. Le tuple à un seul élément",
-    code: "t = (10) # C'est un simple entier int !",
-    fix: "t = (10,) # ✅ Tuple avec virgule",
-    note: "C'est la virgule qui crée le tuple, pas les parenthèses."
-  },
-  {
-    title: "10. Le court-circuit qui évite le crash",
-    code: "False and (10 / 0 == 0)",
-    fix: "Résultat : False (aucun crash ZeroDivisionError)",
-    note: "Dès que le premier terme de 'and' est False, Python n'évalue jamais le second terme."
-  }
-];
-
-// Séries de TD officielles UIT Kénitra
-const TD_SERIES = [
-  {
-    id: "serie1",
-    title: "Série 1 : Variables, Types, Opérateurs, I/O",
-    subtitle: "Faculté des Sciences Kénitra - SMI / IA S1",
-    questions: [
+    readTime: "25 min de lecture",
+    sections: [
       {
-        num: "Exercice 1",
-        title: "Identificateurs & Types fondamentaux",
-        content: "Déterminez la validité des identificateurs et la valeur de : a = 15 // 4, b = 15 / 3, c = 2 ** 3 ** 2, d = -7 // 2.",
-        solution: `
-          <div class="space-y-2 text-xs">
-            <p>• <b>2eme_choix</b> : Invalide (commence par un chiffre).</p>
-            <p>• <b>for</b> : Invalide (mot-clé réservé).</p>
-            <p>• <b>total$</b> : Invalide (caractère spécial interdit).</p>
-            <p>• <b>x-max</b> : Invalide (tiret interprété comme soustraction).</p>
-            <p>• <b>a</b> = 3 (int) | <b>b</b> = 5.0 (float) | <b>c</b> = 512 (int) | <b>d</b> = -4 (int).</p>
-            <p>• <b>0.1 + 0.2 == 0.3</b> ➔ False en raison de la représentation IEEE 754.</p>
-          </div>
+        heading: "1. Mutabilité vs Immuabilité & Piège de l'Aliasing",
+        content: `
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-300 mb-3">
+            <li><b>Immuables :</b> <code>int, float, bool, str, tuple</code> (Impossible de modifier en place).</li>
+            <li><b>Mutables :</b> <code>list, set, dict</code> (Modifiables en mémoire).</li>
+            <li><b>Piège de l'affectation :</b> <code>L2 = L1</code> crée un alias vers le même objet en RAM. Pour copier indépendamment : <code>L2 = L1[:]</code> ou <code>L2 = L1.copy()</code>.</li>
+          </ul>
         `
       },
       {
-        num: "Exercice 2 & 3",
-        title: "Transtypage & Évaluation logique",
-        content: "v1 = bool(0), v2 = bool('False'), v3 = int(float('3.14')), print(0 and 'Python'), print(False and (10/0 == 0)).",
-        solution: `
-          <div class="space-y-2 text-xs">
-            <p>• <b>v1</b> = False (bool) | <b>v2</b> = True (bool) | <b>v3</b> = 3 (int).</p>
-            <p>• <b>int('3.14')</b> : Lève une exception ValueError.</p>
-            <p>• <b>0 and 'Python'</b> : Renvoie 0 (dernière valeur évaluée).</p>
-            <p>• <b>False and (10/0 == 0)</b> : Renvoie False sans erreur de division par zéro (court-circuit).</p>
+        heading: "2. Le Slicing & La Comparaison Lexicographique",
+        content: `
+          <p class="text-xs text-slate-300 mb-2">Syntaxe générale : <code>sequence[debut : fin_exclue : pas]</code>. <code>s[::-1]</code> inverse la séquence.</p>
+          <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
+            Comparaison lexicographique : élément par élément de gauche à droite, s'arrête au 1er écart !<br/>
+            [2, 5, 1] > [2, 3, 4, 5, 6] ➔ True (car à l'indice 1, 5 > 3).
           </div>
         `
       }
+    ],
+    memo: [
+      "str et tuple sont immuables ; list, set et dict sont mutables.",
+      "L2 = L1 crée un alias ; utiliser L2 = L1[:] pour une copie indépendante.",
+      "Comparaison lexicographique : s'arrête au premier écart sans tenir compte de la longueur.",
+      "Un tuple à un élément s'écrit (42,) avec une virgule obligatoire."
     ]
-  },
-  {
-    id: "serie2",
-    title: "Série 2 : Structures Conditionnelles",
-    subtitle: "Faculté des Sciences Kénitra - SMI / IA S1",
-    questions: [
-      {
-        num: "Exercice 5 : Mois de Février & Année Bissextile",
-        title: "Vérification calendaire grégorienne",
-        content: "Vérifier si une date est valide en février selon les règles bissextiles.",
-        solution: `
-<pre class="bg-slate-900 p-3 rounded text-[11px] font-mono text-slate-200">
-jour = int(input("Jour: "))
-mois = int(input("Mois: "))
-annee = int(input("Année: "))
+  }
+];
 
-if mois != 2:
-    print("Ce programme teste uniquement le mois de février.")
-else:
-    est_bissextile = (annee % 4 == 0 and annee % 100 != 0) or (annee % 400 == 0)
-    max_jours = 29 if est_bissextile else 28
-    if 1 <= jour <= max_jours:
-        print("Date valide")
-    else:
-        print("Date invalide")
-</pre>
-        `
-      },
-      {
-        num: "Exercice 6 : Facture d'eau par tranches progressives",
-        title: "Tarification cumulative par tranches",
-        content: "Calcul exact de la consommation découpée par tranches (0-20 m³ à 2.0 DH, 20-50 m³ à 4.0 DH, >50 m³ à 7.0 DH).",
-        solution: `
-<pre class="bg-slate-900 p-3 rounded text-[11px] font-mono text-slate-200">
-conso = float(input("Consommation en m³: "))
+// BANQUE MASSIVE D'EXERCICES CORRIGÉS PAR CHAPITRE (24 Exercices Complets)
+const CHAPTER_EXERCISES = {
+  ch1: [
+    {
+      id: "exo-1-1",
+      title: "Exercice 1.1 : Classification des Systèmes",
+      enonce: "Pour chacun des dispositifs suivants, indiquez s'il s'agit d'un système numérique uniquement ou d'un système informatique, en justifiant :\\n1. Une montre digitale simple\\n2. Un smartphone moderne\\n3. Un boîtier ABS de freinage automobile dédié\\n4. Un PC portable",
+      correction: `
+        <b>1. Montre digitale simple :</b> Système numérique uniquement (traite des signaux discrets mais sa fonction est figée et non universellement programmable).<br/>
+        <b>2. Smartphone :</b> Système informatique (universellement programmable, exécute des applications arbitraires).<br/>
+        <b>3. Boîtier ABS :</b> Système numérique embarqué dédié (non reprogrammable par l'utilisateur).<br/>
+        <b>4. PC portable :</b> Système informatique universel.
+      `
+    },
+    {
+      id: "exo-1-2",
+      title: "Exercice 1.2 : Traçage du Cycle Processeur (CPU)",
+      enonce: "Détaillez le cycle complet d'instruction (Fetch, Decode, Execute) pour l'opération : <code>c = a + b</code> en précisant le rôle de l'Unité de Contrôle (UC) et de l'Unité Arithmétique et Logique (UAL).",
+      correction: `
+        • <b>Étape 1 (Fetch) :</b> L'Unité de Contrôle (UC) extrait l'instruction située à l'adresse mémoire pointée dans la RAM via le bus d'adresses et le bus de données.<br/>
+        • <b>Étape 2 (Decode) :</b> L'UC décode le code opération et identifie qu'il s'agit d'une addition nécessitant les valeurs de a et b.<br/>
+        • <b>Étape 3 (Execute) :</b> L'UAL réalise le calcul arithmétique de l'addition et dépose le résultat dans un registre avant son écriture en RAM.
+      `
+    },
+    {
+      id: "exo-1-3",
+      title: "Exercice 1.3 : La PVM et le Bytecode",
+      enonce: "Expliquez pourquoi un script Python démarre plus lentement qu'un binaire C compilé, mais s'exécute beaucoup plus vite qu'un script Bash purement interprété.",
+      correction: `
+        Python utilise une approche <b>hybride</b> :<br/>
+        1. Comparé au C : Python doit d'abord précompiler le code source en Bytecode puis l'exécuter via une machine virtuelle logicielle (PVM), ce qui crée un surcoût.<br/>
+        2. Comparé à Bash : Le Bytecode précompilé évite à Python de devoir réanalyser la syntaxe textuelle à chaque tour de boucle, rendant l'exécution considérablement plus rapide qu'en interprétation pure ligne par ligne.
+      `
+    },
+    {
+      id: "exo-1-4",
+      title: "Exercice 1.4 : Mode REPL vs Mode Script",
+      enonce: "Citez 2 avantages et 2 limites du mode interactif (REPL) par rapport au mode script (.py).",
+      correction: `
+        • <b>Avantages du REPL :</b> Prototypage instantané d'expressions et retour immédiat d'erreurs pour l'apprentissage.<br/>
+        • <b>Limites du REPL :</b> Éphémère (le code est perdu dès la fermeture de la session) et inadapté à l'automatisation de projets de plusieurs lignes.
+      `
+    }
+  ],
+  ch2: [
+    {
+      id: "exo-2-1",
+      title: "Exercice 2.1 : Validation des Identificateurs (PEP 8)",
+      enonce: "Déterminez la validité des identificateurs suivants en justifiant précisément pour chaque cas invalide :\\n• _valeur_1\\n• 2eme_choix\\n• for\\n• total$\\n• True_val\\n• x-max",
+      correction: `
+        • <b>_valeur_1 :</b> Valide (lettres, chiffres, underscore au début autorisé).<br/>
+        • <b>2eme_choix :</b> Invalide (commence par un chiffre).<br/>
+        • <b>for :</b> Invalide (mot-clé réservé du langage).<br/>
+        • <b>total$ :</b> Invalide (caractère spécial interdit $).<br/>
+        • <b>True_val :</b> Valide (commence par une lettre et ne coïncide pas avec le mot réservé True).<br/>
+        • <b>x-max :</b> Invalide (le tiret '-' est l'opérateur de soustraction).
+      `
+    },
+    {
+      id: "exo-2-2",
+      title: "Exercice 2.2 : Transtypage & Pièges Classiques",
+      enonce: "Déterminez la valeur et le type exact résultant de :\\n1. v1 = bool(0)\\n2. v2 = bool('False')\\n3. v3 = int(float('3.14'))\\n4. Que produit int('3.14') et pourquoi ?",
+      correction: `
+        1. <b>v1 = False</b> (type bool) : zéro numérique vaut toujours False.<br/>
+        2. <b>v2 = True</b> (type bool) : toute chaîne non vide est True en Python, même 'False' !<br/>
+        3. <b>v3 = 3</b> (type int) : float('3.14') donne 3.14, puis int(3.14) effectue la troncature entière.<br/>
+        4. <b>int('3.14') :</b> Déclenche une <b>ValueError</b> car int() n'accepte pas de séparateur flottant dans une chaîne littérale.
+      `
+    },
+    {
+      id: "exo-2-3",
+      title: "Exercice 2.3 : Précision Flottante IEEE 754",
+      enonce: "Que renvoie l'instruction : <code>print(0.1 + 0.2 == 0.3)</code> ? Expliquez la cause fondamentale au niveau matériel.",
+      correction: `
+        Renvoie <b>False</b>.<br/>
+        <b>Cause machine :</b> Les microprocesseurs utilisent la norme binaire IEEE 754. Les fractions décimales 0.1 (1/10) et 0.2 (1/5) ne possèdent pas de développement binaire fini (nombres périodiques infinis en base 2). La somme 0.1 + 0.2 produit <code>0.30000000000000004</code>, ce qui est strictement différent de 0.3.
+      `
+    },
+    {
+      id: "exo-2-4",
+      title: "Exercice 2.4 : Déclaration et Tracé Mémoire (Exercice Slide 43)",
+      enonce: "Décrivez ce qui se passe à chacune des lignes suivantes :\\n>>> largeur = 20\\n>>> hauteur = 4 * 9.3\\n>>> largeur * hauteur",
+      correction: `
+        • <b>Ligne 1 :</b> Affectation. Création de l'objet entier 20 en mémoire et liaison du nom 'largeur'. Affichage console : Aucun.<br/>
+        • <b>Ligne 2 :</b> Calcul + Affectation. Multiplication mixte (int × float) créant un float 37.2 lié à 'hauteur'. Affichage console : Aucun.<br/>
+        • <b>Ligne 3 :</b> Expression simple. Évaluation du produit sans stockage. Affichage console en mode interactif : <b>744.0</b> (type float).
+      `
+    }
+  ],
+  ch3: [
+    {
+      id: "exo-3-1",
+      title: "Exercice 3.1 : Évaluation d'Expressions Complexes (Slide 55)",
+      enonce: "Soit les variables : a, b, c, d = 10, 5.5, 0, True.\\nDéterminez le résultat pas à pas de :\\n1. c = a % b + c > a\\n2. d = c == (a < 3) or d",
+      correction: `
+        <b>1. Évaluation de c = a % b + c > a :</b><br/>
+        - Modulo (%) : 10 % 5.5 = 4.5<br/>
+        - Addition (+) : 4.5 + 0 = 4.5<br/>
+        - Comparaison (>) : 4.5 > 10 renvoie False.<br/>
+        - Affectation : c prend la valeur <b>False</b>.<br/><br/>
+        <b>2. Évaluation de d = c == (a < 3) or d :</b><br/>
+        - Parenthèse : (10 < 3) donne False.<br/>
+        - Égalité (==) : c == False ➔ False == False donne True.<br/>
+        - Opérateur or : True or d donne immédiatement <b>True</b> (court-circuit).<br/>
+        - d conserve la valeur <b>True</b>.
+      `
+    },
+    {
+      id: "exo-3-2",
+      title: "Exercice 3.2 : Puissances et Associativité",
+      enonce: "Calculez la valeur des expressions suivantes en justifiant l'ordre des opérations :\\n1. x = 2 + 3 * 4 ** 2\\n2. y = 2 ** 3 ** 2",
+      correction: `
+        1. <b>x = 2 + 3 * 4 ** 2 :</b><br/>
+        - Puissance prioritaire : 4 ** 2 = 16.<br/>
+        - Multiplication : 3 * 16 = 48.<br/>
+        - Addition : 2 + 48 = <b>50</b>.<br/><br/>
+        2. <b>y = 2 ** 3 ** 2 :</b><br/>
+        - La puissance s'évalue de droite à gauche : 3 ** 2 = 9.<br/>
+        - Puis : 2 ** 9 = <b>512</b> (et non 64).
+      `
+    },
+    {
+      id: "exo-3-3",
+      title: "Exercice 3.3 : Évaluation en Court-Circuit",
+      enonce: "Prédisez la valeur affichée par les instructions suivantes sans exécuter :\\n1. print(0 and 'Python')\\n2. print(False and (10 / 0 == 0))\\n3. print('A' or 'B')",
+      correction: `
+        1. <b>print(0 and 'Python') :</b> 0 étant False, Python renvoie immédiatement la valeur <b>0</b>.<br/>
+        2. <b>print(False and (10 / 0 == 0)) :</b> Le 1er membre étant False, l'expression s'arrête et affiche <b>False</b> sans provoquer de ZeroDivisionError.<br/>
+        3. <b>print('A' or 'B') :</b> 'A' étant Truthy, Python s'arrête et renvoie <b>'A'</b>.
+      `
+    },
+    {
+      id: "exo-3-4",
+      title: "Exercice 3.4 : Affectation Composée",
+      enonce: "Soit A = 5 et B = 3. Que vaut A après l'instruction : <code>A *= B + 2</code> ? Justifiez rigoureusement.",
+      correction: `
+        L'affectation composée <code>A *= expression</code> équivaut à <code>A = A * (expression)</code>.<br/>
+        Ainsi : A = 5 * (3 + 2) = 5 * 5 = <b>25</b> (et non (5 * 3) + 2 = 17).
+      `
+    }
+  ],
+  ch4: [
+    {
+      id: "exo-4-1",
+      title: "Exercice 4.1 : Facture d'Eau par Tranches Cumulatives",
+      enonce: "Écrire un programme Python qui demande la consommation d'eau en m³ et calcule la facture selon :\\n• 0 à 20 m³ : 2.0 DH/m³\\n• 20 à 50 m³ : 4.0 DH/m³\\n• au-delà de 50 m³ : 7.0 DH/m³\\nExemple pour 35 m³ : 20×2.0 + 15×4.0 = 100 DH.",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+conso = float(input("Consommation en m³ : "))
 if conso < 0:
-    print("Erreur")
+    print("Valeur invalide")
 elif conso <= 20:
     facture = conso * 2.0
 elif conso <= 50:
     facture = (20 * 2.0) + ((conso - 20) * 4.0)
 else:
     facture = (20 * 2.0) + (30 * 4.0) + ((conso - 50) * 7.0)
-print(f"Montant total : {facture:.2f} DH")
+print(f"Montant total à payer : {facture:.2f} DH")
 </pre>
-        `
-      }
+      `
+    },
+    {
+      id: "exo-4-2",
+      title: "Exercice 4.2 : Vérification du Mois de Février Bissextile",
+      enonce: "Écrire un programme qui lit le jour J, le mois M et l'année A. Si M == 2, déterminer si l'année est bissextile (divisible par 4 et non par 100, ou divisible par 400) et valider le jour (1 à 28 ou 1 à 29).",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+j = int(input("Jour : "))
+m = int(input("Mois : "))
+a = int(input("Année : "))
+
+if m != 2:
+    print("Ce programme teste uniquement le mois de février.")
+else:
+    bissextile = (a % 4 == 0 and a % 100 != 0) or (a % 400 == 0)
+    max_j = 29 if bissextile else 28
+    if 1 <= j <= max_j:
+        print(f"Date valide (Février {a} compte {max_j} jours).")
+    else:
+        print("Date invalide.")
+</pre>
+      `
+    },
+    {
+      id: "exo-4-3",
+      title: "Exercice 4.3 : Code d'Accès de Sécurité (4 Chiffres)",
+      enonce: "Un code d'accès à 4 chiffres (1000 à 9999) est valide s'il est multiple de 3. S'il se termine par 0, il doit aussi être multiple de 30. Écrire le programme de vérification.",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+code = int(input("Code (4 chiffres) : "))
+if code < 1000 or code > 9999:
+    print("Erreur : le code doit avoir 4 chiffres !")
+elif code % 10 == 0:
+    if code % 30 == 0:
+        print("Code Valide (multiple de 30)")
+    else:
+        print("Code Refusé (finit par 0 mais non multiple de 30)")
+elif code % 3 == 0:
+    print("Code Valide (multiple de 3)")
+else:
+    print("Code Refusé")
+</pre>
+      `
+    },
+    {
+      id: "exo-4-4",
+      title: "Exercice 4.4 : Éligibilité à l'Examen du Permis",
+      enonce: "Pour passer le permis, le candidat doit avoir au moins 18 ans, avoir réussi le code ('oui'), ET (avoir au moins 20h de conduite OU avoir fait la conduite accompagnée 'oui'). Écrire le script de décision.",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+age = int(input("Âge : "))
+code = input("Code réussi (oui/non) : ").lower()
+heures = int(input("Heures de conduite : "))
+accompagnee = input("Conduite accompagnée (oui/non) : ").lower()
+
+cond_conduite = (heures >= 20) or (accompagnee == "oui")
+
+if age >= 18 and code == "oui" and cond_conduite:
+    print("Candidat autorisé à l'examen")
+else:
+    print("Candidat non éligible")
+</pre>
+      `
+    }
+  ],
+  ch5: [
+    {
+      id: "exo-5-1",
+      title: "Exercice 5.1 : Calcul de Factorielle (for et while)",
+      enonce: "Écrire deux programmes distincts permettant de calculer n! (1 × 2 × ... × n) pour un entier positif saisi au clavier : l'un avec la boucle for, l'autre avec while.",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+# Version avec boucle FOR
+n = int(input("Entier n : "))
+if n < 0:
+    print("Non définie")
+else:
+    f = 1
+    for i in range(1, n + 1):
+        f *= i
+    print(f"{n}! = {f}")
+
+# Version avec boucle WHILE
+i = 1
+f = 1
+while i <= n:
+    f *= i
+    i += 1
+</pre>
+      `
+    },
+    {
+      id: "exo-5-2",
+      title: "Exercice 5.2 : Test de Primalité avec boucle else",
+      enonce: "Écrire un programme qui détermine si un nombre n > 1 est premier en utilisant une boucle for et sa clause spécifique else.",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+n = int(input("Entier n : "))
+if n <= 1:
+    print("Non premier")
+else:
+    for d in range(2, n):
+        if n % d == 0:
+            print(f"{n} n'est pas premier (divisible par {d})")
+            break
+    else:
+        # Exécuté uniquement si AUCUN break n'a eu lieu
+        print(f"{n} est un NOMBRE PREMIER !")
+</pre>
+      `
+    },
+    {
+      id: "exo-5-3",
+      title: "Exercice 5.3 : Traçage de Boucle et Contrôle de Flux",
+      enonce: "Donnez la sortie console exacte du script suivant :\\n<pre>for i in range(1, 6):\\n    if i == 3: continue\\n    if i == 5: break\\n    print(i, end=' ')</pre>",
+      correction: `
+        • i=1 ➔ print(1)<br/>
+        • i=2 ➔ print(2)<br/>
+        • i=3 ➔ continue (saute le print)<br/>
+        • i=4 ➔ print(4)<br/>
+        • i=5 ➔ break (interrompt définitivement la boucle)<br/>
+        <b>Sortie console :</b> <code>1 2 4 </code>
+      `
+    },
+    {
+      id: "exo-5-4",
+      title: "Exercice 5.4 : Boucles Imbriquées (Table de Multiplication)",
+      enonce: "Écrire un script Python utilisant deux boucles imbriquées pour afficher les tables de multiplication de 1 à 5 sous forme de grille compacte.",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+for i in range(1, 6):
+    for j in range(1, 6):
+        print(f"{i * j:3d}", end=" ")
+    print() # saut de ligne à la fin de chaque rangée
+</pre>
+      `
+    }
+  ],
+  ch6: [
+    {
+      id: "exo-6-1",
+      title: "Exercice 6.1 : Slicing Expert sur Listes (Slide 14 & 15)",
+      enonce: "Soit : <code>animaux = ['girafe', 'tigre', 'singe', 'souris']</code>.\\nDonnez le résultat des tranches suivantes :\\n1. animaux[1:3]\\n2. animaux[:2]\\n3. animaux[::2]\\n4. animaux[::-1]",
+      correction: `
+        1. <b>animaux[1:3] :</b> <code>['tigre', 'singe']</code> (indices 1 et 2, 3 exclu).<br/>
+        2. <b>animaux[:2] :</b> <code>['girafe', 'tigre']</code> (du début à l'indice 1).<br/>
+        3. <b>animaux[::2] :</b> <code>['girafe', 'singe']</code> (un élément sur deux).<br/>
+        4. <b>animaux[::-1] :</b> <code>['souris', 'singe', 'tigre', 'girafe']</code> (liste inversée).
+      `
+    },
+    {
+      id: "exo-6-2",
+      title: "Exercice 6.2 : Résolution du Piège d'Aliasing (Slide 15)",
+      enonce: "Expliquez la différence en mémoire entre les deux blocs de code suivants :\\nBloc A : L1 = [1, 2] ; L2 = L1 ; L2[0] = 99\\nBloc B : L1 = [1, 2] ; L2 = L1[:] ; L2[0] = 99",
+      correction: `
+        • <b>Bloc A (Aliasing) :</b> L2 = L1 ne copie pas la liste. L1 et L2 pointent vers le même PyObject en RAM. Modifier L2[0] modifie aussi L1[0] qui devient 99.<br/>
+        • <b>Bloc B (Vraie Copie) :</b> Le slicing complet L1[:] crée un nouvel objet liste indépendant en mémoire. L2[0] devient 99, mais L1 reste intacte : [1, 2].
+      `
+    },
+    {
+      id: "exo-6-3",
+      title: "Exercice 6.3 : Comparaison Lexicographique (Slide 16)",
+      enonce: "Déterminez la valeur booléenne des comparaisons suivantes en justifiant :\\n1. [5, 10] < [5, 10, 15]\\n2. [2, 5, 1] > [2, 3, 4, 5, 6]\\n3. ['Ali', 'sanae'] < ['Ali', 'Sanae']",
+      correction: `
+        1. <b>[5, 10] < [5, 10, 15] ➔ True :</b> Préfixe identique, la liste la plus courte est strictement inférieure.<br/>
+        2. <b>[2, 5, 1] > [2, 3, 4, 5, 6] ➔ True :</b> À l'indice 1, 5 > 3. L'évaluation s'arrête immédiatement et ignore la longueur.<br/>
+        3. <b>['Ali', 'sanae'] < ['Ali', 'Sanae'] ➔ False :</b> 's' minuscule (code ASCII 115) est supérieur à 'S' majuscule (code ASCII 83).
+      `
+    },
+    {
+      id: "exo-6-4",
+      title: "Exercice 6.4 : Manipulation de Dictionnaires",
+      enonce: "Soit le dictionnaire : <code>notes = {'Ali': 14.5, 'Sara': 17.0, 'Amine': 12.0}</code>. Écrire le code pour calculer et afficher la moyenne générale des notes.",
+      correction: `
+<pre class="bg-slate-900 p-3 rounded font-mono text-xs text-slate-200">
+notes = {'Ali': 14.5, 'Sara': 17.0, 'Amine': 12.0}
+total = sum(notes.values())
+moyenne = total / len(notes)
+print(f"Moyenne générale : {moyenne:.2f}/20")
+</pre>
+      `
+    }
+  ]
+};
+
+// 3 SUJETS D'EXAMENS COMPLETS & CONTRÔLES (Chaque examen noté /20)
+const EXAM_SUBJECTS = [
+  {
+    id: "exam-final",
+    title: "Examen Final Blanc • SMI / IA S1 (Session Normale)",
+    duration: 30,
+    questions: [
+      { id: 101, q: "Dans l'architecture de Von Neumann, quel bus est strictement UNIDIRECTIONNEL ?", options: ["Bus de données", "Bus d'adresses", "Bus de contrôle", "Bus mémoire interne"], correct: 1, explain: "Le bus d'adresses est unidirectionnel : il va toujours du processeur vers la mémoire." },
+      { id: 102, q: "Quelle exception est levée par : int('3.14') ?", options: ["TypeError", "ValueError", "ZeroDivisionError", "SyntaxError"], correct: 1, explain: "ValueError ! int() refuse le point décimal dans une chaîne de caractères." },
+      { id: 103, q: "Que vaut : 2 ** 3 ** 2 ?", options: ["64", "512", "18", "36"], correct: 1, explain: "L'opérateur ** s'évalue de droite à gauche : 3² = 9, puis 2⁹ = 512." },
+      { id: 104, q: "Que renvoie : print(0.1 + 0.2 == 0.3) ?", options: ["True", "False", "None", "Error"], correct: 1, explain: "False en raison de la représentation binaire approchée IEEE 754." },
+      { id: 105, q: "Que vaut : -7 // 2 ?", options: ["-3", "-3.5", "-4", "-3.0"], correct: 2, explain: "La division entière arrondit vers moins l'infini : -3.5 devient -4." },
+      { id: 106, q: "Que vaut : bool('False') ?", options: ["False", "True", "None", "ValueError"], correct: 1, explain: "True car toute chaîne non vide est évaluée comme vraie." },
+      { id: 107, q: "Dans une boucle, que fait la commande continue ?", options: ["Quitte la boucle", "Saute au tour suivant", "Réinitialise le compteur", "Arrête le script"], correct: 1, explain: "continue interrompt le tour courant et saute au tour suivant." },
+      { id: 108, q: "Quand le bloc else d'une boucle s'exécute-t-il ?", options: ["À chaque itération", "Uniquement si la boucle se termine sans break", "En cas d'erreur", "Jamais"], correct: 1, explain: "else s'exécute uniquement si la boucle a terminé toutes ses itérations sans break." },
+      { id: 109, q: "Considérant : L1 = [1, 2] ; L2 = L1 ; L2.append(3). Que vaut len(L1) ?", options: ["2", "3", "Error", "1"], correct: 1, explain: "3 ! L2 = L1 crée un alias vers le même objet en mémoire vive." },
+      { id: 110, q: "Que renvoie la comparaison : [2, 5, 1] > [2, 3, 9] ?", options: ["True", "False", "TypeError", "SyntaxError"], correct: 0, explain: "True ! À l'indice 1, 5 > 3. L'évaluation s'arrête immédiatement." },
+      { id: 111, q: "Comment déclarer un ensemble vide (Set vide) ?", options: ["s = {}", "s = set()", "s = []", "s = ()"], correct: 1, explain: "set() crée un ensemble vide, tandis que {} crée un dictionnaire." },
+      { id: 112, q: "Quel est le type de : t = (42) ?", options: ["tuple", "int", "list", "set"], correct: 1, explain: "int ! Un tuple à 1 élément exige une virgule : (42,)." },
+      { id: 113, q: "Que renvoie : True or False and False ?", options: ["True", "False", "None", "Error"], correct: 0, explain: "True car and est prioritaire : (False and False) = False, puis True or False = True." },
+      { id: 114, q: "Si A = 5 et B = 3, que vaut A après : A *= B + 2 ?", options: ["17", "25", "30", "15"], correct: 1, explain: "A *= B + 2 équivaut à A = A * (B + 2) = 5 * 5 = 25." },
+      { id: 115, q: "Que renvoie la fonction input() nativement ?", options: ["int", "float", "str", "selon la saisie"], correct: 2, explain: "input() renvoie toujours une chaîne de caractères str." },
+      { id: 116, q: "Soit s = 'Python'. Que vaut s[1:4] ?", options: ["Pyt", "yth", "ytho", "y"], correct: 1, explain: "Les indices 1, 2 et 3 donnent 'y', 't', 'h'." },
+      { id: 117, q: "L'année 1900 est-elle bissextile ?", options: ["Oui, multiple de 4", "Non, multiple de 100 et non de 400", "Oui, multiple de 100", "Non définie"], correct: 1, explain: "Non bissextile car divisible par 100 mais pas par 400." },
+      { id: 118, q: "Quel type parmi les suivants est IMMUABLE ?", options: ["list", "set", "dict", "str"], correct: 3, explain: "str est immuable. Les listes, ensembles et dictionnaires sont mutables." },
+      { id: 119, q: "Combien d'itérations produit : range(3, 15, 3) ?", options: ["3", "4", "5", "12"], correct: 1, explain: "4 itérations : 3, 6, 9, 12 (15 est exclue)." },
+      { id: 120, q: "Que produit l'exécution de : '1' in [1, 2, 3] ?", options: ["True", "False", "TypeError", "IndexError"], correct: 1, explain: "False car '1' (chaîne) n'est pas égal à 1 (entier)." }
+    ]
+  },
+  {
+    id: "controle-1",
+    title: "Contrôle Continu 1 • Fondements, Types & Opérateurs (Ch 1 à 3)",
+    duration: 25,
+    questions: [
+      { id: 201, q: "Qui a formulé le modèle de machine à programme enregistré en 1945 ?", options: ["Alan Turing", "John von Neumann", "Guido van Rossum", "Dennis Ritchie"], correct: 1, explain: "John von Neumann." },
+      { id: 202, q: "Quel composant du CPU réalise les opérations logiques et calculs ?", options: ["UC", "UAL", "RAM", "Bus d'adresses"], correct: 1, explain: "L'Unité Arithmétique et Logique (UAL)." },
+      { id: 203, q: "Quel est le format du code intermédiaire exécuté par la PVM ?", options: ["Code Machine", "Bytecode", "Assembleur", "Binaire brut"], correct: 1, explain: "Le Bytecode (.pyc)." },
+      { id: 204, q: "Quel identificateur est VALIDE selon PEP 8 ?", options: ["2eme_note", "total$", "_compteur", "class"], correct: 2, explain: "_compteur est valide." },
+      { id: 205, q: "Que vaut 15 / 3 en Python 3 ?", options: ["5", "5.0", "5.00", "Erreur"], correct: 1, explain: "/ renvoie toujours un float." },
+      { id: 206, q: "Que vaut 14 % 4 ?", options: ["3", "2", "3.5", "0"], correct: 1, explain: "14 = 4×3 + 2, le reste est 2." },
+      { id: 207, q: "Quelle fonction convertit 14.89 en 14 sans arrondi ?", options: ["round(14.89)", "int(14.89)", "trunc(14.89)", "floor(14.89)"], correct: 1, explain: "int() effectue une troncature pure." },
+      { id: 208, q: "Que produit : False and (10 / 0 == 0) ?", options: ["ZeroDivisionError", "False", "True", "None"], correct: 1, explain: "Court-circuit : le second membre n'est pas évalué." },
+      { id: 209, q: "Que produit : '2' + '2' ?", options: ["4", "'22'", "22", "TypeError"], correct: 1, explain: "Concaténation des chaînes." },
+      { id: 210, q: "Que produit : 'ab' * 3 ?", options: ["'ababab'", "'ab3'", "TypeError", "'aabb'"], correct: 0, explain: "Duplication de chaîne." }
     ]
   }
 ];
 
-// Badges
-const BADGES = [
-  { id: "von_neumann", title: "Conquérant de Von Neumann", desc: "Maîtrise des composants CPU, bus et cycle Fetch-Decode-Execute.", icon: "cpu" },
-  { id: "type_master", title: "Maître du Transtypage", desc: "Triomphe des pièges de int(), float() et bool().", icon: "database" },
-  { id: "slicing_pro", title: "Expert du Slicing", desc: "Découpage et indexation des séquences sans erreur.", icon: "scissors" },
-  { id: "trap_hunter", title: "Chasseur de Pièges", desc: "Découverte de tous les pièges éliminatoires d'examen.", icon: "shield-alert" },
-  { id: "major", title: "Major de Promotion S1 🏆", desc: "Note supérieure ou égale à 18/20 à l'examen blanc.", icon: "trophy" }
+// DECK DE 20 FLASHCARDS D'ÉVALUATION RAPIDE
+const FLASHCARDS = [
+  { id: 1, tag: "Architecture", front: "Quel est le principe fondamental de l'Architecture de Von Neumann (1945) ?", back: "Le Programme Enregistré : les instructions (code) et les données (variables) partagent le même espace physique en mémoire RAM." },
+  { id: 2, tag: "Transtypage", front: "Pourquoi int('3.14') déclenche-t-il une exception ValueError ?", back: "int() refuse tout séparateur décimal dans une chaîne littérale. Solution obligatoire : int(float('3.14')) qui donne 3." },
+  { id: 3, tag: "Booléens", front: "Pourquoi bool('False') renvoie-t-il True ?", back: "En Python, toute chaîne non vide est évaluée comme vraie (Truthy). Seules bool('') et bool(0) valent False." },
+  { id: 4, tag: "Listes", front: "Quel est le danger de l'instruction L2 = L1 sur les listes ?", back: "L'Aliasing : L2 = L1 ne copie pas la liste mais crée un second nom pointant vers le même objet en RAM. Modifier L2 modifie L1 ! Solution : L2 = L1[:]." },
+  { id: 5, tag: "Flottants", front: "Pourquoi 0.1 + 0.2 == 0.3 renvoie-t-il False ?", back: "À cause de la norme IEEE 754 de représentation des flottants en binaire : 0.1 et 0.2 produisent 0.30000000000000004." },
+  { id: 6, tag: "Logique", front: "Qu'est-ce que l'évaluation en court-circuit (Short-circuit) ?", back: "Dans A and B, si A est False, B n'est jamais lu. Dans A or B, si A est True, B n'est jamais lu." },
+  { id: 7, tag: "Boucles", front: "Quand la clause else d'une boucle s'exécute-t-elle ?", back: "Uniquement si la boucle a terminé toutes ses itérations normalement SANS avoir rencontré d'instruction break." },
+  { id: 8, tag: "Tuples", front: "Comment écrit-on obligatoirement un tuple contenant un seul élément ?", back: "Avec une virgule finale obligatoire : t = (42,). Sans virgule, (42) est un simple entier int entre parenthèses." },
+  { id: 9, tag: "Slicing", front: "Que produit l'expression L[::-1] sur une liste ou une chaîne ?", back: "Elle produit une copie inversée complète de la séquence, parcourue de droite à gauche avec un pas de -1." },
+  { id: 10, tag: "Arithmétique", front: "Dans quel sens s'évalue l'opérateur de puissance ** ?", back: "De droite à gauche ! Ainsi 2 ** 3 ** 2 = 2 ** (3 ** 2) = 2 ** 9 = 512." }
 ];
