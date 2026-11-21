@@ -709,47 +709,1363 @@ print(f"Moyenne générale : {moyenne:.2f}/20")
 // SUJETS D'EXAMENS COMPLETS
 const EXAM_SUBJECTS = [
   {
-    id: "exam-final",
-    title: "Examen Final Blanc • SMI / IA S1 (Session Normale)",
-    duration: 30,
-    questions: [
-      { id: 101, q: "Dans l'architecture de Von Neumann, quel bus est strictement UNIDIRECTIONNEL ?", options: ["Bus de données", "Bus d'adresses", "Bus de contrôle", "Bus mémoire interne"], correct: 1, explain: "Le bus d'adresses est unidirectionnel : il va toujours du processeur vers la mémoire." },
-      { id: 102, q: "Quelle exception est levée par : int('3.14') ?", options: ["TypeError", "ValueError", "ZeroDivisionError", "SyntaxError"], correct: 1, explain: "ValueError ! int() refuse le point décimal dans une chaîne de caractères." },
-      { id: 103, q: "Que vaut : 2 ** 3 ** 2 ?", options: ["64", "512", "18", "36"], correct: 1, explain: "L'opérateur ** s'évalue de droite à gauche : 3² = 9, puis 2⁹ = 512." },
-      { id: 104, q: "Que renvoie : print(0.1 + 0.2 == 0.3) ?", options: ["True", "False", "None", "Error"], correct: 1, explain: "False en raison de la représentation binaire approchée IEEE 754." },
-      { id: 105, q: "Que vaut : -7 // 2 ?", options: ["-3", "-3.5", "-4", "-3.0"], correct: 2, explain: "La division entière arrondit vers moins l'infini : -3.5 devient -4." },
-      { id: 106, q: "Que vaut : bool('False') ?", options: ["False", "True", "None", "ValueError"], correct: 1, explain: "True car toute chaîne non vide est évaluée comme vraie." },
-      { id: 107, q: "Dans une boucle, que fait la commande continue ?", options: ["Quitte la boucle", "Saute au tour suivant", "Réinitialise le compteur", "Arrête le script"], correct: 1, explain: "continue interrompt le tour courant et saute au tour suivant." },
-      { id: 108, q: "Quand le bloc else d'une boucle s'exécute-t-il ?", options: ["À chaque itération", "Uniquement si la boucle se termine sans break", "En cas d'erreur", "Jamais"], correct: 1, explain: "else s'exécute uniquement si la boucle a terminé toutes ses itérations sans break." },
-      { id: 109, q: "Considérant : L1 = [1, 2] ; L2 = L1 ; L2.append(3). Que vaut len(L1) ?", options: ["2", "3", "Error", "1"], correct: 1, explain: "3 ! L2 = L1 crée un alias vers le même objet en mémoire vive." },
-      { id: 110, q: "Que renvoie la comparaison : [2, 5, 1] > [2, 3, 9] ?", options: ["True", "False", "TypeError", "SyntaxError"], correct: 0, explain: "True ! À l'indice 1, 5 > 3. L'évaluation s'arrête immédiatement." },
-      { id: 111, q: "Comment déclarer un ensemble vide (Set vide) ?", options: ["s = {}", "s = set()", "s = []", "s = ()"], correct: 1, explain: "set() crée un ensemble vide, tandis que {} crée un dictionnaire." },
-      { id: 112, q: "Quel est le type de : t = (42) ?", options: ["tuple", "int", "list", "set"], correct: 1, explain: "int ! Un tuple à 1 élément exige une virgule : (42,)." },
-      { id: 113, q: "Que renvoie : True or False and False ?", options: ["True", "False", "None", "Error"], correct: 0, explain: "True car and est prioritaire : (False and False) = False, puis True or False = True." },
-      { id: 114, q: "Si A = 5 et B = 3, que vaut A après : A *= B + 2 ?", options: ["17", "25", "30", "15"], correct: 1, explain: "A *= B + 2 équivaut à A = A * (B + 2) = 5 * 5 = 25." },
-      { id: 115, q: "Que renvoie la fonction input() nativement ?", options: ["int", "float", "str", "selon la saisie"], correct: 2, explain: "input() renvoie toujours une chaîne de caractères str." },
-      { id: 116, q: "Soit s = 'Python'. Que vaut s[1:4] ?", options: ["Pyt", "yth", "ytho", "y"], correct: 1, explain: "Les indices 1, 2 et 3 donnent 'y', 't', 'h'." },
-      { id: 117, q: "L'année 1900 est-elle bissextile ?", options: ["Oui, multiple de 4", "Non, multiple de 100 et non de 400", "Oui, multiple de 100", "Non définie"], correct: 1, explain: "Non bissextile car divisible par 100 mais pas par 400." },
-      { id: 118, q: "Quel type parmi les suivants est IMMUABLE ?", options: ["list", "set", "dict", "str"], correct: 3, explain: "str est immuable. Les listes, ensembles et dictionnaires sont mutables." },
-      { id: 119, q: "Combien d'itérations produit : range(3, 15, 3) ?", options: ["3", "4", "5", "12"], correct: 1, explain: "4 itérations : 3, 6, 9, 12 (15 est exclue)." },
-      { id: 120, q: "Que produit l'exécution de : '1' in [1, 2, 3] ?", options: ["True", "False", "TypeError", "IndexError"], correct: 1, explain: "False car '1' (chaîne) n'est pas égal à 1 (entier)." }
+    "id": "exam-normale-2025",
+    "title": "Examen Final Blanc • SMI / IA S1 (Session Normale 2024/2025)",
+    "sessionBadge": "Session Normale 2025",
+    "duration": 30,
+    "totalPoints": 20,
+    "desc": "Épreuve officielle de synthèse couvrant l'architecture de Von Neumann, le typage, les opérateurs, les boucles et les séquences.",
+    "questions": [
+      {
+        "id": 101,
+        "text": "Dans l'architecture de Von Neumann, quel bus est strictement UNIDIRECTIONNEL ?",
+        "options": [
+          "Bus de données",
+          "Bus d'adresses",
+          "Bus de contrôle",
+          "Bus mémoire interne"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "Le bus d'adresses est strictement unidirectionnel : il transporte les adresses mémoire émises par le processeur (CPU) vers la mémoire vive (RAM) et jamais l'inverse."
+      },
+      {
+        "id": 102,
+        "text": "Quelle exception précise est levée par l'instruction : int('3.14') ?",
+        "options": [
+          "TypeError",
+          "ValueError",
+          "ZeroDivisionError",
+          "SyntaxError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "ValueError ! La fonction int() refuse tout séparateur décimal lorsqu'elle convertit une chaîne de caractères. Il faut d'abord convertir en float : int(float('3.14'))."
+      },
+      {
+        "id": 103,
+        "text": "Que vaut l'expression mathématique : 2 ** 3 ** 2 ?",
+        "options": [
+          "64",
+          "512",
+          "18",
+          "36"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "L'opérateur puissance ** possède une associativité de droite à gauche : 3 ** 2 = 9, puis 2 ** 9 = 512."
+      },
+      {
+        "id": 104,
+        "text": "Que renvoie l'instruction : print(0.1 + 0.2 == 0.3) ?",
+        "options": [
+          "True",
+          "False",
+          "None",
+          "FloatingPointError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "False ! En raison de la représentation binaire en virgule flottante (norme IEEE 754), 0.1 + 0.2 vaut 0.30000000000000004, ce qui n'est pas rigoureusement égal à 0.3."
+      },
+      {
+        "id": 105,
+        "text": "Que vaut l'évaluation de la division entière : -7 // 2 ?",
+        "options": [
+          "-3",
+          "-3.5",
+          "-4",
+          "-3.0"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "L'opérateur // effectue un arrondi vers le bas (vers moins l'infini). La valeur réelle étant -3.5, l'entier inférieur est -4."
+      },
+      {
+        "id": 106,
+        "text": "Que renvoie : bool('False') ?",
+        "options": [
+          "False",
+          "True",
+          "None",
+          "ValueError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "True ! En Python, toute chaîne de caractères non vide est évaluée comme vraie (Truthy), même si son contenu textuel est 'False'."
+      },
+      {
+        "id": 107,
+        "text": "Dans une boucle itérative, quel est l'effet de l'instruction continue ?",
+        "options": [
+          "Quitte définitivement la boucle",
+          "Interrompt l'itération courante et passe à la suivante",
+          "Réinitialise le compteur de boucle",
+          "Met en pause le programme"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "continue arrête immédiatement l'exécution des instructions restantes du tour actuel et saute au tour de boucle suivant."
+      },
+      {
+        "id": 108,
+        "text": "Quand le bloc else associé à une boucle for ou while s'exécute-t-il ?",
+        "options": [
+          "À chaque passage de boucle",
+          "Uniquement si la boucle se termine sans avoir rencontré de break",
+          "En cas d'erreur de syntaxe",
+          "Jamais en Python 3"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "Le bloc else d'une boucle s'exécute si et seulement si la boucle a épuisé normalement sa séquence ou condition sans avoir été interrompue prématurément par un break."
+      },
+      {
+        "id": 109,
+        "text": "Considérant : L1 = [1, 2] ; L2 = L1 ; L2.append(3). Que renvoie len(L1) ?",
+        "options": [
+          "2",
+          "3",
+          "Error",
+          "1"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "3 ! L'instruction L2 = L1 crée un simple alias (référence vers le même objet en RAM). Modifier L2 affecte directement L1."
+      },
+      {
+        "id": 110,
+        "text": "Que renvoie la comparaison de listes : [2, 5, 1] > [2, 3, 9] ?",
+        "options": [
+          "True",
+          "False",
+          "TypeError",
+          "SyntaxError"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "True ! La comparaison est lexicographique élément par élément. À l'indice 0 (2 == 2), on passe à l'indice 1 où 5 > 3 : la comparaison est résolue immédiatement sans évaluer la suite."
+      },
+      {
+        "id": 111,
+        "text": "Comment déclare-t-on syntaxiquement un ensemble vide (Set vide) ?",
+        "options": [
+          "s = {}",
+          "s = set()",
+          "s = []",
+          "s = ()"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "s = set() ! La notation s = {} est réservée à la création d'un dictionnaire vide (dict)."
+      },
+      {
+        "id": 112,
+        "text": "Quel est le type de la variable : t = (42) ?",
+        "options": [
+          "tuple",
+          "int",
+          "list",
+          "set"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "int ! En Python, les parenthèses sans virgule servent uniquement de regroupement arithmétique. Pour déclarer un tuple à un seul élément, la virgule est obligatoire : (42,)."
+      },
+      {
+        "id": 113,
+        "text": "Que renvoie l'expression booléenne : True or False and False ?",
+        "options": [
+          "True",
+          "False",
+          "None",
+          "Error"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "True ! L'opérateur and est strictement prioritaire sur or. L'expression s'évalue comme : True or (False and False) => True or False => True."
+      },
+      {
+        "id": 114,
+        "text": "Si A = 5 et B = 3, quelle est la valeur finale de A après : A *= B + 2 ?",
+        "options": [
+          "17",
+          "25",
+          "30",
+          "15"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "25 ! Dans une affectation augmentée, l'expression de droite est évaluée entièrement en premier avec parenthèses implicites : A = A * (B + 2) = 5 * 5 = 25."
+      },
+      {
+        "id": 115,
+        "text": "Que renvoie nativement la fonction input() sous Python 3 ?",
+        "options": [
+          "int",
+          "float",
+          "str",
+          "Dépend de la saisie utilisateur"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "input() renvoie impérativement une chaîne de caractères (str). Un transtypage explicite int(input()) ou float(input()) est nécessaire pour les calculs."
+      },
+      {
+        "id": 116,
+        "text": "Soit la chaîne s = 'Python'. Que vaut le slicing s[1:4] ?",
+        "options": [
+          "'Pyt'",
+          "'yth'",
+          "'ytho'",
+          "'y'"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "'yth' ! Les indices extraits sont 1, 2 et 3 ('y', 't', 'h'). La borne supérieure 4 est toujours exclue."
+      },
+      {
+        "id": 117,
+        "text": "D'après la règle grégorienne officielle, l'année 1900 est-elle bissextile ?",
+        "options": [
+          "Oui, car multiple de 4",
+          "Non, car multiple de 100 mais pas de 400",
+          "Oui, car multiple de 100",
+          "Non définie en Python"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "Non bissextile ! Une année séculaire (multiple de 100) n'est bissextile que si elle est également divisible par 400 (ex: 2000 l'était, mais 1900 ne l'est pas)."
+      },
+      {
+        "id": 118,
+        "text": "Quel type parmi les suivants est rigoureusement IMMUABLE (non modifiable sur place) ?",
+        "options": [
+          "list",
+          "set",
+          "dict",
+          "str"
+        ],
+        "correct": 3,
+        "pts": 1,
+        "justification": "str est un type immuable. Les listes, ensembles et dictionnaires sont des structures mutables."
+      },
+      {
+        "id": 119,
+        "text": "Combien d'itérations produit la fonction : range(3, 15, 3) ?",
+        "options": [
+          "3",
+          "4",
+          "5",
+          "12"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "4 itérations : 3, 6, 9, et 12. La borne de fin 15 est exclue."
+      },
+      {
+        "id": 120,
+        "text": "Que produit l'expression : '1' in [1, 2, 3] ?",
+        "options": [
+          "True",
+          "False",
+          "TypeError",
+          "IndexError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "False ! Python est fortement typé : la chaîne de caractères '1' n'est pas égale à l'entier 1."
+      }
     ]
   },
   {
-    id: "controle-1",
-    title: "Contrôle Continu 1 • Fondements, Types & Opérateurs (Ch 1 à 3)",
-    duration: 25,
-    questions: [
-      { id: 201, q: "Qui a formulé le modèle de machine à programme enregistré en 1945 ?", options: ["Alan Turing", "John von Neumann", "Guido van Rossum", "Dennis Ritchie"], correct: 1, explain: "John von Neumann." },
-      { id: 202, q: "Quel composant du CPU réalise les opérations logiques et calculs ?", options: ["UC", "UAL", "RAM", "Bus d'adresses"], correct: 1, explain: "L'Unité Arithmétique et Logique (UAL)." },
-      { id: 203, q: "Quel est le format du code intermédiaire exécuté par la PVM ?", options: ["Code Machine", "Bytecode", "Assembleur", "Binaire brut"], correct: 1, explain: "Le Bytecode (.pyc)." },
-      { id: 204, q: "Quel identificateur est VALIDE selon PEP 8 ?", options: ["2eme_note", "total$", "_compteur", "class"], correct: 2, explain: "_compteur est valide." },
-      { id: 205, q: "Que vaut 15 / 3 en Python 3 ?", options: ["5", "5.0", "5.00", "Erreur"], correct: 1, explain: "/ renvoie toujours un float." },
-      { id: 206, q: "Que vaut 14 % 4 ?", options: ["3", "2", "3.5", "0"], correct: 1, explain: "14 = 4×3 + 2, le reste est 2." },
-      { id: 207, q: "Quelle fonction convertit 14.89 en 14 sans arrondi ?", options: ["round(14.89)", "int(14.89)", "trunc(14.89)", "floor(14.89)"], correct: 1, explain: "int() effectue une troncature pure." },
-      { id: 208, q: "Que produit : False and (10 / 0 == 0) ?", options: ["ZeroDivisionError", "False", "True", "None"], correct: 1, explain: "Court-circuit : le second membre n'est pas évalué." },
-      { id: 209, q: "Que produit : '2' + '2' ?", options: ["4", "'22'", "22", "TypeError"], correct: 1, explain: "Concaténation des chaînes." },
-      { id: 210, q: "Que produit : 'ab' * 3 ?", options: ["'ababab'", "'ab3'", "TypeError", "'aabb'"], correct: 0, explain: "Duplication de chaîne." }
+    "id": "exam-rattrapage-2025",
+    "title": "Examen Session de Rattrapage • SMI / IA S1 (Session 2024/2025)",
+    "sessionBadge": "Rattrapage 2025",
+    "duration": 30,
+    "totalPoints": 20,
+    "desc": "Épreuve de rattrapage approfondie axée sur le traçage d'exécution de code, les pièges de mutabilité et l'algorithmique.",
+    "questions": [
+      {
+        "id": 201,
+        "text": "Soit le code : a = [10, 20] ; b = a[:] ; b.append(30). Que vaut len(a) ?",
+        "options": [
+          "2",
+          "3",
+          "1",
+          "Erreur d'aliasing"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "2 ! L'expression b = a[:] effectue un découpage complet créant une nouvelle liste indépendante en mémoire. Modifier b n'a aucun impact sur a."
+      },
+      {
+        "id": 202,
+        "text": "Que renvoie l'expression d'égalité : bool([]) == bool('') ?",
+        "options": [
+          "True",
+          "False",
+          "TypeError",
+          "None"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "True ! Une liste vide [] et une chaîne vide '' sont toutes deux évaluées à False par bool(). L'expression devient False == False, ce qui vaut True !"
+      },
+      {
+        "id": 203,
+        "text": "Soit x = 10 et y = 0. Que produit : res = (y != 0) and (x / y > 2) ?",
+        "options": [
+          "ZeroDivisionError",
+          "False",
+          "True",
+          "None"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "False ! Grâce à l'évaluation en court-circuit (short-circuit), le premier terme (y != 0) étant False, le second membre n'est jamais exécuté, évitant l'erreur de division par zéro."
+      },
+      {
+        "id": 204,
+        "text": "Soit t = (1, 2, [3, 4]) ; t[2].append(5). Que renvoie len(t[2]) ?",
+        "options": [
+          "TypeError (tuple immuable)",
+          "2",
+          "3",
+          "5"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "3 ! Le tuple t contient une référence vers une liste. Le tuple est immuable (ses références ne peuvent changer), mais la liste sous-jacente reste mutable !"
+      },
+      {
+        "id": 205,
+        "text": "Quelle est la sortie de ce code :\nfor i in range(3):\n    if i == 1:\n        break\nelse:\n    print('Fin')",
+        "options": [
+          "Affiche 'Fin'",
+          "N'affiche rien",
+          "Affiche 0 1 'Fin'",
+          "SyntaxError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "N'affiche rien ! Le break interrompt la boucle au tour i = 1, ce qui désactive immédiatement l'exécution de la clause else."
+      },
+      {
+        "id": 206,
+        "text": "Soit la chaîne s = 'Kenitra'. Que vaut le slicing avec pas négatif : s[::-2] ?",
+        "options": [
+          "'ainK'",
+          "'art'",
+          "'etiK'",
+          "'arineK'"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "'ainK' ! Le slicing parcourt de droite à gauche avec un pas de 2 : indice 6 ('a'), indice 4 ('i'), indice 2 ('n'), indice 0 ('K')."
+      },
+      {
+        "id": 207,
+        "text": "Soit d = {'a': 1, 'b': 2}. Que produit : print(d.get('c', 99)) ?",
+        "options": [
+          "KeyError",
+          "None",
+          "99",
+          "0"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "99 ! La méthode dict.get(cle, defaut) renvoie la valeur par défaut fournie si la clé est absente, sans jamais lever d'exception KeyError."
+      },
+      {
+        "id": 208,
+        "text": "Que renvoie l'expression avec chaînage de comparaisons : 1 < 2 < 3 > 2 ?",
+        "options": [
+          "True",
+          "False",
+          "SyntaxError",
+          "TypeError"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "True ! En Python, les comparaisons se chaînent automatiquement : (1 < 2) and (2 < 3) and (3 > 2). Les trois conditions étant vraies, le résultat est True."
+      },
+      {
+        "id": 209,
+        "text": "Soit x = [1, 2] et y = [1, 2]. Que renvoie : (x == y, x is y) ?",
+        "options": [
+          "(True, True)",
+          "(True, False)",
+          "(False, True)",
+          "(False, False)"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "(True, False) ! L'opérateur == compare les valeurs (contenus identiques), tandis que is compare les identifiants d'adresses mémoire (deux objets list distincts en RAM)."
+      },
+      {
+        "id": 210,
+        "text": "Soit L = [10, 20, 30, 40, 50]. Que renvoie le slicing L[::2] ?",
+        "options": [
+          "[10, 20]",
+          "[10, 30, 50]",
+          "[20, 40]",
+          "[10, 50]"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "[10, 30, 50] ! Début et fin par défaut parcourent toute la liste, avec un pas de 2 (indices 0, 2, 4)."
+      },
+      {
+        "id": 211,
+        "text": "Soit l'ensemble a = {1, 2, 2, 3}. Quelle est la valeur de len(a) ?",
+        "options": [
+          "4",
+          "3",
+          "2",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "3 ! Un ensemble (set) ne stocke que des valeurs uniques. Les éléments dupliqués sont automatiquement éliminés à la construction."
+      },
+      {
+        "id": 212,
+        "text": "Que produit l'instruction : s = 'abc' ; s[0] = 'z' ?",
+        "options": [
+          "s devient 'zbc'",
+          "TypeError",
+          "ValueError",
+          "AttributeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "TypeError: 'str' object does not support item assignment. Les chaînes de caractères sont strictement immuables."
+      },
+      {
+        "id": 213,
+        "text": "Que renvoie l'opération modulo avec un diviseur négatif : 10 % -3 ?",
+        "options": [
+          "1",
+          "-2",
+          "-1",
+          "2"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "-2 ! En Python, le signe du résultat modulo r prend toujours le signe du diviseur b : 10 = -3 * (-4) + (-2)."
+      },
+      {
+        "id": 214,
+        "text": "Quelle est la valeur de : [x * 2 for x in range(3)] ?",
+        "options": [
+          "[0, 2, 4]",
+          "[2, 4, 6]",
+          "[0, 1, 2]",
+          "[2, 4]"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "[0, 2, 4] ! Pour x valant 0, 1 et 2, x * 2 produit 0, 2 et 4."
+      },
+      {
+        "id": 215,
+        "text": "Soit val = '10'. Que produit : print(val * 2) ?",
+        "options": [
+          "20",
+          "'1010'",
+          "100",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "'1010' ! L'opérateur * appliqué à une chaîne str et un entier int effectue une répétition (duplication) textuelle."
+      },
+      {
+        "id": 216,
+        "text": "Que renvoie l'évaluation de : not 0 ?",
+        "options": [
+          "True",
+          "False",
+          "-1",
+          "1"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "True ! L'entier 0 est considéré comme Falsy en contexte booléen. Sa négation logique not 0 produit True."
+      },
+      {
+        "id": 217,
+        "text": "Quelle instruction parmi les suivantes provoque une exception IndexError ?",
+        "options": [
+          "[1, 2, 3][3]",
+          "'abc'[0]",
+          "{1: 'a'}[2]",
+          "int('test')"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "[1, 2, 3][3] provoque IndexError car les indices valides pour une liste de taille 3 sont 0, 1 et 2."
+      },
+      {
+        "id": 218,
+        "text": "Que vaut l'expression de transtypage composé : int(float('12.75')) ?",
+        "options": [
+          "12",
+          "13",
+          "12.75",
+          "ValueError"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "12 ! float('12.75') convertit la chaîne en 12.75, puis int() applique une troncature stricte de la partie décimale pour donner 12."
+      },
+      {
+        "id": 219,
+        "text": "Soit d = {'x': 1} ; del d['x']. Que renvoie : 'x' in d ?",
+        "options": [
+          "True",
+          "False",
+          "KeyError",
+          "None"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "False ! L'instruction del a définitivement supprimé la clé 'x' de la table de hachage du dictionnaire."
+      },
+      {
+        "id": 220,
+        "text": "Soit L = [1, 2]. Quelle est la valeur de : print(L.reverse()) ?",
+        "options": [
+          "[2, 1]",
+          "None",
+          "[1, 2]",
+          "Error"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "None ! La méthode reverse() modifie la liste en place et ne renvoie rien (None). C'est un piège d'examen ultra-classique !"
+      }
+    ]
+  },
+  {
+    "id": "exam-normale-2024",
+    "title": "Examen Final Blanc • SMI / IA S1 (Session Normale 2023/2024)",
+    "sessionBadge": "Session Normale 2024",
+    "duration": 30,
+    "totalPoints": 20,
+    "desc": "Sujet officiel axé sur les opérations fondamentales, la gestion des chaînes, les boucles while et la représentation mémoire.",
+    "questions": [
+      {
+        "id": 301,
+        "text": "Soit a = 5 et b = 2. Que renvoie : print(a // b, a % b, a / b) ?",
+        "options": [
+          "2 1 2.5",
+          "2.5 1 2",
+          "2 1 2",
+          "2.0 1 2.5"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "2 1 2.5 ! La division entière 5 // 2 donne 2, le reste 5 % 2 donne 1, et la division réelle 5 / 2 donne le float 2.5."
+      },
+      {
+        "id": 302,
+        "text": "Soit ch = 'FSK UIT'. Que renvoie l'instruction : print(ch[4:]) ?",
+        "options": [
+          "'UIT'",
+          "' UIT'",
+          "'SK U'",
+          "'FSK'"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "'UIT' ! L'indice 4 correspond à la lettre 'U'. En omettant la fin, on extrait jusqu'à la fin de la chaîne."
+      },
+      {
+        "id": 303,
+        "text": "Soit L = [10, 20, 30, 40] ; del L[1]. Que vaut L ?",
+        "options": [
+          "[10, 30, 40]",
+          "[20, 30, 40]",
+          "[10, 20, 40]",
+          "[10, 40]"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "[10, 30, 40] ! L'instruction del L[1] supprime l'élément à l'indice 1 (la valeur 20)."
+      },
+      {
+        "id": 304,
+        "text": "Quelle est la valeur de cpt après ce code :\ncpt = 0\nwhile cpt < 5:\n    cpt += 2",
+        "options": [
+          "4",
+          "5",
+          "6",
+          "Boucle infinie"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "6 ! Tours successifs : 0 -> 2 -> 4 -> 6. À 6, la condition 6 < 5 devient fausse et la boucle s'arrête."
+      },
+      {
+        "id": 305,
+        "text": "Soit la matrice m = [[1, 2], [3, 4]]. Que vaut l'expression : m[1][0] ?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "3 ! m[1] sélectionne la deuxième sous-liste [3, 4], et [0] sélectionne son premier élément, soit 3."
+      },
+      {
+        "id": 306,
+        "text": "Quel mot-clé est réservé en Python pour déclarer une clause 'sinon si' ?",
+        "options": [
+          "else if",
+          "elseif",
+          "elif",
+          "elsif"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "elif est la contraction syntaxique exclusive imposée par Python."
+      },
+      {
+        "id": 307,
+        "text": "Dans le processeur de Von Neumann, quel registre mémorise l'ADRESSE de la prochaine instruction ?",
+        "options": [
+          "Le Registre d'Instruction (RI)",
+          "Le Compteur Ordinal / Compteur de Programme (CO / PC)",
+          "L'Accumulateur (ACC)",
+          "Le Registre d'État (PSW)"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "Le Compteur de Programme (PC / Program Counter ou CO / Compteur Ordinal) pointe toujours sur l'adresse de la prochaine instruction en mémoire vive."
+      },
+      {
+        "id": 308,
+        "text": "Quelle est la complexité algorithmique d'accès à un élément par son indice L[i] dans une liste Python ?",
+        "options": [
+          "O(1) temps constant",
+          "O(n) temps linéaire",
+          "O(log n)",
+          "O(n²)"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "O(1) ! Une liste Python est implémentée en C sous forme de tableau dynamique de pointeurs contigus en RAM, permettant un accès instantané par calcul direct d'adresse."
+      },
+      {
+        "id": 309,
+        "text": "Que renvoie l'instruction : print('Python'.find('th')) ?",
+        "options": [
+          "2",
+          "3",
+          "True",
+          "-1"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "2 ! La sous-chaîne 'th' débute à l'indice 2 ('P'=0, 'y'=1, 't'=2)."
+      },
+      {
+        "id": 310,
+        "text": "Soit t = (1,) ; t += (2, 3). Que vaut t après cette opération ?",
+        "options": [
+          "TypeError",
+          "(1, 2, 3)",
+          "(1, (2, 3))",
+          "(6)"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "(1, 2, 3) ! Bien que les tuples soient immuables, l'opérateur += crée un NOUVEAU tuple issu de la concaténation et réaffecte la variable t."
+      },
+      {
+        "id": 311,
+        "text": "Que vaut l'expression : bool('0') ?",
+        "options": [
+          "False",
+          "True",
+          "0",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "True ! '0' est une chaîne de caractères de longueur 1 (non vide), elle est donc Truthy."
+      },
+      {
+        "id": 312,
+        "text": "Soit s = {1, 2, 3} ; s.add(2). Quelle est la taille de s ?",
+        "options": [
+          "4",
+          "3",
+          "2",
+          "KeyError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "3 ! L'élément 2 est déjà présent dans le set s. La méthode add() ignore silencieusement les doublons."
+      },
+      {
+        "id": 313,
+        "text": "Que vaut l'expression : 10 // -3 ?",
+        "options": [
+          "-3",
+          "-4",
+          "-3.33",
+          "-3.0"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "-4 ! 10 / -3 vaut -3.333... La division entière arrondit à l'entier inférieur le plus proche, soit -4."
+      },
+      {
+        "id": 314,
+        "text": "Que renvoie l'instruction chaînée : print('hello'.upper().startswith('H')) ?",
+        "options": [
+          "True",
+          "False",
+          "'HELLO'",
+          "TypeError"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "True ! 'hello'.upper() produit 'HELLO', qui commence bien par la lettre majuscule 'H'."
+      },
+      {
+        "id": 315,
+        "text": "Soit x = 4 et y = 5. Après x, y = y, x + y, que valent x et y ?",
+        "options": [
+          "5 et 9",
+          "5 et 5",
+          "9 et 9",
+          "4 et 9"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "5 et 9 ! Python évalue d'abord simultanément le tuple de droite (y, x + y) = (5, 4 + 5) = (5, 9), puis affecte x = 5 et y = 9."
+      },
+      {
+        "id": 316,
+        "text": "Quel bus achemine l'instruction lue depuis la mémoire RAM jusqu'au processeur ?",
+        "options": [
+          "Le bus de données",
+          "Le bus d'adresses",
+          "Le bus système",
+          "Le bus d'alimentation"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "Le bus de données ! C'est le bus bidirectionnel qui transporte les données et le code des instructions entre la RAM et le CPU."
+      },
+      {
+        "id": 317,
+        "text": "Quelle est la liste produite par : list(range(5, 0, -2)) ?",
+        "options": [
+          "[5, 3, 1]",
+          "[5, 3, 1, -1]",
+          "[5, 4, 3, 2, 1]",
+          "[3, 1]"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "[5, 3, 1] ! Début à 5, pas de -2 (5 -> 3 -> 1). Le prochain serait -1 qui dépasse la borne d'arrêt 0 (exclue)."
+      },
+      {
+        "id": 318,
+        "text": "Dans un dictionnaire d = {'Ali': 18, 'Sara': 19}, comment vérifier si 'Sara' fait partie des clés ?",
+        "options": [
+          "'Sara' in d",
+          "d.has_key('Sara')",
+          "'Sara' in d.values()",
+          "d['Sara'] == True"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "'Sara' in d est la syntaxe moderne et optimale (complexité O(1) par table de hachage)."
+      },
+      {
+        "id": 319,
+        "text": "Que renvoie l'addition arithmétique : int(True) + int(False) ?",
+        "options": [
+          "1",
+          "2",
+          "0",
+          "TypeError"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "1 ! En Python, le type bool hérite de int : int(True) vaut 1 et int(False) vaut 0. 1 + 0 = 1."
+      },
+      {
+        "id": 320,
+        "text": "Quel type parmi les suivants NE PEUT PAS être utilisé comme clé d'un dictionnaire ?",
+        "options": [
+          "int",
+          "str",
+          "tuple",
+          "list"
+        ],
+        "correct": 3,
+        "pts": 1,
+        "justification": "list ! Les clés d'un dictionnaire doivent impérativement être hashables (immuables). Les listes étant mutables, elles ne peuvent servir de clés (TypeError: unhashable type: 'list')."
+      }
+    ]
+  },
+  {
+    "id": "exam-rattrapage-2024",
+    "title": "Examen Session de Rattrapage • SMI / IA S1 (Session 2023/2024)",
+    "sessionBadge": "Rattrapage 2024",
+    "duration": 30,
+    "totalPoints": 20,
+    "desc": "Épreuve d'évaluation technique portant sur la logique combinée, le cycle d'instruction matériel et la manipulation de structures avancées.",
+    "questions": [
+      {
+        "id": 401,
+        "text": "Soit a = 0, b = 1, c = 2. Que renvoie : print(a and b or c) ?",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "True"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "2 ! (a and b) s'évalue d'abord. a valant 0 (Falsy), (0 and 1) renvoie 0. Puis (0 or 2) renvoie le premier terme Truthy, soit 2 !"
+      },
+      {
+        "id": 402,
+        "text": "Quel composant interne du CPU est chargé de décoder les instructions machines lues en RAM ?",
+        "options": [
+          "L'Unité de Contrôle (UC)",
+          "L'Unité Arithmétique et Logique (UAL)",
+          "Le Bus d'adresses",
+          "L'horloge système"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "L'Unité de Contrôle (UC) extrait le code opération (OpCode) contenu dans le Registre d'Instruction (RI) et pilote les signaux d'exécution."
+      },
+      {
+        "id": 403,
+        "text": "Quel est le type de la donnée résultante de : 3 + 4j ?",
+        "options": [
+          "float",
+          "complex",
+          "tuple",
+          "ValueError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "complex ! Python gère nativement les nombres complexes où la lettre 'j' désigne l'unité imaginaire."
+      },
+      {
+        "id": 404,
+        "text": "Soit s = 'Informatique'. Que vaut l'expression : s[-4:] ?",
+        "options": [
+          "'ique'",
+          "'tique'",
+          "'form'",
+          "'Info'"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "'ique' ! L'indice négatif -4 correspond à la 4ème lettre en partant de la fin ('i'), jusqu'à la fin de la chaîne."
+      },
+      {
+        "id": 405,
+        "text": "Que produit la conversion : list('UIT') ?",
+        "options": [
+          "['UIT']",
+          "['U', 'I', 'T']",
+          "('U', 'I', 'T')",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "['U', 'I', 'T'] ! La fonction list() itère sur chaque caractère de la chaîne et crée une liste d'éléments individuels."
+      },
+      {
+        "id": 406,
+        "text": "Soit L = [1, 2] ; L.extend([3, 4]). Que vaut len(L) ?",
+        "options": [
+          "3",
+          "4",
+          "2",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "4 ! extend() ajoute individuellement chaque élément de la séquence passée en argument, contrairement à append() qui aurait ajouté la sous-liste comme un bloc unique (donnant une taille 3)."
+      },
+      {
+        "id": 407,
+        "text": "Soit d = {'nom': 'Imane', 'age': 30}. Que renvoie l'instruction : print('Imane' in d) ?",
+        "options": [
+          "True",
+          "False",
+          "KeyError",
+          "None"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "False ! L'opérateur 'in' sur un dictionnaire vérifie uniquement la présence des CLÉS ('nom', 'age'), et non des valeurs. Pour tester les valeurs : 'Imane' in d.values()."
+      },
+      {
+        "id": 408,
+        "text": "Que renvoie l'expression : 10 != 10 or 20 == 20 and not 5 > 2 ?",
+        "options": [
+          "True",
+          "False",
+          "None",
+          "Error"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "False ! 10 != 10 est False. 5 > 2 est True donc not 5 > 2 est False. L'expression devient : False or (True and False) => False or False => False."
+      },
+      {
+        "id": 409,
+        "text": "Quel type de signaux transporte le bus de contrôle d'un ordinateur ?",
+        "options": [
+          "Les bits des adresses mémoire",
+          "Les données calculées",
+          "Les signaux d'horloge, de lecture/écriture (Read/Write) et de synchronisation",
+          "Les caractères ASCII"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "Le bus de contrôle transporte les signaux de commande, de synchronisation et de statut (horloge, lecture/écriture RAM, interruptions)."
+      },
+      {
+        "id": 410,
+        "text": "Quelle expression simple permet de retourner une chaîne de caractères s ?",
+        "options": [
+          "s.reverse()",
+          "s[::-1]",
+          "reversed(s)",
+          "s[-1:0]"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "s[::-1] ! C'est le slicing canonique en Python pour inverser instantanément toute chaîne ou liste."
+      },
+      {
+        "id": 411,
+        "text": "Que renvoie la fonction booléenne : bool(None) ?",
+        "options": [
+          "True",
+          "False",
+          "None",
+          "Null"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "False ! L'objet spécial None est considéré comme Falsy par définition en Python."
+      },
+      {
+        "id": 412,
+        "text": "Quelle syntaxe permet d'instancier un tuple vide ?",
+        "options": [
+          "t = ()",
+          "t = tuple()",
+          "Les deux options précédentes",
+          "t = (,)"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "Les deux notations t = () et t = tuple() sont valides pour créer un tuple vide."
+      },
+      {
+        "id": 413,
+        "text": "Soit la déclaration : L = [0] * 3. Quelle est la valeur de L ?",
+        "options": [
+          "[0, 0, 0]",
+          "[0]",
+          "[3]",
+          "TypeError"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "[0, 0, 0] ! L'opérateur * duplique les références de la liste 3 fois."
+      },
+      {
+        "id": 414,
+        "text": "Soit s = 'banana'. Que produit : print(s.replace('a', 'o', 2)) ?",
+        "options": [
+          "'bonona'",
+          "'bonana'",
+          "'bonono'",
+          "'banana'"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "'bonona' ! Le troisième argument optionnel (count=2) limite le remplacement aux 2 premières occurrences de 'a'."
+      },
+      {
+        "id": 415,
+        "text": "Quelle est la différence fondamentale entre s.remove(x) et s.discard(x) sur un ensemble set ?",
+        "options": [
+          "discard() est plus rapide",
+          "remove() lève une exception KeyError si x est absent, alors que discard() ne fait rien",
+          "discard() supprime tous les éléments",
+          "Il n'y a aucune différence"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "s.remove(x) déclenche impérativement une erreur KeyError si x n'existe pas, tandis que s.discard(x) l'ignore de manière sécurisée sans lever d'erreur."
+      },
+      {
+        "id": 416,
+        "text": "Soit a = b = [0] ; a.append(1). Que contient la variable b ?",
+        "options": [
+          "[0]",
+          "[0, 1]",
+          "[1]",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "[0, 1] ! a et b pointent vers le même objet liste en mémoire vive (aliasing direct)."
+      },
+      {
+        "id": 417,
+        "text": "Quel est l'ordre chronologique exact du cycle d'instruction matériel d'un processeur ?",
+        "options": [
+          "Execute -> Fetch -> Decode",
+          "Decode -> Execute -> Fetch",
+          "Fetch (Recherche) -> Decode (Décodage) -> Execute (Exécution)",
+          "Store -> Load -> Execute"
+        ],
+        "correct": 2,
+        "pts": 1,
+        "justification": "Fetch (charger l'instruction de la RAM dans le RI) -> Decode (l'UC analyse l'OpCode) -> Execute (l'UAL ou l'UC réalise le traitement)."
+      },
+      {
+        "id": 418,
+        "text": "Que renvoie l'instruction : print(2 * '3' + '4') ?",
+        "options": [
+          "'10'",
+          "'334'",
+          "'64'",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "'334' ! 2 * '3' produit '33' (duplication), puis '33' + '4' produit '334' (concaténation)."
+      },
+      {
+        "id": 419,
+        "text": "Quelle méthode de liste supprime ET renvoie l'élément situé à un indice donné (ou le dernier par défaut) ?",
+        "options": [
+          "remove()",
+          "pop()",
+          "delete()",
+          "drop()"
+        ],
+        "correct": 1,
+        "pts": 1,
+        "justification": "pop() extrait et renvoie l'élément (par défaut le dernier à l'indice -1)."
+      },
+      {
+        "id": 420,
+        "text": "Que retourne l'appel : list(enumerate(['a', 'b'])) ?",
+        "options": [
+          "[(0, 'a'), (1, 'b')]",
+          "['0a', '1b']",
+          "[('a', 0), ('b', 1)]",
+          "{0: 'a', 1: 'b'}"
+        ],
+        "correct": 0,
+        "pts": 1,
+        "justification": "[(0, 'a'), (1, 'b')] ! enumerate() associe à chaque élément son indice sous forme de tuple (indice, valeur)."
+      }
+    ]
+  },
+  {
+    "id": "controle-1",
+    "title": "Contrôle Continu 1 • Fondements, Types & Opérateurs (Ch 1 à 3)",
+    "sessionBadge": "Contrôle 1 (Mi-Semestre)",
+    "duration": 20,
+    "totalPoints": 20,
+    "desc": "Épreuve de contrôle continu (10 questions à 2 points) sur l'architecture de Von Neumann, PEP 8, types primitifs et priorités arithmétiques.",
+    "questions": [
+      {
+        "id": 501,
+        "text": "Qui a formulé le modèle fondamental de machine à programme enregistré en 1945 ?",
+        "options": [
+          "Alan Turing",
+          "John von Neumann",
+          "Guido van Rossum",
+          "Dennis Ritchie"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "John von Neumann a formalisé l'architecture où les données et le programme partagent le même espace physique en mémoire centrale."
+      },
+      {
+        "id": 502,
+        "text": "Quel composant interne du CPU réalise les opérations arithmétiques (+, -, *, /) et les tests logiques (AND, OR, NOT) ?",
+        "options": [
+          "L'Unité de Contrôle (UC)",
+          "L'Unité Arithmétique et Logique (UAL)",
+          "La mémoire RAM",
+          "Le Bus d'adresses"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "L'Unité Arithmétique et Logique (UAL) est l'organe de calcul pur du microprocesseur."
+      },
+      {
+        "id": 503,
+        "text": "Quel est le nom et le format du code intermédiaire exécuté par la Machine Virtuelle Python (PVM) ?",
+        "options": [
+          "Le Code Machine natif",
+          "Le Bytecode (.pyc)",
+          "Le Langage Assembleur",
+          "Le Script source brut"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "Le Bytecode (.pyc) est le format intermédiaire portable produit par le compilateur Python pour être interprété par la PVM."
+      },
+      {
+        "id": 504,
+        "text": "Parmi ces propositions, quel identificateur de variable est strictement VALIDE selon la norme PEP 8 ?",
+        "options": [
+          "2eme_note",
+          "total$",
+          "_compteur",
+          "class"
+        ],
+        "correct": 2,
+        "pts": 2,
+        "justification": "_compteur est valide. '2eme_note' commence par un chiffre (interdit), 'total$' contient un symbole spécial (interdit), et 'class' est un mot-clé réservé."
+      },
+      {
+        "id": 505,
+        "text": "Que vaut le résultat de l'opération 15 / 3 en Python 3 ?",
+        "options": [
+          "5",
+          "5.0",
+          "5.00",
+          "ZeroDivisionError"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "5.0 ! En Python 3, la division simple / renvoie TOUJOURS un flottant (float), même si la division tombe juste."
+      },
+      {
+        "id": 506,
+        "text": "Que vaut l'opération modulo : 14 % 4 ?",
+        "options": [
+          "3",
+          "2",
+          "3.5",
+          "0"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "2 ! 14 divisé par 4 donne 3 avec un reste de 2 (14 = 4 * 3 + 2)."
+      },
+      {
+        "id": 507,
+        "text": "Quelle fonction convertit le nombre 14.89 en 14 par troncature stricte de la partie décimale ?",
+        "options": [
+          "round(14.89)",
+          "int(14.89)",
+          "floor(14.89)",
+          "str(14.89)"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "int(14.89) supprime purement les décimales sans effectuer d'arrondi (donne 14)."
+      },
+      {
+        "id": 508,
+        "text": "Que produit l'expression avec court-circuit : False and (10 / 0 == 0) ?",
+        "options": [
+          "ZeroDivisionError",
+          "False",
+          "True",
+          "None"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "False ! Grâce à la règle du court-circuit logique, le premier terme étant False, le second terme contenant la division par zéro n'est jamais exécuté."
+      },
+      {
+        "id": 509,
+        "text": "Que produit l'instruction : '2' + '2' ?",
+        "options": [
+          "4",
+          "'22'",
+          "22",
+          "TypeError"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "'22' ! L'opérateur + entre deux chaînes str effectue une concaténation textuelle."
+      },
+      {
+        "id": 510,
+        "text": "Que produit l'expression : 'ab' * 3 ?",
+        "options": [
+          "'ababab'",
+          "'ab3'",
+          "'aabb'",
+          "TypeError"
+        ],
+        "correct": 0,
+        "pts": 2,
+        "justification": "'ababab' ! La multiplication d'une chaîne par un entier répète la séquence 3 fois."
+      }
+    ]
+  },
+  {
+    "id": "controle-2",
+    "title": "Contrôle Continu 2 • Conditionnelles, Boucles & Séquences (Ch 4 à 6)",
+    "sessionBadge": "Contrôle 2 (Fin de Semestre)",
+    "duration": 25,
+    "totalPoints": 20,
+    "desc": "Épreuve de contrôle continu (10 questions à 2 points) sur if/elif/else, boucles imbriquées, slicing, aliasing et immuabilité.",
+    "questions": [
+      {
+        "id": 601,
+        "text": "Soit x = 12. Quelle est la valeur finale de r après ce bloc :\nif x > 15:\n    r = 1\nelif x > 10:\n    r = 2\nelse:\n    r = 3",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "None"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "2 ! 12 n'étant pas > 15, on teste le premier elif : 12 > 10 est True, donc r prend la valeur 2 et la structure conditionnelle se termine immédiatement."
+      },
+      {
+        "id": 602,
+        "text": "Quel est le DERNIER nombre généré par l'itérateur : range(1, 10, 2) ?",
+        "options": [
+          "10",
+          "9",
+          "11",
+          "7"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "9 ! Les valeurs générées sont 1, 3, 5, 7, 9. La valeur 11 dépasse la borne supérieure 10 qui est toujours exclue."
+      },
+      {
+        "id": 603,
+        "text": "Quelle est la sortie de ce code :\nfor i in [1, 2, 3]:\n    pass\nelse:\n    print('Succès')",
+        "options": [
+          "Affiche 'Succès'",
+          "N'affiche rien",
+          "Affiche 1 2 3",
+          "SyntaxError"
+        ],
+        "correct": 0,
+        "pts": 2,
+        "justification": "Affiche 'Succès' ! La boucle a parcouru tous ses éléments sans rencontrer d'instruction break, donc le bloc else s'exécute normalement."
+      },
+      {
+        "id": 604,
+        "text": "Quelle instruction provoque à coup sûr une boucle infinie ?",
+        "options": [
+          "while False: pass",
+          "while True: pass",
+          "for i in range(1000): pass",
+          "while 0: pass"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "while True: pass maintient une condition toujours vraie sans instruction d'arrêt (break)."
+      },
+      {
+        "id": 605,
+        "text": "Soit la liste L = [1, 2, 3, 4, 5]. Que vaut le slicing inverse : L[3:1:-1] ?",
+        "options": [
+          "[4, 3]",
+          "[4, 3, 2]",
+          "[3, 2]",
+          "[5, 4]"
+        ],
+        "correct": 0,
+        "pts": 2,
+        "justification": "[4, 3] ! Début à l'indice 3 (valeur 4), pas de -1, s'arrête avant l'indice 1 (valeur 3 comprise, indice 1 exclu)."
+      },
+      {
+        "id": 606,
+        "text": "Soit L1 = [10] ; L2 = L1 ; L2[0] = 99. Que vaut L1[0] ?",
+        "options": [
+          "10",
+          "99",
+          "IndexError",
+          "None"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "99 ! L2 = L1 crée un alias vers le même espace mémoire en RAM. Modifier un élément via L2 modifie instantanément L1."
+      },
+      {
+        "id": 607,
+        "text": "Que provoque l'instruction : t = (1, 2) ; t[0] = 5 ?",
+        "options": [
+          "t devient (5, 2)",
+          "TypeError",
+          "ValueError",
+          "IndexError"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "TypeError: 'tuple' object does not support item assignment. Les tuples sont strictement immuables."
+      },
+      {
+        "id": 608,
+        "text": "Soit l'ensemble s = {1, 2, 3}. Que vaut : s.union({3, 4}) ?",
+        "options": [
+          "{1, 2, 3, 3, 4}",
+          "{1, 2, 3, 4}",
+          "{3}",
+          "{1, 2}"
+        ],
+        "correct": 1,
+        "pts": 2,
+        "justification": "{1, 2, 3, 4} ! L'union mathématique fusionne les éléments tout en garantissant l'unicité de chaque valeur."
+      },
+      {
+        "id": 609,
+        "text": "Soit d = {'nom': 'SMI', 'note': 17}. Comment accéder à la note de manière sécurisée ?",
+        "options": [
+          "d.get('note')",
+          "d['note']",
+          "Les deux options",
+          "d.note"
+        ],
+        "correct": 2,
+        "pts": 2,
+        "justification": "Les deux méthodes d['note'] et d.get('note') accèdent à la valeur. d.get() a l'avantage de ne pas planter si la clé manque."
+      },
+      {
+        "id": 610,
+        "text": "Que renvoie l'instruction d'appartenance : 3 in (1, 2, 3) ?",
+        "options": [
+          "True",
+          "False",
+          "TypeError",
+          "IndexError"
+        ],
+        "correct": 0,
+        "pts": 2,
+        "justification": "True ! L'opérateur in fonctionne sur toutes les séquences Python (listes, chaînes, tuples, sets)."
+      }
     ]
   }
 ];

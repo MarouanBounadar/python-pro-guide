@@ -53,7 +53,7 @@ function updateProgressBar() {
   if (subtext) {
     let totalExos = 0;
     Object.keys(CHAPTER_EXERCISES).forEach(k => totalExos += CHAPTER_EXERCISES[k].length);
-    subtext.innerText = `${userProgress.readChapters.length}/6 Cours • ${userProgress.completedLabs.length}/6 Labs DataCamp • ${userProgress.doneExercises.length}/${totalExos} Exos • ${Object.keys(userProgress.passedExams).length}/2 Examens`;
+    subtext.innerText = `${userProgress.readChapters.length}/6 Cours • ${userProgress.completedLabs.length}/6 Labs DataCamp • ${userProgress.doneExercises.length}/${totalExos} Exos • ${Object.keys(userProgress.passedExams).length}/${EXAM_SUBJECTS.length} Examens`;
   }
 }
 
@@ -726,26 +726,31 @@ function renderExamsView() {
     <div class="space-y-8 animate-fade max-w-5xl mx-auto">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold mb-2 border border-amber-500/20">
-          <i data-lucide="award" class="w-4 h-4"></i> Conditions Réelles d'Évaluation
+          <i data-lucide="award" class="w-4 h-4"></i> Conditions Réelles d'Évaluation (SMI / IA - UIT Kénitra)
         </div>
-        <h1 class="text-2xl md:text-3xl font-black text-white">Examens & Contrôles Sommatifs</h1>
-        <p class="text-xs text-slate-400 mt-1">Épreuves complètes sur 20 points, chronométrées avec calcul automatique de la note finale et corrigé.</p>
+        <h1 class="text-2xl md:text-3xl font-black text-white">Centre d'Examens & Contrôles Sommatifs</h1>
+        <p class="text-xs text-slate-400 mt-1">Banque massive d'épreuves officielles sur 20 points, chronométrées avec calcul automatique de la note et corrigé pas à pas.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Exam Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         ${EXAM_SUBJECTS.map(exam => {
           const score = userProgress.passedExams[exam.id];
+          const durationText = typeof exam.duration === 'number' ? `${exam.duration} min` : (exam.duration || "30 min");
+          const totalPts = exam.totalPoints || exam.questions.reduce((s, q) => s + (q.pts || 1), 0);
           return `
-            <div class="figma-card p-6 md:p-8 rounded-3xl border-slate-800 space-y-5 flex flex-col justify-between">
+            <div class="figma-card p-6 rounded-3xl border-slate-800 space-y-4 flex flex-col justify-between hover:border-amber-500/30 transition shadow-lg">
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                  <span class="badge-tech text-amber-400 bg-amber-500/10 border-amber-500/30">${exam.id.toUpperCase()}</span>
-                  <span class="text-xs text-slate-500 font-mono flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${exam.duration}</span>
+                  <span class="badge-tech text-amber-400 bg-amber-500/10 border-amber-500/30 font-mono text-[10px]">${exam.sessionBadge || exam.id.toUpperCase()}</span>
+                  <span class="text-xs text-slate-500 font-mono flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${durationText}</span>
                 </div>
-                <h3 class="text-lg font-bold text-white">${exam.title}</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">${exam.desc}</p>
-                <div class="pt-2 text-xs font-mono text-slate-400">
-                  Total : <span class="text-white font-bold">${exam.totalPoints} Points</span> • ${exam.questions.length} Questions
+                <h3 class="text-sm md:text-base font-bold text-white line-clamp-2">${exam.title}</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">${exam.desc || "Sujet officiel complet avec calcul de la note sur 20 et corrigé pas à pas."}</p>
+                <div class="pt-1 text-xs font-mono text-slate-400 flex items-center gap-2">
+                  <span>Note max : <strong class="text-amber-400">${totalPts} Pts</strong></span>
+                  <span>•</span>
+                  <span>${exam.questions.length} Questions</span>
                 </div>
               </div>
 
@@ -753,13 +758,13 @@ function renderExamsView() {
                 <div>
                   ${score !== undefined ? `
                     <div class="text-xs">
-                      <span class="text-slate-400">Dernière Note :</span>
+                      <span class="text-slate-400">Note :</span>
                       <span class="font-bold ${score >= 10 ? 'text-emerald-400' : 'text-rose-400'}">${score} / 20</span>
                     </div>
-                  ` : '<span class="text-xs text-slate-500 italic">Non encore passé</span>'}
+                  ` : '<span class="text-[11px] text-slate-500 italic">Non encore passé</span>'}
                 </div>
-                <button onclick="startExam('${exam.id}')" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/20 transition">
-                  <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i> Commencer l'Épreuve
+                <button onclick="startExam('${exam.id}')" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-amber-500/20 transition active:scale-[0.98]">
+                  <i data-lucide="play" class="w-3.5 h-3.5 fill-slate-950"></i> Commencer
                 </button>
               </div>
             </div>
@@ -791,8 +796,10 @@ function renderExamsView() {
 
 function startExam(examId) {
   activeExam = EXAM_SUBJECTS.find(e => e.id === examId);
+  if (!activeExam) return;
   examAnswers = {};
-  examSeconds = 30 * 60; // 30 minutes
+  const durationMin = typeof activeExam.duration === 'number' ? activeExam.duration : 30;
+  examSeconds = durationMin * 60;
   
   if (examTimer) clearInterval(examTimer);
   examTimer = setInterval(() => {
@@ -819,7 +826,7 @@ function renderActiveExamView() {
     <div class="space-y-8 animate-fade max-w-4xl mx-auto">
       <div class="figma-card p-6 rounded-3xl border-amber-500/30 flex flex-wrap items-center justify-between gap-4 sticky top-20 z-40 bg-[#0d1424]/95 backdrop-blur-xl">
         <div>
-          <span class="badge-tech text-amber-400 bg-amber-500/10">${activeExam.id.toUpperCase()}</span>
+          <span class="badge-tech text-amber-400 bg-amber-500/10">${activeExam.sessionBadge || activeExam.id.toUpperCase()}</span>
           <h2 class="text-lg font-black text-white mt-1">${activeExam.title}</h2>
         </div>
         <div class="flex items-center gap-4">
@@ -838,9 +845,9 @@ function renderActiveExamView() {
           <div class="figma-card p-6 md:p-8 rounded-3xl space-y-4 border-slate-800">
             <div class="flex items-center justify-between">
               <span class="text-xs font-mono font-bold text-indigo-400">Question ${idx + 1} / ${activeExam.questions.length}</span>
-              <span class="text-xs font-mono text-slate-500 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">${q.pts} Points</span>
+              <span class="text-xs font-mono text-slate-500 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">${q.pts || 1} Point${(q.pts || 1) > 1 ? 's' : ''}</span>
             </div>
-            <div class="text-xs md:text-sm text-slate-100 font-medium whitespace-pre-line">${q.text}</div>
+            <div class="text-xs md:text-sm text-slate-100 font-medium whitespace-pre-line">${q.text || q.q}</div>
 
             <div class="space-y-2 pt-2">
               ${q.options.map((opt, oIdx) => `
@@ -873,11 +880,12 @@ function finishExam() {
   if (examTimer) clearInterval(examTimer);
 
   let earnedPoints = 0;
-  let totalPossible = activeExam.totalPoints;
+  let totalPossible = activeExam.totalPoints || activeExam.questions.reduce((sum, q) => sum + (q.pts || 1), 0);
 
   activeExam.questions.forEach(q => {
+    const pts = q.pts || 1;
     if (examAnswers[q.id] === q.correct) {
-      earnedPoints += q.pts;
+      earnedPoints += pts;
     }
   });
 
@@ -921,18 +929,19 @@ function finishExam() {
         ${finishedExam.questions.map((q, idx) => {
           const userAns = userAnswersCopy[q.id];
           const isCorrect = userAns === q.correct;
+          const pts = q.pts || 1;
           return `
             <div class="figma-card p-6 rounded-3xl space-y-3 border ${isCorrect ? 'border-emerald-500/30 bg-emerald-950/10' : 'border-rose-500/30 bg-rose-950/10'}">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-mono font-bold ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">
-                  Question ${idx + 1} • ${isCorrect ? 'Correct (+ ' + q.pts + ' pts)' : 'Erreur (0 / ' + q.pts + ' pts)'}
+                  Question ${idx + 1} • ${isCorrect ? 'Correct (+' + pts + ' pts)' : 'Erreur (0 / ' + pts + ' pts)'}
                 </span>
                 <span class="text-xs text-slate-400 font-mono">Réponse choisie : ${userAns !== undefined ? q.options[userAns] : 'Aucune'}</span>
               </div>
-              <div class="text-xs md:text-sm text-white font-medium whitespace-pre-line">${q.text}</div>
+              <div class="text-xs md:text-sm text-white font-medium whitespace-pre-line">${q.text || q.q}</div>
               <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1">
                 <div class="font-bold text-emerald-400">Bonne Réponse : ${q.options[q.correct]}</div>
-                <div class="text-slate-300 text-[11px] leading-relaxed pt-1">${q.justification}</div>
+                <div class="text-slate-300 text-[11px] leading-relaxed pt-1">${q.justification || q.explain}</div>
               </div>
             </div>
           `;
