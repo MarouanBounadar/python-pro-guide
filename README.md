@@ -43,20 +43,13 @@
 8. **⚡ المختبر البرمجي الحر (Python Playground / Sandbox Libre)**:
    - مساحة حرة لكتابة وتجربة أي كود بايثون 3.12 مع قياس زمن التنفيذ بالـ `ms`.
    - مكتبة مدمجة تضم 8 خوارزميات كلاسيكية جاهزة للتحميل والتجربة (Tri à bulles, Primalité, Fibonacci, PGCD, Chiffrement César, Dictionnaires, Matrices 2D, Palindromes).
-
-9. **🔊 مؤثرات صوتية حية & نظام 6 أوسمة جامعية (Sound FX & Badges)**:
-   - مؤثرات صوتية Web Audio (تعمل 100% أوفلاين): رنة نجاح، نغمة خطأ لطيفة، وموسيقى شرفية عند فك الأوسمة.
-   - أوسمة شرفية (+XP) يتم فتحها حسب تقدم الطالب (*Premier Pas*, *Alchimiste du Code*, *Chasseur de Pièges*, *Maître Algorithmique*, *Major de Promo*, *Génie du Python*).
-
-10. **حفظ التقدم التلقائي (Persistent Progress Tracking)**:
-    - حفظ جميع نتائج الفصول، الورشات، التمارين، الامتحانات، والـ Badges محلياً في المتصفح.
-
----
+*).
 
 ## 🚀 طرق التشغيل (How to Run)
 
 ### 1. عبر التطبيق التنفيذي المباشر (Fichier Exécutable .exe):
-التطبيق متوفر كملف تنفيذي جاهز يعمل بدون الحاجة لتثبيت بايثون:
+التطبيق متوفر كملف تنفيذي جاهز يعمل بدون الحاجة لتثبيت بايثون
+:
 - ستجده في المجلد: `dist/PythonProGuide.exe`
 - فقط اضغط عليه نقرتين وسيفتح كنافذة سطح مكتب احترافية (Native Desktop App) مع سيرفر بايثون حقيقي مدمج!
 
